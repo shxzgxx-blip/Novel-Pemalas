@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veranthos — World Bible</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ash: #0e0b08;
+    --fog: #e2d8cc;
+    --fog-dim: #a09080;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --gold-dim: #7a6030;
+    --blood: #7a0012;
+
+    --veleth: #7a0012;
+    --human: #2a4a7a;
+    --elf: #1a5a2a;
+    --dragon: #6a3a00;
+    --neutral: #4a4a3a;
+    --creature: #4a1a4a;
+    --sea: #0a2a4a;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background:var(--ash);
+    color:var(--fog);
+    font-family:'Cormorant Garamond', Georgia, serif;
+    font-size:1.05rem;
+    line-height:1.9;
+    overflow-x:hidden;
+  }
+
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background:radial-gradient(ellipse 80% 40% at 50% 0%, #1a0d04 0%, transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* HERO */
+  .hero {
+    min-height:50vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:5rem 2rem 3rem;
+    position:relative;
+    z-index:1;
+    background:radial-gradient(ellipse at 50% 40%, #1a0d06 0%, transparent 72%);
+  }
+  .hero::after {
+    content:'';
+    position:absolute;
+    bottom:0;left:0;right:0;
+    height:100px;
+    background:linear-gradient(to bottom, transparent, var(--ash));
+  }
+  .eyebrow {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.6em;
+    color:var(--gold-dim);
+    margin-bottom:1.5rem;
+  }
+  .hero-title {
+    font-family:'Cinzel Decorative',serif;
+    font-size:clamp(1.5rem,4.5vw,3rem);
+    color:var(--gold-light);
+    line-height:1.2;
+    text-shadow:0 0 50px rgba(180,140,40,0.2);
+    margin-bottom:0.5rem;
+  }
+  .hero-title span {
+    display:block;
+    font-size:0.5em;
+    color:var(--blood);
+    letter-spacing:0.2em;
+    margin-top:0.5rem;
+    font-family:'Cinzel',serif;
+  }
+  .hero-desc {
+    font-style:italic;
+    color:var(--fog-dim);
+    max-width:500px;
+    margin-top:1.5rem;
+    font-size:0.92rem;
+  }
+
+  /* LAYOUT */
+  .wrap {
+    max-width:960px;
+    margin:0 auto;
+    padding:4rem 2rem 8rem;
+    position:relative;
+    z-index:1;
+  }
+
+  .sec { margin-bottom:4.5rem; }
+  .sec-head {
+    display:flex;
+    align-items:center;
+    gap:0.9rem;
+    margin-bottom:1.8rem;
+    padding-bottom:0.8rem;
+    border-bottom:1px solid #221508;
+  }
+  .sec-icon {
+    width:32px;height:32px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.9rem;flex-shrink:0;
+  }
+  .sec-label {
+    font-family:'Cinzel',serif;
+    font-size:0.62rem;
+    letter-spacing:0.4em;
+    color:var(--gold);
+    opacity:0.75;
+  }
+
+  hr.div { border:none; border-top:1px solid #1a1208; margin:3rem 0; }
+
+  .prose { color:#c0b0a0; line-height:1.9; font-size:0.97rem; }
+  .prose p { margin-bottom:1rem; }
+  .note {
+    font-style:italic;
+    color:var(--fog-dim);
+    font-size:0.9rem;
+    padding-left:1rem;
+    border-left:2px solid #2a1a0a;
+    margin:1.2rem 0;
+    line-height:1.8;
+  }
+
+  /* WORLD MAP SVG */
+  .map-container {
+    width:100%;
+    background:rgba(8,12,18,0.8);
+    border:1px solid #1a2030;
+    border-radius:6px;
+    padding:1.5rem;
+    margin:1.5rem 0;
+    overflow:hidden;
+  }
+  .map-svg { width:100%; height:auto; display:block; }
+
+  /* CONTINENT CARDS */
+  .continent-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:1.4rem;
+    margin:1.5rem 0;
+  }
+
+  .ccard {
+    border:1px solid;
+    border-radius:4px;
+    padding:1.6rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .ccard::before {
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:3px;
+  }
+
+  .ccard.veleth { border-color:rgba(122,0,18,0.35); background:rgba(122,0,18,0.05); }
+  .ccard.veleth::before { background:var(--veleth); }
+  .ccard.human { border-color:rgba(42,74,122,0.35); background:rgba(42,74,122,0.05); }
+  .ccard.human::before { background:#4a7abf; }
+  .ccard.elf { border-color:rgba(26,90,42,0.35); background:rgba(26,90,42,0.05); }
+  .ccard.elf::before { background:#4a9a5a; }
+  .ccard.dragon { border-color:rgba(106,58,0,0.35); background:rgba(106,58,0,0.05); }
+  .ccard.dragon::before { background:#c07820; }
+  .ccard.neutral { border-color:rgba(74,74,58,0.35); background:rgba(74,74,58,0.05); }
+  .ccard.neutral::before { background:#8a8a6a; }
+  .ccard.sea { border-color:rgba(10,42,74,0.4); background:rgba(10,42,74,0.06); }
+  .ccard.sea::before { background:#2a6aaa; }
+
+  .ccard-continent {
+    font-family:'Cinzel',serif;
+    font-size:0.55rem;
+    letter-spacing:0.35em;
+    opacity:0.45;
+    margin-bottom:0.3rem;
+  }
+  .ccard-name {
+    font-family:'Cinzel Decorative',serif;
+    font-size:1rem;
+    margin-bottom:0.2rem;
+  }
+  .ccard.veleth .ccard-name { color:#d04060; }
+  .ccard.human .ccard-name { color:#6a9adf; }
+  .ccard.elf .ccard-name { color:#5aba6a; }
+  .ccard.dragon .ccard-name { color:#d08830; }
+  .ccard.neutral .ccard-name { color:#aaaa8a; }
+  .ccard.sea .ccard-name { color:#4a8aca; }
+
+  .ccard-sub {
+    font-style:italic;
+    color:var(--fog-dim);
+    font-size:0.88rem;
+    margin-bottom:1rem;
+  }
+  .ccard p {
+    font-size:0.93rem;
+    color:#b8a890;
+    line-height:1.75;
+    margin-bottom:0.7rem;
+  }
+  .ccard p:last-of-type { margin-bottom:0.7rem; }
+
+  .tags { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.6rem; }
+  .tag {
+    font-family:'Cinzel',serif;
+    font-size:0.52rem;
+    letter-spacing:0.12em;
+    padding:0.18rem 0.55rem;
+    border-radius:2px;
+  }
+  .tag.v { background:rgba(122,0,18,0.18); color:#d04060; border:1px solid rgba(122,0,18,0.25); }
+  .tag.h { background:rgba(42,74,122,0.18); color:#6a9adf; border:1px solid rgba(74,122,191,0.25); }
+  .tag.e { background:rgba(26,90,42,0.18); color:#5aba6a; border:1px solid rgba(74,154,90,0.25); }
+  .tag.d { background:rgba(106,58,0,0.18); color:#d08830; border:1px solid rgba(160,100,0,0.25); }
+  .tag.n { background:rgba(74,74,58,0.18); color:#aaaa8a; border:1px solid rgba(100,100,80,0.25); }
+  .tag.s { background:rgba(10,42,74,0.18); color:#4a8aca; border:1px solid rgba(42,100,170,0.25); }
+  .tag.warn { background:rgba(100,60,0,0.18); color:#c08040; border:1px solid rgba(100,60,0,0.25); }
+  .tag.special { background:rgba(60,20,70,0.18); color:#b070d0; border:1px solid rgba(100,50,120,0.25); }
+
+  /* HUMAN KINGDOMS TABLE */
+  .kingdom-list { margin:1.2rem 0; }
+  .kingdom-row {
+    display:grid;
+    grid-template-columns:140px 100px 1fr;
+    gap:1rem;
+    padding:0.7rem 1rem;
+    border:1px solid #1a1208;
+    border-bottom:none;
+    align-items:start;
+  }
+  .kingdom-row:first-child { border-radius:4px 4px 0 0; }
+  .kingdom-row:last-child { border-bottom:1px solid #1a1208; border-radius:0 0 4px 4px; }
+  .kingdom-row:nth-child(odd) { background:rgba(20,14,8,0.4); }
+  .kingdom-row:nth-child(even) { background:rgba(14,10,6,0.3); }
+  .kname {
+    font-family:'Cinzel',serif;
+    font-size:0.65rem;
+    letter-spacing:0.15em;
+    color:#8abadf;
+    padding-top:0.1rem;
+  }
+  .ktype {
+    font-size:0.85rem;
+    color:var(--fog-dim);
+    font-style:italic;
+    padding-top:0.1rem;
+  }
+  .kdesc { font-size:0.9rem; color:#a09080; line-height:1.7; }
+
+  /* BESTIARY */
+  .bestiary-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1.2rem;
+    margin:1.5rem 0;
+  }
+  .beast {
+    border:1px solid #221508;
+    border-radius:4px;
+    padding:1.3rem;
+    background:rgba(14,10,6,0.5);
+    position:relative;
+  }
+  .beast::before {
+    content:'';
+    position:absolute;
+    top:0;left:0;
+    width:3px;height:100%;
+    border-radius:4px 0 0 4px;
+  }
+  .beast.tier-apex::before { background:#e04060; }
+  .beast.tier-high::before { background:#c08040; }
+  .beast.tier-mid::before { background:#808060; }
+  .beast.tier-low::before { background:#505050; }
+
+  .beast-tier {
+    font-family:'Cinzel',serif;
+    font-size:0.52rem;
+    letter-spacing:0.3em;
+    opacity:0.45;
+    margin-bottom:0.25rem;
+  }
+  .beast.tier-apex .beast-tier { color:#e04060; }
+  .beast.tier-high .beast-tier { color:#c08040; }
+  .beast.tier-mid .beast-tier { color:#909070; }
+  .beast.tier-low .beast-tier { color:#707070; }
+
+  .beast-name {
+    font-family:'Cinzel Decorative',serif;
+    font-size:0.9rem;
+    color:var(--fog);
+    margin-bottom:0.15rem;
+  }
+  .beast-habitat {
+    font-style:italic;
+    color:var(--fog-dim);
+    font-size:0.82rem;
+    margin-bottom:0.7rem;
+  }
+  .beast p { font-size:0.9rem; color:#a09080; line-height:1.7; }
+
+  /* POLITICS */
+  .relation-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1.2rem;
+    margin:1.5rem 0;
+  }
+  .rel-card {
+    border:1px solid #221508;
+    background:rgba(14,10,6,0.4);
+    border-radius:4px;
+    padding:1.3rem;
+  }
+  .rel-parties {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    color:var(--gold);
+    opacity:0.6;
+    margin-bottom:0.5rem;
+  }
+  .rel-status {
+    font-size:0.82rem;
+    font-style:italic;
+    margin-bottom:0.6rem;
+  }
+  .rel-status.tense { color:#d04060; }
+  .rel-status.neutral { color:#aaa880; }
+  .rel-status.cold { color:#6a8aaa; }
+  .rel-status.hostile { color:#c03030; }
+  .rel-card p { font-size:0.9rem; color:#a09080; line-height:1.7; }
+
+  @keyframes rise {
+    from { opacity:0; transform:translateY(12px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:var(--ash); }
+  ::-webkit-scrollbar-thumb { background:#3a2010; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="eyebrow">Veranthos Chronicles · World Bible</p>
+  <h1 class="hero-title">
+    Peta Dunia & Wilayah
+    <span>World Geography — Mahkota dari Darah yang Salah</span>
+  </h1>
+  <p class="hero-desc">Dokumen referensi geografis, politik, dan bestiary. Semua wilayah, kerajaan, dan makhluk yang menghuni dunia Veranthos.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ══════════ OVERVIEW ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(184,146,42,0.1);color:var(--gold-light);">🌍</div>
+      <p class="sec-label">Gambaran Dunia</p>
+    </div>
+    <div class="prose">
+      <p>Veranthos terdiri dari <strong>2 benua utama</strong> yang dipisahkan oleh <strong>Laut Tengah Veranthos</strong>, ditambah <strong>1 kepulauan</strong> di timur jauh yang sebagian besar masih belum dipetakan. Tidak ada 1 kekuatan pun yang benar-benar menguasai seluruh dunia ini — setiap wilayah punya kekuatannya sendiri, dan keseimbangan itu dijaga bukan karena kedamaian, tapi karena tidak ada yang cukup kuat untuk mematahkannya sepenuhnya.</p>
+      <p>Surya, Bagas, dan Dira tiba di <strong>Benua Utara</strong> — tempat Kekaisaran Veleth berdiri, dan tempat sebagian besar konflik politik terpusat. Tapi dunia ini jauh lebih besar dari Veleth, dan adik-adik Surya akan menemukan itu.</p>
+    </div>
+
+    <!-- PETA KONSEPTUAL SVG -->
+    <div class="map-container">
+      <svg class="map-svg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="sea-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0a1828"/>
+            <stop offset="100%" stop-color="#060c14"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Background laut -->
+        <rect width="900" height="500" fill="url(#sea-grad)"/>
+
+        <!-- Grid lines halus -->
+        <g stroke="#0d1a2a" stroke-width="0.5" opacity="0.6">
+          <line x1="0" y1="100" x2="900" y2="100"/>
+          <line x1="0" y1="200" x2="900" y2="200"/>
+          <line x1="0" y1="300" x2="900" y2="300"/>
+          <line x1="0" y1="400" x2="900" y2="400"/>
+          <line x1="150" y1="0" x2="150" y2="500"/>
+          <line x1="300" y1="0" x2="300" y2="500"/>
+          <line x1="450" y1="0" x2="450" y2="500"/>
+          <line x1="600" y1="0" x2="600" y2="500"/>
+          <line x1="750" y1="0" x2="750" y2="500"/>
+        </g>
+
+        <!-- ═══ BENUA UTARA ═══ -->
+        <!-- Kekaisaran Veleth - barat laut, dominan -->
+        <polygon points="60,40 220,30 280,80 300,160 240,220 160,240 80,200 40,140" 
+          fill="rgba(80,0,12,0.35)" stroke="#7a0012" stroke-width="1.5"/>
+        <text x="155" y="130" text-anchor="middle" font-family="Cinzel Decorative" font-size="11" fill="#d04060" filter="url(#glow)">VELETH</text>
+        <text x="155" y="148" text-anchor="middle" font-family="Cinzel" font-size="7" fill="#903040" letter-spacing="2">KEKAISARAN VAMPIRE</text>
+        <!-- Asorath marker -->
+        <circle cx="155" cy="165" r="4" fill="#d04060" filter="url(#glow)"/>
+        <text x="165" y="169" font-family="Cinzel" font-size="7" fill="#d04060">Asorath ★</text>
+
+        <!-- Kerajaan Manusia Utara - tengah atas -->
+        <polygon points="300,20 480,15 520,70 500,150 440,180 360,170 310,120"
+          fill="rgba(42,74,122,0.25)" stroke="#4a7abf" stroke-width="1.2"/>
+        <text x="410" y="90" text-anchor="middle" font-family="Cinzel Decorative" font-size="10" fill="#6a9adf">ARDENMOR</text>
+        <text x="410" y="107" text-anchor="middle" font-family="Cinzel" font-size="7" fill="#4a6a9f" letter-spacing="2">KONFEDERASI KERAJAAN</text>
+        <circle cx="390" cy="125" r="3" fill="#4a7abf"/>
+        <text x="398" y="129" font-family="Cinzel" font-size="6.5" fill="#4a7abf">Varenhal</text>
+
+        <!-- Wilayah Elf - timur laut benua utara, hutan -->
+        <polygon points="520,20 650,10 700,60 680,140 620,170 550,150 510,100"
+          fill="rgba(26,90,42,0.25)" stroke="#4a9a5a" stroke-width="1.2"/>
+        <text x="605" y="80" text-anchor="middle" font-family="Cinzel Decorative" font-size="10" fill="#5aba6a">SYLVETH</text>
+        <text x="605" y="97" text-anchor="middle" font-family="Cinzel" font-size="7" fill="#3a8a4a" letter-spacing="2">HUTAN ABADI</text>
+        <circle cx="595" cy="115" r="3" fill="#4a9a5a"/>
+        <text x="603" y="119" font-family="Cinzel" font-size="6.5" fill="#4a9a5a">Elarith</text>
+
+        <!-- Tanah Netral Utara - selatan veleth -->
+        <polygon points="80,240 260,230 300,280 280,340 180,360 80,320"
+          fill="rgba(74,74,58,0.2)" stroke="#7a7a5a" stroke-width="1"/>
+        <text x="185" y="295" text-anchor="middle" font-family="Cinzel" font-size="9" fill="#9a9a7a">TANAH KELABU</text>
+        <text x="185" y="310" text-anchor="middle" font-family="Cinzel" font-size="6.5" fill="#6a6a5a" letter-spacing="1.5">WILAYAH TAK BERTUAN</text>
+
+        <!-- Kerajaan Manusia Selatan Benua Utara -->
+        <polygon points="310,190 500,170 540,230 520,310 440,340 340,320 295,260"
+          fill="rgba(42,74,122,0.2)" stroke="#3a6aaf" stroke-width="1"/>
+        <text x="420" y="255" text-anchor="middle" font-family="Cinzel Decorative" font-size="9" fill="#5a8acf">SOLTARA</text>
+        <text x="420" y="271" text-anchor="middle" font-family="Cinzel" font-size="6.5" fill="#3a6a9f" letter-spacing="1.5">REPUBLIK PEDAGANG</text>
+        <circle cx="400" cy="290" r="3" fill="#3a6aaf"/>
+        <text x="408" y="294" font-family="Cinzel" font-size="6.5" fill="#3a6aaf">Port Solenne</text>
+
+        <!-- Label benua utara -->
+        <text x="380" y="370" text-anchor="middle" font-family="Cinzel" font-size="8" fill="#5a4a3a" letter-spacing="3" opacity="0.6">BENUA UTARA — VAEROTH</text>
+
+        <!-- ═══ LAUT TENGAH ═══ -->
+        <text x="450" y="430" text-anchor="middle" font-family="Cinzel" font-size="8" fill="#2a4a6a" letter-spacing="3" opacity="0.7">LAUT TENGAH VERANTHOS</text>
+        <!-- Arus laut -->
+        <path d="M 200,390 Q 350,420 500,400 Q 650,380 750,410" stroke="#0a2a4a" stroke-width="1" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
+
+        <!-- ═══ BENUA SELATAN ═══ -->
+        <!-- Wilayah Naga - barat benua selatan, pegunungan -->
+        <polygon points="50,460 200,445 250,480 230,500 50,500"
+          fill="rgba(106,58,0,0.3)" stroke="#c07820" stroke-width="1.2"/>
+        <text x="145" y="478" text-anchor="middle" font-family="Cinzel Decorative" font-size="9" fill="#d08830">DRAKMOR</text>
+        <text x="145" y="493" text-anchor="middle" font-family="Cinzel" font-size="6" fill="#a06820" letter-spacing="1.5">PEGUNUNGAN NAGA</text>
+
+        <!-- Kerajaan Manusia Selatan -->
+        <polygon points="250,450 450,440 480,480 460,500 240,500"
+          fill="rgba(42,74,122,0.2)" stroke="#4a6aaf" stroke-width="1"/>
+        <text x="365" y="475" text-anchor="middle" font-family="Cinzel Decorative" font-size="9" fill="#6a8acf">KARATHOS</text>
+        <text x="365" y="491" text-anchor="middle" font-family="Cinzel" font-size="6" fill="#4a6a9f" letter-spacing="1.5">KEKAISARAN SELATAN</text>
+
+        <!-- Wilayah Misterius / Demon -->
+        <polygon points="480,455 620,445 660,480 640,500 470,500"
+          fill="rgba(60,10,60,0.25)" stroke="#8a3a8a" stroke-width="1"/>
+        <text x="565" y="475" text-anchor="middle" font-family="Cinzel Decorative" font-size="8" fill="#b060b0">VORATH</text>
+        <text x="565" y="490" text-anchor="middle" font-family="Cinzel" font-size="6" fill="#804080" letter-spacing="1.5">TANAH IBLIS</text>
+
+        <!-- Label benua selatan -->
+        <text x="400" y="443" text-anchor="middle" font-family="Cinzel" font-size="8" fill="#5a4a3a" letter-spacing="3" opacity="0.6">BENUA SELATAN — SORETH</text>
+
+        <!-- ═══ KEPULAUAN TIMUR ═══ -->
+        <circle cx="720" cy="200" r="22" fill="rgba(10,42,74,0.3)" stroke="#2a6aaa" stroke-width="1"/>
+        <circle cx="760" cy="240" r="15" fill="rgba(10,42,74,0.25)" stroke="#2a6aaa" stroke-width="1"/>
+        <circle cx="740" cy="160" r="12" fill="rgba(10,42,74,0.2)" stroke="#2a6aaa" stroke-width="1"/>
+        <circle cx="800" cy="200" r="18" fill="rgba(10,42,74,0.25)" stroke="#2a6aaa" stroke-width="1"/>
+        <circle cx="840" cy="160" r="10" fill="rgba(10,42,74,0.2)" stroke="#2a6aaa" stroke-width="0.8"/>
+        <text x="785" y="270" text-anchor="middle" font-family="Cinzel" font-size="8" fill="#4a7aaa" letter-spacing="2">KEPULAUAN TIMUR</text>
+        <text x="785" y="285" text-anchor="middle" font-family="Cinzel" font-size="6" fill="#2a5a8a" letter-spacing="1">SEBAGIAN BELUM DIPETAKAN</text>
+
+        <!-- Makhluk laut - hints -->
+        <text x="600" y="460" text-anchor="middle" font-family="Cinzel" font-size="7" fill="#1a3a5a" opacity="0.6" font-style="italic">⚠ Makhluk Laut Dalam</text>
+
+        <!-- Legend -->
+        <rect x="20" y="385" width="140" height="90" fill="rgba(8,6,4,0.7)" stroke="#221508" stroke-width="1" rx="3"/>
+        <text x="90" y="400" text-anchor="middle" font-family="Cinzel" font-size="6.5" fill="#7a6030" letter-spacing="2">LEGENDA</text>
+        <rect x="28" y="408" width="8" height="8" fill="rgba(80,0,12,0.5)" stroke="#7a0012"/>
+        <text x="42" y="416" font-family="Cinzel" font-size="6" fill="#908070">Kekaisaran Vampire</text>
+        <rect x="28" y="421" width="8" height="8" fill="rgba(42,74,122,0.4)" stroke="#4a7abf"/>
+        <text x="42" y="429" font-family="Cinzel" font-size="6" fill="#908070">Wilayah Manusia</text>
+        <rect x="28" y="434" width="8" height="8" fill="rgba(26,90,42,0.4)" stroke="#4a9a5a"/>
+        <text x="42" y="442" font-family="Cinzel" font-size="6" fill="#908070">Wilayah Elf</text>
+        <rect x="28" y="447" width="8" height="8" fill="rgba(106,58,0,0.4)" stroke="#c07820"/>
+        <text x="42" y="455" font-family="Cinzel" font-size="6" fill="#908070">Wilayah Naga</text>
+        <rect x="28" y="460" width="8" height="8" fill="rgba(60,10,60,0.4)" stroke="#8a3a8a"/>
+        <text x="42" y="468" font-family="Cinzel" font-size="6" fill="#908070">Tanah Berbahaya</text>
+      </svg>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ══════════ BENUA UTARA ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(122,0,18,0.12);color:#d04060;">🗺</div>
+      <p class="sec-label">Benua Utara — Vaeroth</p>
+    </div>
+    <div class="prose">
+      <p>Vaeroth adalah benua di mana cerita dimulai. Paling ramai, paling kompleks secara politik, dan paling berbahaya — karena Kekaisaran Veleth ada di sini, dan pengaruhnya meresap ke hampir setiap sudut benua ini meskipun tidak semuanya mengakui itu.</p>
+    </div>
+
+    <div class="continent-grid">
+
+      <div class="ccard veleth">
+        <p class="ccard-continent">Benua Utara · Barat Laut</p>
+        <p class="ccard-name">Kekaisaran Veleth</p>
+        <p class="ccard-sub">Ibu kota: Asorath · Penguasa: Rasombra</p>
+        <p>Kekaisaran vampire yang berdiri 800 tahun. Wilayahnya mencakup bagian barat laut Vaeroth — tanah yang gelap, hutan hitam, dan kota-kota yang indah dengan cara yang sedikit menakutkan. Rasombra memerintah secara absolut tapi tidak selalu terlihat — lebih banyak bergerak dari balik selubung birokrasi yang dia bangun selama berabad-abad.</p>
+        <p>Di dalam Veleth ada hierarki kompleks: vampire bangsawan, manusia yang memilih untuk tinggal di bawah perlindungan kekaisaran, dan berbagai ras lain yang menemukan alasan masing-masing untuk menetap di sini.</p>
+        <div class="tags">
+          <span class="tag v">Vampire</span>
+          <span class="tag v">800 Tahun</span>
+          <span class="tag warn">Kekuatan politik terbesar di Vaeroth</span>
+        </div>
+      </div>
+
+      <div class="ccard human">
+        <p class="ccard-continent">Benua Utara · Tengah</p>
+        <p class="ccard-name">Konfederasi Ardenmor</p>
+        <p class="ccard-sub">Ibu kota: Varenhal · Sistem: Konfederasi kerajaan</p>
+        <p>Bukan 1 kerajaan — tapi 7 kerajaan manusia yang bersepakat untuk tidak saling menyerang dan membentuk dewan bersama. Dalam praktiknya, mereka sering tidak setuju. Tapi ancaman dari Veleth di barat membuat mereka tetap bersatu, setidaknya di permukaan.</p>
+        <p>Ardenmor adalah titik tujuan pertama yang masuk akal untuk Bagas dan Dira — cukup jauh dari Veleth, cukup besar untuk sembunyi dan berkembang, dan cukup ramai untuk membangun koneksi.</p>
+        <div class="tags">
+          <span class="tag h">Manusia</span>
+          <span class="tag h">7 Kerajaan</span>
+          <span class="tag special">Target awal adik-adik Surya</span>
+        </div>
+      </div>
+
+      <div class="ccard elf">
+        <p class="ccard-continent">Benua Utara · Timur Laut</p>
+        <p class="ccard-name">Sylveth</p>
+        <p class="ccard-sub">Ibu kota: Elarith · Sistem: Dewan Tetua</p>
+        <p>Hutan abadi yang elf-elf tua sudah huni sejak sebelum Veleth berdiri. Mereka tidak punya raja — punya Dewan 9 Tetua yang membuat keputusan secara kolektif dan sangat, sangat lambat. Sylveth secara teknis netral, tapi hubungannya dengan Veleth sudah tegang selama 300 tahun terakhir.</p>
+        <p>Elf di sini punya akses ke Spirit yang paling dalam di Veranthos. Beberapa dari mereka adalah satu-satunya makhluk yang bisa membaca kejadian lintas waktu — tapi mereka jarang mau berbagi apa yang mereka lihat.</p>
+        <div class="tags">
+          <span class="tag e">Elf</span>
+          <span class="tag e">Spirit Kuno</span>
+          <span class="tag warn">Tegang dengan Veleth</span>
+        </div>
+      </div>
+
+      <div class="ccard human">
+        <p class="ccard-continent">Benua Utara · Tengah Selatan</p>
+        <p class="ccard-name">Republik Soltara</p>
+        <p class="ccard-sub">Ibu kota: Port Solenne · Sistem: Republik pedagang</p>
+        <p>Bukan kerajaan — republik yang dijalankan oleh dewan pedagang terkaya. Tidak punya tentara besar tapi punya uang dan kapal yang tidak ada habisnya. Soltara adalah penghubung perdagangan antara Vaeroth dan Soreth, dan itu membuat mereka lebih berkuasa dari yang terlihat.</p>
+        <p>Port Solenne adalah kota paling kosmopolitan di Veranthos — semua ras ada di sana, semua informasi bisa dibeli, dan hampir semua hal bisa dinegosiasikan jika harganya tepat.</p>
+        <div class="tags">
+          <span class="tag h">Manusia</span>
+          <span class="tag h">Pedagang</span>
+          <span class="tag special">Hub informasi & jaringan</span>
+        </div>
+      </div>
+
+      <div class="ccard neutral">
+        <p class="ccard-continent">Benua Utara · Barat Selatan</p>
+        <p class="ccard-name">Tanah Kelabu</p>
+        <p class="ccard-sub">Tidak ada penguasa resmi</p>
+        <p>Wilayah tak bertuan di selatan Veleth yang tidak diklaim oleh siapapun — bukan karena tidak ada yang menginginkannya, tapi karena kondisinya tidak mengundang. Tanahnya subur tapi angin di sini membawa sesuatu yang membuat hewan-hewan gelisah, dan makhluk-makhluk dari cerita lama kadang terlihat di pinggiran hutannya.</p>
+        <p>Bagi mereka yang bergerak di luar sistem — pedagang ilegal, buronan, atau orang yang butuh menghilang — Tanah Kelabu adalah pilihan. Risiko tinggi, tapi bebas dari mata kekaisaran manapun.</p>
+        <div class="tags">
+          <span class="tag n">Tak Bertuan</span>
+          <span class="tag warn">Berbahaya</span>
+          <span class="tag special">Celah dari pengawasan</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ══════════ BENUA SELATAN ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(106,58,0,0.12);color:#d08830;">🗺</div>
+      <p class="sec-label">Benua Selatan — Soreth</p>
+    </div>
+    <div class="prose">
+      <p>Soreth lebih panas, lebih tua, dan dalam banyak hal lebih berbahaya dari Vaeroth. Ini adalah tempat di mana makhluk-makhluk yang lebih kuno tinggal, di mana naga masih terbang di langit pegunungan barat, dan di mana Kekaisaran Karathos berdiri sebagai satu-satunya kekuatan manusia yang cukup besar untuk tidak merasa perlu takut kepada Veleth.</p>
+    </div>
+
+    <div class="continent-grid">
+
+      <div class="ccard dragon">
+        <p class="ccard-continent">Benua Selatan · Barat</p>
+        <p class="ccard-name">Drakmor</p>
+        <p class="ccard-sub">Pegunungan naga · Tidak ada struktur pemerintahan manusia</p>
+        <p>Pegunungan tertinggi di Veranthos, tempat naga-naga tinggal sejak sebelum ada catatan sejarah. Naga di sini bukan sekadar binatang besar — mereka makhluk yang cerdas, punya bahasa sendiri, dan beberapa dari yang paling tua sudah hidup lebih lama dari Rasombra sendiri.</p>
+        <p>Manusia tidak menetap di sini. Mereka bisa berkunjung — kalau ada alasan yang cukup kuat dan cara bicara yang cukup sopan. Naga punya kode kehormatan tersendiri yang tidak bisa dinegosiasikan.</p>
+        <div class="tags">
+          <span class="tag d">Naga</span>
+          <span class="tag d">Makhluk Kuno</span>
+          <span class="tag warn">Tidak ada pemerintahan manusia</span>
+        </div>
+      </div>
+
+      <div class="ccard human">
+        <p class="ccard-continent">Benua Selatan · Tengah</p>
+        <p class="ccard-name">Kekaisaran Karathos</p>
+        <p class="ccard-sub">Ibu kota: Karath · Sistem: Kekaisaran militer</p>
+        <p>Satu-satunya kekuatan manusia yang cukup besar untuk berbicara setara dengan Veleth — meskipun tidak setara dalam hal kekuatan, tapi dalam hal posisi dan harga diri. Karathos dijalankan oleh dinasti militer yang sudah berkuasa 400 tahun dan menganggap Veleth sebagai ancaman eksistensial yang perlu terus dipantau.</p>
+        <p>Mereka memperlakukan manusia dari Ardenmor dengan sedikit meremehkan, tapi punya rasa hormat tertentu untuk siapapun yang bisa membuktikan nilai dirinya — dalam pertempuran atau dalam kecerdasan.</p>
+        <div class="tags">
+          <span class="tag h">Manusia</span>
+          <span class="tag h">Militer Kuat</span>
+          <span class="tag warn">Anti-Veleth</span>
+        </div>
+      </div>
+
+      <div class="ccard" style="border-color:rgba(60,10,60,0.3);background:rgba(50,8,50,0.06);">
+        <p class="ccard-continent" style="color:#804080;">Benua Selatan · Timur</p>
+        <p class="ccard-name" style="color:#b060b0; font-family:'Cinzel Decorative',serif; font-size:1rem;">Vorath</p>
+        <p class="ccard-sub">Tanah iblis · Perbatasan realitas tipis</p>
+        <p>Wilayah di timur Soreth yang tidak masuk dalam peta resmi negara manapun. Bukan karena tidak ada yang tahu — tapi karena tidak ada yang mau mengklaim. Vorath adalah tempat di mana lapisan antara dunia Veranthos dan sesuatu yang lain menjadi tipis, dan entitas-entitas dari sisi lain itu bisa meresap ke sini.</p>
+        <p>Iblis di sini bukan sekadar monster — mereka bernegosiasi, membuat perjanjian, dan punya agenda yang biasanya jangka panjang dan tidak jelas sampai sudah terlambat.</p>
+        <div class="tags">
+          <span class="tag special">Iblis & Entitas</span>
+          <span class="tag warn">Perbatasan realitas</span>
+          <span class="tag warn">Sangat berbahaya</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ══════════ KEPULAUAN ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(10,42,74,0.15);color:#4a8aca;">🌊</div>
+      <p class="sec-label">Kepulauan Timur & Laut Tengah</p>
+    </div>
+
+    <div class="continent-grid">
+      <div class="ccard sea">
+        <p class="ccard-continent">Kepulauan · Timur Jauh</p>
+        <p class="ccard-name">Kepulauan Tak Bernama</p>
+        <p class="ccard-sub">Sebagian besar belum dipetakan</p>
+        <p>Gugusan pulau di timur jauh yang sebagian besar belum pernah dijelajahi. Yang sedikit diketahui: ada makhluk-makhluk di sana yang tidak masuk dalam kategori ras manapun yang dikenal, dan beberapa pelaut yang kembali dari sana membawa cerita yang tidak ada yang percaya.</p>
+        <div class="tags">
+          <span class="tag s">Belum Dipetakan</span>
+          <span class="tag warn">Makhluk Tidak Dikenal</span>
+        </div>
+      </div>
+
+      <div class="ccard sea">
+        <p class="ccard-continent">Laut Tengah Veranthos</p>
+        <p class="ccard-name">Laut Dalam</p>
+        <p class="ccard-sub">Jalur perdagangan & bahaya laut</p>
+        <p>Laut yang menghubungkan dua benua. Di permukaannya: jalur perdagangan Soltara yang paling sibuk di Veranthos. Di kedalamannya: makhluk-makhluk laut raksasa yang sudah ada sejak sebelum benua terbentuk — sebagian besarnya tidak aktif, tapi "sebagian besarnya" bukan "semuanya".</p>
+        <div class="tags">
+          <span class="tag s">Jalur Perdagangan</span>
+          <span class="tag warn">Makhluk Laut Dalam</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ══════════ BESTIARY ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(80,20,80,0.15);color:#b060b0;">⚔</div>
+      <p class="sec-label">Bestiary — Makhluk Veranthos</p>
+    </div>
+    <div class="prose">
+      <p>Veranthos dihuni oleh lebih dari sekadar manusia dan vampire. Dari hutan hingga lautan, dari pegunungan hingga lapisan realitas yang lain — makhluk-makhluk ini adalah bagian dari dunia yang akan Bagas dan Dira hadapi dalam petualangan mereka.</p>
+    </div>
+
+    <div class="bestiary-grid">
+
+      <div class="beast tier-apex">
+        <p class="beast-tier">APEX</p>
+        <p class="beast-name">Naga</p>
+        <p class="beast-habitat">Drakmor · Pegunungan</p>
+        <p>Makhluk paling tua dan paling cerdas setelah vampire tertua. Terbang, menyemburkan api atau elemen lain tergantung jenisnya, dan punya umur yang tidak ada yang tahu batasnya. Beberapa naga tua sudah hidup cukup lama untuk menyaksikan berdirinya Veleth. Mereka punya kode kehormatan — tidak menyerang tanpa alasan, tapi tidak pernah melupakan penghinaan.</p>
+      </div>
+
+      <div class="beast tier-apex">
+        <p class="beast-tier">APEX</p>
+        <p class="beast-name">Makhluk Laut Raksasa</p>
+        <p class="beast-habitat">Laut Tengah · Kedalaman</p>
+        <p>Namanya bervariasi tergantung siapa yang menceritakan — <em>Vorath-kael</em> dalam bahasa tua, "yang tidur di bawah" dalam bahasa nelayan. Tidak ada yang tahu ada berapa jumlahnya. Yang diketahui: kapal yang mengganggu wilayah tertentu di laut tidak kembali. Sudah ratusan tahun yang terakhir muncul ke permukaan.</p>
+      </div>
+
+      <div class="beast tier-high">
+        <p class="beast-tier">TIER TINGGI</p>
+        <p class="beast-name">Werewolf / Lycan</p>
+        <p class="beast-habitat">Tanah Kelabu · Hutan</p>
+        <p>Manusia yang terinfeksi atau berevolusi — tergantung perspektif mana yang dipegang. Di Veranthos, Lycan punya komunitas sendiri di Tanah Kelabu, tidak berafiliasi dengan kerajaan manapun. Mereka bukan musuh secara default, tapi tidak ramah terhadap orang asing. Kuat secara fisik, indera tajam, dan dalam bentuk penuh — hampir setara vampire muda dalam combat.</p>
+      </div>
+
+      <div class="beast tier-high">
+        <p class="beast-tier">TIER TINGGI</p>
+        <p class="beast-name">Iblis</p>
+        <p class="beast-habitat">Vorath · Perbatasan Realitas</p>
+        <p>Bukan monster — entitas dari sisi realitas yang lain yang masuk ke Veranthos melalui celah di Vorath. Bentuknya bervariasi. Yang konsisten: mereka bernegosiasi, punya agenda jangka panjang, dan perjanjian dengan iblis selalu punya klausul tersembunyi. Beberapa iblis sangat tua sudah menetap di Veranthos cukup lama untuk memiliki nama dan reputasi.</p>
+      </div>
+
+      <div class="beast tier-high">
+        <p class="beast-tier">TIER TINGGI</p>
+        <p class="beast-name">Raksasa / Giant</p>
+        <p class="beast-habitat">Pegunungan Utara · Soreth</p>
+        <p>Tidak sepenuhnya dungu seperti cerita rakyat menggambarkan — tapi jauh dari cerdas dalam standar manusia atau elf. Kekuatan fisiknya tidak ada tandingannya di darat. Beberapa suku raksasa punya perjanjian damai dengan kerajaan manusia sekitar, sebagian lagi tidak mengenal konsep "damai".</p>
+      </div>
+
+      <div class="beast tier-mid">
+        <p class="beast-tier">TIER MENENGAH</p>
+        <p class="beast-name">Dwarves</p>
+        <p class="beast-habitat">Pegunungan Tengah · Bawah Tanah</p>
+        <p>Bukan makhluk berbahaya — ras yang tinggal di bawah tanah, punya keahlian tempa dan konstruksi yang tidak tertandingi oleh ras manapun di Veranthos. Mereka tidak banyak berhubungan dengan dunia atas, tapi perdagangan dengan Soltara membuat mereka cukup dikenal. Pendek, kuat, berumur panjang, dan sangat tidak suka diganggu waktu bekerja.</p>
+      </div>
+
+      <div class="beast tier-mid">
+        <p class="beast-tier">TIER MENENGAH</p>
+        <p class="beast-name">Undead / Lich</p>
+        <p class="beast-habitat">Tanah Kelabu · Reruntuhan Kuno</p>
+        <p>Penyihir yang menolak mati — mengikat jiwanya ke benda fisik dan terus eksis melewati kematian alami tubuhnya. Lich yang baru masih punya kepribadian dan agenda. Lich yang sudah terlalu lama mulai kehilangan elemen manusianya satu per satu sampai yang tersisa hanya obsesi tunggal yang mendorong eksistensinya.</p>
+      </div>
+
+      <div class="beast tier-apex">
+        <p class="beast-tier">DILUAR TIER</p>
+        <p class="beast-name">Dewa / Entitas Kuno</p>
+        <p class="beast-habitat">Di mana saja · Lapisan realitas lebih dalam</p>
+        <p>Bukan dewa dalam pengertian yang disembah manusia modern — lebih tepat disebut entitas yang sudah ada sejak Veranthos sendiri terbentuk. Mereka tidak aktif berinteraksi dengan dunia sehari-hari, tapi ketika mereka bergerak, konsekuensinya dirasakan seluruh benua. Elf Tetua paling tua mengklaim bisa berkomunikasi dengan beberapa dari mereka — tapi tidak pernah menjelaskan bagaimana caranya.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- ══════════ POLITIK ══════════ -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(122,0,18,0.1);color:#d04060;">⚖</div>
+      <p class="sec-label">Peta Politik — Hubungan Antar Kekuatan</p>
+    </div>
+
+    <div class="relation-grid">
+
+      <div class="rel-card">
+        <p class="rel-parties">Veleth ↔ Ardenmor</p>
+        <p class="rel-status tense">Tegang · Tidak Perang Terbuka</p>
+        <p>Ardenmor tahu mereka tidak bisa mengalahkan Veleth dalam perang langsung. Veleth tidak repot-repot menyerang karena Ardenmor bukan ancaman nyata — tapi cukup menyebalkan untuk tetap dipantau. Hubungan ini sudah berlangsung 200 tahun dalam kondisi yang sama.</p>
+      </div>
+
+      <div class="rel-card">
+        <p class="rel-parties">Veleth ↔ Sylveth</p>
+        <p class="rel-status hostile">Dingin · Hampir Bermusuhan</p>
+        <p>Elf di Sylveth menyimpan catatan tentang apa yang Veleth lakukan 300 tahun lalu di wilayah yang sekarang jadi Tanah Kelabu. Mereka tidak melupakan. Rasombra tidak peduli dengan memori siapapun kecuali miliknya sendiri. Kontak minimal, ketegangan maksimal.</p>
+      </div>
+
+      <div class="rel-card">
+        <p class="rel-parties">Veleth ↔ Karathos</p>
+        <p class="rel-status tense">Waspada · Pernah Berperang</p>
+        <p>Karathos adalah satu-satunya yang pernah berhasil membuat Veleth mundur dalam perang terbuka — 150 tahun lalu, dengan harga yang sangat mahal. Kedua pihak menghormati kekuatan lawan tapi tidak pernah berhenti bersiap untuk ronde berikutnya.</p>
+      </div>
+
+      <div class="rel-card">
+        <p class="rel-parties">Ardenmor ↔ Soltara</p>
+        <p class="rel-status neutral">Bersekutu · Kepentingan Bersama</p>
+        <p>Ardenmor butuh akses perdagangan Soltara. Soltara butuh stabilitas politik yang Ardenmor jaga. Persekutuan pragmatis yang sudah berlangsung 100 tahun dan cukup kuat untuk bertahan karena kedua belah pihak terus butuh satu sama lain.</p>
+      </div>
+
+      <div class="rel-card">
+        <p class="rel-parties">Naga ↔ Semua</p>
+        <p class="rel-status cold">Netral · Tidak Terlibat</p>
+        <p>Naga tidak punya kepentingan dalam urusan kerajaan-kerajaan manusia atau vampire. Mereka hidup dalam skala waktu yang berbeda — konflik yang terasa besar bagi manusia terasa seperti pertengkaran anak kecil bagi naga yang sudah hidup 2.000 tahun. Mereka tidak menyerang kecuali diserang atau wilayahnya dilanggar.</p>
+      </div>
+
+      <div class="rel-card">
+        <p class="rel-parties">Surya, Bagas, Dira ↔ Semua</p>
+        <p class="rel-status neutral">Tidak Dikenal · Variabel Baru</p>
+        <p>Manusia dari dunia lain — pertama dalam sejarah Veranthos. Tidak ada protokol untuk ini. Tidak ada yang tahu harus menempatkan mereka di mana dalam tatanan politik yang ada. Itu membuat mereka berbahaya dalam cara yang berbeda dari ancaman biasa: sesuatu yang tidak masuk kategori apapun selalu punya potensi mengubah keseimbangan.</p>
+      </div>
+
+    </div>
+
+    <div class="note">
+      Surya, Bagas, dan Dira adalah yang pertama dari bumi yang pernah menginjakkan kaki di Veranthos. Tidak ada legenda tentang mereka, tidak ada prophecy yang mempersiapkan siapapun. Mereka adalah variabel yang benar-benar baru — dan di dunia di mana semua kekuatan sudah saling mengenal dan saling mengantisipasi selama ratusan tahun, sesuatu yang baru adalah hal yang paling tidak terprediksi.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

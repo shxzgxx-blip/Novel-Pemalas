@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veranthos — Power System Bible</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blood: #7a0012;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --gold-dim: #7a6030;
+    --ash: #0e0b08;
+    --fog: #e2d8cc;
+    --fog-dim: #a09080;
+    --mana-light: #4a7abf;
+    --qi-light: #4a9a5a;
+    --spirit-light: #8a4abf;
+    --aura-light: #c4942a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--ash);
+    color: var(--fog);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    overflow-x: hidden;
+  }
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, #200d04 0%, transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* HERO */
+  .hero {
+    min-height:55vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:5rem 2rem 3rem;
+    position:relative;
+    z-index:1;
+    background: radial-gradient(ellipse at 50% 40%, #1f0d06 0%, transparent 75%);
+  }
+  .hero::after {
+    content:'';
+    position:absolute;
+    bottom:0;left:0;right:0;
+    height:100px;
+    background:linear-gradient(to bottom, transparent, var(--ash));
+  }
+  .hero-eyebrow {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.6em;
+    color:var(--gold-dim);
+    margin-bottom:1.5rem;
+  }
+  .hero-title {
+    font-family:'Cinzel Decorative',serif;
+    font-size:clamp(1.4rem,4vw,2.6rem);
+    color:var(--gold-light);
+    line-height:1.2;
+    text-shadow:0 0 40px rgba(180,140,40,0.2);
+    margin-bottom:0.5rem;
+  }
+  .hero-title span {
+    display:block;
+    font-size:0.5em;
+    color:var(--blood);
+    letter-spacing:0.2em;
+    margin-top:0.5rem;
+    font-family:'Cinzel',serif;
+  }
+  .hero-desc {
+    font-style:italic;
+    color:var(--fog-dim);
+    max-width:480px;
+    margin-top:1.5rem;
+    font-size:0.92rem;
+  }
+
+  /* CONTAINER */
+  .wrap {
+    max-width:880px;
+    margin:0 auto;
+    padding:4rem 2rem 8rem;
+    position:relative;
+    z-index:1;
+  }
+
+  /* SECTION */
+  .sec { margin-bottom:4.5rem; }
+  .sec-head {
+    display:flex;
+    align-items:center;
+    gap:0.9rem;
+    margin-bottom:1.8rem;
+    padding-bottom:0.8rem;
+    border-bottom:1px solid #221508;
+  }
+  .sec-icon {
+    width:32px; height:32px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.9rem; flex-shrink:0;
+  }
+  .sec-label {
+    font-family:'Cinzel',serif;
+    font-size:0.62rem;
+    letter-spacing:0.4em;
+    color:var(--gold);
+    opacity:0.75;
+  }
+
+  /* PROSE */
+  .prose { color:#c0b0a0; line-height:1.9; font-size:0.97rem; }
+  .prose p { margin-bottom:1rem; }
+  .note {
+    font-style:italic;
+    color:var(--fog-dim);
+    font-size:0.9rem;
+    padding-left:1rem;
+    border-left:2px solid #2a1a0a;
+    margin:1.2rem 0;
+    line-height:1.8;
+  }
+  hr.div { border:none; border-top:1px solid #1a1208; margin:3rem 0; }
+
+  /* POWER CARDS */
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.4rem; margin:1.5rem 0; }
+  .card {
+    border:1px solid;
+    border-radius:4px;
+    padding:1.6rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; }
+  .card.blood { border-color:rgba(122,0,18,0.35); background:rgba(122,0,18,0.05); }
+  .card.blood::before { background:var(--blood); }
+  .card.mana { border-color:rgba(26,58,106,0.35); background:rgba(26,58,106,0.05); }
+  .card.mana::before { background:var(--mana-light); }
+  .card.qi { border-color:rgba(26,74,42,0.35); background:rgba(26,74,42,0.05); }
+  .card.qi::before { background:var(--qi-light); }
+  .card.spirit { border-color:rgba(58,26,90,0.35); background:rgba(58,26,90,0.05); }
+  .card.spirit::before { background:var(--spirit-light); }
+  .card-name {
+    font-family:'Cinzel Decorative',serif;
+    font-size:0.95rem;
+    margin-bottom:0.25rem;
+  }
+  .card.blood .card-name { color:#d04060; }
+  .card.mana .card-name { color:var(--mana-light); }
+  .card.qi .card-name { color:var(--qi-light); }
+  .card.spirit .card-name { color:var(--spirit-light); }
+  .card-race {
+    font-family:'Cinzel',serif;
+    font-size:0.58rem;
+    letter-spacing:0.25em;
+    opacity:0.45;
+    margin-bottom:0.9rem;
+  }
+  .card p { font-size:0.93rem; color:#b8a890; line-height:1.75; margin-bottom:0.7rem; }
+  .card p:last-of-type { margin-bottom:0.7rem; }
+  .tags { display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.5rem; }
+  .tag {
+    font-family:'Cinzel',serif;
+    font-size:0.52rem;
+    letter-spacing:0.15em;
+    padding:0.18rem 0.55rem;
+    border-radius:2px;
+  }
+  .tag.blood { background:rgba(122,0,18,0.18); color:#d04060; border:1px solid rgba(122,0,18,0.25); }
+  .tag.mana { background:rgba(26,58,106,0.18); color:var(--mana-light); border:1px solid rgba(74,122,191,0.25); }
+  .tag.qi { background:rgba(26,74,42,0.18); color:var(--qi-light); border:1px solid rgba(74,154,90,0.25); }
+  .tag.spirit { background:rgba(58,26,90,0.18); color:var(--spirit-light); border:1px solid rgba(138,74,191,0.25); }
+  .tag.warn { background:rgba(100,60,0,0.18); color:#c08040; border:1px solid rgba(100,60,0,0.25); }
+  .tag.special { background:rgba(60,40,80,0.18); color:#b090d0; border:1px solid rgba(100,70,130,0.25); }
+
+  /* AURA RINGS */
+  .ring-box {
+    background:rgba(106,74,16,0.05);
+    border:1px solid rgba(196,148,42,0.15);
+    border-radius:4px;
+    padding:1.8rem;
+    margin:1.4rem 0;
+  }
+  .ring-box-title {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.4em;
+    color:var(--aura-light);
+    opacity:0.65;
+    margin-bottom:1.4rem;
+  }
+  .ring-row { display:flex; align-items:center; gap:1rem; margin-bottom:0.9rem; }
+  .ring-dots { display:flex; gap:4px; width:72px; flex-shrink:0; }
+  .dot {
+    width:9px; height:9px;
+    border-radius:50%;
+    border:1.5px solid var(--aura-light);
+    opacity:0.2;
+  }
+  .dot.on { background:var(--aura-light); opacity:1; box-shadow:0 0 6px rgba(196,148,42,0.45); }
+  .ring-name {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    color:var(--aura-light);
+    width:85px;
+    flex-shrink:0;
+  }
+  .ring-desc { font-size:0.9rem; color:#a09070; font-style:italic; }
+
+  /* HIERARCHY */
+  .hier { display:flex; flex-direction:column; margin:1.4rem 0; }
+  .hrow {
+    display:flex; align-items:center; gap:1rem;
+    padding:0.75rem 1.1rem;
+    border:1px solid #1a1208;
+  }
+  .hrow:not(:last-child) { border-bottom:none; }
+  .hrow:first-child { border-radius:4px 4px 0 0; }
+  .hrow:last-child { border-radius:0 0 4px 4px; }
+  .hrow.t1 { background:rgba(122,0,18,0.11); }
+  .hrow.t2 { background:rgba(122,0,18,0.07); }
+  .hrow.t3 { background:rgba(122,0,18,0.04); }
+  .hrow.t4 { background:rgba(122,0,18,0.02); }
+  .hrow.t5 { background:rgba(16,12,8,0.4); }
+  .hbar { height:3px; border-radius:2px; flex-shrink:0; }
+  .hrow.t1 .hbar { width:95px; background:#e04060; }
+  .hrow.t2 .hbar { width:70px; background:#c08060; }
+  .hrow.t3 .hbar { width:50px; background:#a09070; }
+  .hrow.t4 .hbar { width:32px; background:#808070; }
+  .hrow.t5 .hbar { width:16px; background:#505050; }
+  .hlabel {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.2em;
+    width:175px; flex-shrink:0;
+  }
+  .hrow.t1 .hlabel { color:#e04060; }
+  .hrow.t2 .hlabel { color:#c08060; }
+  .hrow.t3 .hlabel { color:#a09070; }
+  .hrow.t4 .hlabel { color:#808070; }
+  .hrow.t5 .hlabel { color:#606060; }
+  .hdesc { font-size:0.9rem; color:#907060; font-style:italic; }
+
+  /* SURYA BOX */
+  .surya-box {
+    border:1px solid rgba(100,70,130,0.28);
+    background:rgba(60,40,80,0.07);
+    border-radius:4px;
+    padding:1.8rem;
+    margin:1.4rem 0;
+    position:relative;
+  }
+  .surya-box::before {
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;
+    height:2px;
+    background:linear-gradient(to right, transparent, #8a4abf, transparent);
+  }
+  .surya-box-title {
+    font-family:'Cinzel',serif;
+    font-size:0.6rem;
+    letter-spacing:0.4em;
+    color:#b090d0;
+    margin-bottom:1.2rem;
+  }
+  .sphase { display:flex; gap:1rem; margin-bottom:0.9rem; align-items:flex-start; }
+  .sphase-label {
+    font-family:'Cinzel',serif;
+    font-size:0.58rem;
+    letter-spacing:0.15em;
+    color:#8a6aaa;
+    width:120px;
+    flex-shrink:0;
+    padding-top:0.2rem;
+  }
+  .sphase-desc { font-size:0.93rem; color:#b0a090; line-height:1.8; }
+
+  /* WARN BOX */
+  .warn-box {
+    border:1px solid rgba(160,80,0,0.28);
+    background:rgba(100,50,0,0.07);
+    border-radius:4px;
+    padding:1.4rem 1.6rem;
+    margin:1.4rem 0;
+  }
+  .warn-box-title {
+    font-family:'Cinzel',serif;
+    font-size:0.58rem;
+    letter-spacing:0.3em;
+    color:#c08040;
+    margin-bottom:0.7rem;
+  }
+  .warn-box p { font-size:0.92rem; color:#907050; font-style:italic; line-height:1.8; }
+
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:var(--ash); }
+  ::-webkit-scrollbar-thumb { background:#3a2010; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="hero-eyebrow">Veranthos Chronicles · World Bible</p>
+  <h1 class="hero-title">
+    Sistem Kekuatan
+    <span>Power System — Mahkota dari Darah yang Salah</span>
+  </h1>
+  <p class="hero-desc">Dokumen referensi resmi. Semua power, hierarki, dan mekanisme yang berlaku di dunia Veranthos.</p>
+</div>
+
+<div class="wrap">
+
+  <!-- PRINSIP DASAR -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(122,0,18,0.12);color:#d04060;">⬡</div>
+      <p class="sec-label">Prinsip Dasar</p>
+    </div>
+    <div class="prose">
+      <p>Di Veranthos, kekuatan tidak punya moralitas. Ia netral — alat yang nilainya ditentukan sepenuhnya oleh tangan yang memegangnya. Seorang penyembuh dan seorang pembunuh bisa menggunakan sumber kekuatan yang persis sama; yang membedakan adalah niat, kontrol, dan konsekuensi yang mereka pilih untuk tanggung.</p>
+      <p>Ada <strong>4 jalur kekuatan utama</strong> di Veranthos: <strong>Darah</strong>, <strong>Mana</strong>, <strong>Qi</strong>, dan <strong>Spirit</strong>. Di atas semuanya berdiri sistem ke-5 yang bisa diakses semua ras: <strong>Aura</strong> — manifestasi dari semua kekuatan yang dikuasai seseorang, dibentuk menjadi sesuatu yang bisa diproyeksikan keluar dan aktif memengaruhi dunia sekitar.</p>
+      <p>Setiap ras punya jalur alaminya. Tapi jalur itu bukan penjara — hanya titik awal.</p>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- 4 JALUR -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(122,0,18,0.12);color:#d04060;">◈</div>
+      <p class="sec-label">4 Jalur Kekuatan Utama</p>
+    </div>
+    <div class="grid">
+
+      <div class="card blood">
+        <p class="card-name">Darah</p>
+        <p class="card-race">Vampire · Ras Tinggi</p>
+        <p>Kekuatan paling primitif dan paling kuat di Veranthos. Darah adalah medium sekaligus bahan bakar — semakin murni dan semakin tua darah yang digunakan, semakin besar kekuatan yang bisa dikeluarkan.</p>
+        <p>Vampire tidak sekadar minum darah untuk bertahan hidup. Mereka menyerap informasi, memori, dan kekuatan yang tersimpan di dalamnya. Darah manusia biasa memberi nutrisi. Darah penyihir memberi sedikit akses ke Mana. Darah vampire lain memberi kekuatan yang jauh lebih kompleks.</p>
+        <div class="tags">
+          <span class="tag blood">Medium: Darah</span>
+          <span class="tag blood">Vampire & Ras Tinggi</span>
+          <span class="tag warn">Overdosis fatal</span>
+        </div>
+      </div>
+
+      <div class="card mana">
+        <p class="card-name">Mana</p>
+        <p class="card-race">Manusia · Penyihir</p>
+        <p>Energi alam yang mengalir di seluruh Veranthos — di tanah, udara, air, dan makhluk hidup. Manusia menyerapnya dari lingkungan dan membentuknya melalui kehendak dan visualisasi.</p>
+        <p>Manusia biasa punya kapasitas Mana yang sangat kecil. Penyihir yang melatih diri bertahun-tahun bisa memperbesar kapasitasnya secara signifikan. Batas atasnya ditentukan oleh kombinasi bakat alami dan disiplin latihan.</p>
+        <div class="tags">
+          <span class="tag mana">Medium: Energi Alam</span>
+          <span class="tag mana">Manusia & Penyihir</span>
+          <span class="tag warn">Kapasitas terbatas</span>
+        </div>
+      </div>
+
+      <div class="card qi">
+        <p class="card-name">Qi</p>
+        <p class="card-race">Manusia · Jalur Internal</p>
+        <p>Berbeda dari Mana yang diserap dari luar, Qi adalah energi internal yang dihasilkan dari dalam tubuh sendiri. Dilatih melalui disiplin fisik dan mental — pernapasan, meditasi, gerakan tubuh terstruktur.</p>
+        <p>Lebih cocok untuk combat jarak dekat: meningkatkan kecepatan, kekuatan fisik, ketahanan tubuh. Dalam tingkatan tinggi bisa diproyeksikan keluar sebagai gelombang energi. Lebih lambat dikuasai dari Mana, tapi lebih stabil — tidak habis selama tubuh masih hidup.</p>
+        <div class="tags">
+          <span class="tag qi">Medium: Energi Internal</span>
+          <span class="tag qi">Manusia</span>
+          <span class="tag warn">Butuh disiplin bertahun-tahun</span>
+        </div>
+      </div>
+
+      <div class="card spirit">
+        <p class="card-name">Spirit & Mana</p>
+        <p class="card-race">Elf · Kombinasi Eksklusif</p>
+        <p>Elf menggunakan Mana — tapi versi yang jauh lebih dalam dan intuitif dari manusia karena koneksi alami mereka dengan alam Veranthos yang sudah ada ribuan tahun. Yang membedakan: kemampuan Spirit mereka — koneksi ke entitas dan lapisan realitas yang tidak bisa diakses ras lain.</p>
+        <p>Spirit memungkinkan elf berkomunikasi dengan alam, memohon bantuan dari entitas lebih tua dari kekaisaran manapun, dan dalam tingkatan tertinggi — melihat serta mempengaruhi lapisan realitas yang tidak kasatmata.</p>
+        <div class="tags">
+          <span class="tag spirit">Medium: Alam & Entitas</span>
+          <span class="tag spirit">Elf Eksklusif</span>
+          <span class="tag warn">Spirit tidak bisa dipelajari</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- AURA -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(106,74,16,0.15);color:var(--aura-light);">◉</div>
+      <p class="sec-label">Sistem Aura — Ring Jantung</p>
+    </div>
+
+    <div class="prose">
+      <p>Aura adalah sistem kekuatan ke-5 yang berdiri sendiri — bukan turunan dari jalur manapun, tapi lapisan di atasnya. Aura adalah kemampuan untuk <strong>memanifestasikan kekuatan yang telah dikuasai seseorang ke luar tubuh</strong> sebagai medan energi yang terlihat, terasa, dan aktif memengaruhi lingkungan sekitar.</p>
+      <p>Mekanisme dasarnya sama untuk semua ras: <strong>ring yang terbentuk di sekitar jantung</strong>. Ring ini bukan fisik — ia adalah struktur energi yang dibangun secara sadar melalui latihan atau ritual yang panjang. Satu ring untuk tiap tahap penguasaan. Setiap ras punya caranya sendiri untuk membentuk ring, tapi hasilnya berlaku dalam sistem yang sama.</p>
+    </div>
+
+    <div class="ring-box">
+      <p class="ring-box-title">Tingkatan Ring — Skala Universal</p>
+
+      <div class="ring-row">
+        <div class="ring-dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <p class="ring-name">1 Ring</p>
+        <p class="ring-desc">Aura terasa dalam jarak sangat dekat. Sedikit tekanan, sedikit intimidasi. Pemula.</p>
+      </div>
+      <div class="ring-row">
+        <div class="ring-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <p class="ring-name">2 Ring</p>
+        <p class="ring-desc">Bisa diproyeksikan beberapa meter. Mulai berguna untuk combat dan perlindungan dasar.</p>
+      </div>
+      <div class="ring-row">
+        <div class="ring-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+        <p class="ring-name">3 Ring</p>
+        <p class="ring-desc">Aura punya bentuk dan karakter yang jelas. Bisa memengaruhi emosi orang sekitar. Sudah dianggap berbahaya.</p>
+      </div>
+      <div class="ring-row">
+        <div class="ring-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div>
+        <p class="ring-name">4 Ring</p>
+        <p class="ring-desc">Mencakup area luas. Mereka yang lebih lemah sulit bergerak atau berpikir jernih di dalamnya. Langka.</p>
+      </div>
+      <div class="ring-row">
+        <div class="ring-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div>
+        <p class="ring-name">5 Ring</p>
+        <p class="ring-desc">Aura penuh. Bisa mengubah kondisi lingkungan — suhu, tekanan, gravitasi lokal. Hanya segelintir orang dalam satu generasi.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      Jumlah ring menentukan <em>kapasitas</em> — seberapa besar Aura bisa diproyeksikan. Tapi kualitas tiap ring menentukan <em>tipe</em> kekuatannya. Aura dari Darah terasa berbeda dari Aura dari Qi, meskipun sama-sama 3 ring. Seseorang dengan 2 ring berkualitas tinggi bisa mengalahkan 4 ring yang lemah dalam situasi tertentu.
+    </div>
+
+    <div class="warn-box">
+      <p class="warn-box-title">⚠ Hybrid Aura</p>
+      <p>Seseorang yang mengintegrasikan lebih dari 1 jalur ke dalam ring-nya akan membentuk Aura hybrid — jauh lebih kuat tapi jauh lebih tidak stabil. Ring hybrid punya kecenderungan "konflik internal" — dua sumber energi berbeda saling menekan dari dalam jantung. Dalam kasus ekstrem, ring bisa pecah. Konsekuensinya fatal.</p>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- HIERARKI -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(122,0,18,0.12);color:#d04060;">▲</div>
+      <p class="sec-label">Hierarki Kekuatan Global</p>
+    </div>
+    <div class="hier">
+      <div class="hrow t1">
+        <div class="hbar"></div>
+        <p class="hlabel">Rasombra</p>
+        <p class="hdesc">Puncak absolut. Vampire tertua yang masih eksis. Darah, Aura 5 ring, dan sesuatu yang belum punya nama.</p>
+      </div>
+      <div class="hrow t2">
+        <div class="hbar"></div>
+        <p class="hlabel">Vampire Tua · Elf Tetua</p>
+        <p class="hdesc">Ratusan tahun pengalaman. Aura 3-4 ring. Tidak bisa dianggap remeh oleh siapapun.</p>
+      </div>
+      <div class="hrow t3">
+        <div class="hbar"></div>
+        <p class="hlabel">Penyihir Tinggi · Elf Muda</p>
+        <p class="hdesc">Manusia yang mencapai batas atas jalur alaminya. Aura 2-3 ring. Langka dan dihormati.</p>
+      </div>
+      <div class="hrow t4">
+        <div class="hbar"></div>
+        <p class="hlabel">Manusia Terlatih · Ras Campuran</p>
+        <p class="hdesc">Prajurit, penyihir menengah, 1-2 ring. Tulang punggung kekuatan kekaisaran.</p>
+      </div>
+      <div class="hrow t5">
+        <div class="hbar"></div>
+        <p class="hlabel">Manusia Biasa</p>
+        <p class="hdesc">Tidak punya ring. Kapasitas Mana dan Qi ada tapi sangat kecil tanpa latihan.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="div">
+
+  <!-- SURYA -->
+  <div class="sec">
+    <div class="sec-head">
+      <div class="sec-icon" style="background:rgba(60,40,80,0.18);color:#b090d0;">✦</div>
+      <p class="sec-label">Surya — Kasus Khusus</p>
+    </div>
+
+    <div class="surya-box">
+      <p class="surya-box-title">Perkembangan Power Surya</p>
+
+      <div class="sphase">
+        <p class="sphase-label">Fase 1 · Sebelum Transformasi</p>
+        <p class="sphase-desc">Manusia biasa dari bumi. Tidak punya ring, kapasitas Mana dan Qi ada tapi belum pernah dilatih. Di Veranthos dia adalah 0 — bukan karena tidak punya potensi, tapi karena potensinya belum ada yang memicu.</p>
+      </div>
+
+      <div class="sphase">
+        <p class="sphase-label">Fase 2 · Transformasi</p>
+        <p class="sphase-desc">Kutukan Rasombra mengubah sesuatu yang fundamental di dalam tubuh Surya. Bukan memberi power langsung — tapi membuka <em>kapasitas</em> yang sebelumnya tertutup. Seperti seseorang yang seumur hidupnya bernafas dangkal, tiba-tiba sadar bahwa paru-parunya jauh lebih besar dari yang dia bayangkan.</p>
+      </div>
+
+      <div class="sphase">
+        <p class="sphase-label">Fase 3 · Pencarian</p>
+        <p class="sphase-desc">Tidak ada yang mengajari Surya. Tidak ada manual, tidak ada guru yang mau, tidak ada sistem yang mengakomodasi seseorang dari luar dunia ini. Dia harus menemukan sendiri — lewat trial, error, dan bahaya nyata. Ini yang membuat perkembangannya tidak terprediksi, bahkan oleh Rasombra.</p>
+      </div>
+
+      <div class="sphase">
+        <p class="sphase-label">Potensi · Jangka Panjang</p>
+        <p class="sphase-desc">Transformasi membuka kemungkinan hybrid yang belum pernah ada sebelumnya di Veranthos. Ada sesuatu di darah Surya pasca-kutukan yang membuat sistem power bereaksi dengan cara yang tidak ada presedennya — termasuk bagi Rasombra yang menyebabkan transformasi itu sendiri.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      Setiap kali Rasombra menyedot darah Surya, ada pertukaran yang tidak sepenuhnya disadari: darah Rasombra dalam jumlah sangat kecil masuk ke sistem Surya sebagai efek samping. Akumulasinya seiring waktu menjadi sesuatu. Apakah Rasombra tahu? Mungkin. Apakah dia mengantisipasi konsekuensinya? Itu pertanyaan yang dijawab cerita.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
