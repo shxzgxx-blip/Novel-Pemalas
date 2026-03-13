@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahkota dari Darah yang Salah</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ash: #0d0a07;
+    --fog: #e4dace;
+    --fog-dim: #9a8a78;
+    --fog-faint: #4a3a2a;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --gold-pale: #f0cc70;
+    --gold-dim: #6a5018;
+    --blood: #7a0012;
+    --blood-dim: #3a000a;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ash);
+    color: var(--fog);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CURSOR ─── */
+  .cursor {
+    position: fixed; width: 8px; height: 8px;
+    background: var(--gold-light); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease; mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed; width: 28px; height: 28px;
+    border: 1px solid rgba(212,168,67,0.4); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, border-color 0.2s;
+  }
+
+  /* ─── NOISE ─── */
+  body::after {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9000; opacity: 0.3;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; padding: 6rem 2rem 8rem; overflow: hidden;
+    background: radial-gradient(ellipse 90% 70% at 50% 30%, #1f0d06 0%, var(--ash) 70%);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 10%, rgba(122,0,18,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-lines {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(184,146,42,0.02) 80px, rgba(184,146,42,0.02) 81px);
+    pointer-events: none;
+  }
+
+  .crown-wrap { margin-bottom: 2.5rem; animation: floatCrown 6s ease-in-out infinite, fadeUp 1.2s ease both; }
+  @keyframes floatCrown { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .crown-svg { width: 90px; filter: drop-shadow(0 0 20px rgba(184,146,42,0.5)) drop-shadow(0 0 40px rgba(122,0,18,0.3)); animation: glowPulse 4s ease-in-out infinite; }
+  @keyframes glowPulse {
+    0%,100%{filter:drop-shadow(0 0 20px rgba(184,146,42,0.5)) drop-shadow(0 0 40px rgba(122,0,18,0.3))}
+    50%{filter:drop-shadow(0 0 30px rgba(184,146,42,0.8)) drop-shadow(0 0 60px rgba(122,0,18,0.5))}
+  }
+
+  .hero-eyebrow { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.55em; color:var(--gold); opacity:0.7; text-transform:uppercase; margin-bottom:1.8rem; animation:fadeUp 1.5s ease both; }
+  .hero-title { font-family:'Cinzel Decorative',serif; font-size:clamp(2rem,6vw,5.5rem); line-height:1.15; text-align:center; color:var(--gold-light); text-shadow:0 0 80px rgba(212,168,67,0.3),0 4px 20px rgba(0,0,0,0.9); letter-spacing:0.04em; animation:fadeUp 1.8s ease 0.2s both; max-width:900px; }
+  .hero-title .blood-word { color:var(--fog); position:relative; display:inline-block; }
+  .hero-title .blood-word::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--blood),transparent); animation:lineGrow 1.5s ease 2s both; transform-origin:left; }
+  @keyframes lineGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .hero-sub { margin-top:1.8rem; font-style:italic; font-size:clamp(1rem,2.5vw,1.25rem); color:var(--fog-dim); text-align:center; max-width:520px; line-height:1.7; animation:fadeUp 2s ease 0.4s both; }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+  .divider { display:flex; align-items:center; gap:1.2rem; margin:2.5rem auto; max-width:300px; animation:fadeUp 2.2s ease 0.6s both; }
+  .divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold-dim),transparent); }
+  .divider-diamond { width:6px; height:6px; background:var(--gold); transform:rotate(45deg); box-shadow:0 0 8px rgba(184,146,42,0.6); }
+
+  .hero-cta { display:flex; gap:1.2rem; flex-wrap:wrap; justify-content:center; animation:fadeUp 2.4s ease 0.8s both; }
+  .btn { font-family:'Cinzel',serif; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; padding:0.85em 2.2em; border:1px solid; transition:all 0.35s ease; position:relative; overflow:hidden; cursor:none; }
+  .btn::before { content:''; position:absolute; inset:0; transform:translateX(-105%); transition:transform 0.35s ease; }
+  .btn:hover::before { transform:translateX(0); }
+  .btn-primary { background:var(--blood); border-color:var(--blood); color:var(--fog); }
+  .btn-primary::before { background:rgba(255,255,255,0.08); }
+  .btn-primary:hover { box-shadow:0 0 30px rgba(122,0,18,0.5); }
+  .btn-secondary { background:transparent; border-color:var(--gold-dim); color:var(--gold-light); }
+  .btn-secondary::before { background:rgba(184,146,42,0.08); }
+  .btn-secondary:hover { border-color:var(--gold-light); box-shadow:0 0 20px rgba(184,146,42,0.2); }
+
+  .scroll-hint { position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; opacity:0.4; animation:fadeUp 3s ease 1.5s both; }
+  .scroll-hint span { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:0.4em; color:var(--gold); text-transform:uppercase; }
+  .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom,var(--gold),transparent); animation:scrollAnim 2.5s ease-in-out infinite; }
+  @keyframes scrollAnim{0%,100%{opacity:0.4}50%{opacity:0.9}}
+
+  /* ─── LORE ─── */
+  .lore-strip { position:relative; padding:5rem 2rem; overflow:hidden; background:linear-gradient(180deg,var(--ash) 0%,#080604 50%,var(--ash) 100%); }
+  .lore-strip::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(122,0,18,0.1) 0%,transparent 70%); pointer-events:none; }
+  .blood-drip { display:flex; justify-content:center; gap:2rem; padding:1rem 0 2.5rem; opacity:0.2; }
+  .drip { width:1px; background:linear-gradient(to bottom,var(--blood),transparent); animation:drip 3s ease-in-out infinite; }
+  .drip:nth-child(1){height:60px;animation-delay:0s}.drip:nth-child(2){height:90px;animation-delay:.4s}.drip:nth-child(3){height:45px;animation-delay:.8s}.drip:nth-child(4){height:75px;animation-delay:1.2s}.drip:nth-child(5){height:55px;animation-delay:.6s}
+  @keyframes drip{0%,100%{opacity:.5}50%{opacity:1}}
+  .lore-inner { max-width:720px; margin:0 auto; text-align:center; position:relative; z-index:1; }
+  .lore-quote { font-style:italic; font-size:clamp(1.2rem,3vw,1.9rem); line-height:1.65; color:var(--fog); opacity:0.85; }
+  .lore-quote em { color:var(--gold-light); font-style:normal; }
+  .lore-attr { display:block; margin-top:1.5rem; font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.4em; color:var(--fog-dim); opacity:0.45; text-transform:uppercase; }
+
+  /* ─── CHAPTERS ─── */
+  .section-chapters { padding:7rem 2rem; max-width:1100px; margin:0 auto; }
+  .section-heading { text-align:center; margin-bottom:4rem; }
+  .section-label { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.6em; color:var(--gold); opacity:0.6; text-transform:uppercase; display:block; margin-bottom:1rem; }
+  .section-title { font-family:'Cinzel Decorative',serif; font-size:clamp(1.3rem,3vw,2.2rem); color:var(--fog); letter-spacing:0.05em; }
+
+  .status-bar { display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:3rem; flex-wrap:wrap; }
+  .status-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); animation:blink 2s ease-in-out infinite; }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  .status-text { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.3em; color:var(--fog-dim); opacity:0.6; text-transform:uppercase; }
+  .status-count { font-family:'Cinzel',serif; font-size:0.6rem; letter-spacing:0.25em; color:var(--gold); opacity:0.8; text-transform:uppercase; }
+
+  .loading-state { text-align:center; padding:4rem 2rem; }
+  .loading-crown { font-size:2rem; opacity:0.3; animation:rotateSlow 4s linear infinite; display:inline-block; }
+  @keyframes rotateSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .loading-text { font-family:'Cinzel',serif; font-size:0.65rem; letter-spacing:0.4em; color:var(--fog-dim); opacity:0.4; text-transform:uppercase; margin-top:1rem; }
+
+  .error-state { text-align:center; padding:3rem 2rem; border:1px solid rgba(122,0,18,0.3); background:rgba(122,0,18,0.05); max-width:520px; margin:0 auto; }
+  .error-icon { font-size:1.8rem; opacity:0.5; }
+  .error-title { font-family:'Cinzel',serif; font-size:0.9rem; letter-spacing:0.2em; color:var(--fog-dim); margin-top:1rem; }
+  .error-msg { font-size:0.9rem; color:var(--fog-dim); opacity:0.65; margin-top:0.6rem; line-height:1.7; }
+
+  /* ─── BAB GROUPS ─── */
+  .bab-group { margin-bottom:4rem; }
+  .bab-header { display:flex; align-items:center; gap:1.5rem; margin-bottom:1.2rem; padding-bottom:1rem; border-bottom:1px solid rgba(184,146,42,0.1); }
+  .bab-label { font-family:'Cinzel Decorative',serif; font-size:clamp(1rem,2.5vw,1.3rem); color:var(--gold-light); white-space:nowrap; }
+  .bab-line { flex:1; height:1px; background:linear-gradient(90deg,rgba(184,146,42,0.2),transparent); }
+  .bab-count { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.3em; color:var(--fog-dim); opacity:0.45; text-transform:uppercase; white-space:nowrap; }
+
+  .chapters-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; border:1px solid rgba(184,146,42,0.08); }
+
+  .chapter-card {
+    position:relative; padding:2rem 1.8rem;
+    background:linear-gradient(135deg,rgba(26,16,8,0.95) 0%,rgba(13,10,7,0.98) 100%);
+    border:1px solid rgba(184,146,42,0.07);
+    text-decoration:none; color:inherit;
+    display:flex; flex-direction:column; gap:0.6rem;
+    overflow:hidden; transition:all 0.35s ease; cursor:none;
+  }
+  .chapter-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--blood),transparent); transform:scaleX(0); transition:transform 0.4s ease; }
+  .chapter-card:hover::before { transform:scaleX(1); }
+  .chapter-card::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 30% 50%,rgba(122,0,18,0.07) 0%,transparent 60%); opacity:0; transition:opacity 0.4s ease; }
+  .chapter-card:hover::after { opacity:1; }
+  .chapter-card:hover { border-color:rgba(184,146,42,0.22); background:linear-gradient(135deg,rgba(35,18,10,0.98) 0%,rgba(18,12,8,0.99) 100%); transform:translateY(-2px); }
+
+  .chapter-card.is-latest::before { background:linear-gradient(90deg,transparent,var(--gold),transparent); transform:scaleX(1); opacity:0.5; }
+  .badge-latest { display:inline-flex; align-items:center; gap:0.4rem; font-family:'Cinzel',serif; font-size:0.5rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; padding:0.2em 0.6em; border:1px solid rgba(184,146,42,0.3); background:rgba(184,146,42,0.08); align-self:flex-start; }
+  .badge-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); animation:blink 1.5s infinite; }
+
+  .card-num { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.45em; color:var(--gold); opacity:0.5; text-transform:uppercase; }
+  .card-title { font-family:'Cinzel Decorative',serif; font-size:clamp(0.85rem,2vw,1.05rem); color:var(--gold-light); line-height:1.4; transition:color 0.3s; }
+  .chapter-card:hover .card-title { color:var(--gold-pale); }
+  .card-subtitle { font-style:italic; font-size:0.85rem; color:var(--fog-dim); opacity:0.6; }
+  .card-arrow { margin-top:auto; padding-top:0.5rem; font-size:0.9rem; color:var(--gold-dim); opacity:0; transform:translateX(-6px); transition:all 0.3s ease; }
+  .chapter-card:hover .card-arrow { opacity:1; transform:translateX(0); }
+
+  /* ─── EXTRAS ─── */
+  .section-extras { padding:3rem 2rem 8rem; max-width:1100px; margin:0 auto; }
+  .extras-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; margin-top:3rem; }
+  .extra-card { padding:2rem 1.8rem; border:1px solid rgba(184,146,42,0.12); background:rgba(20,13,8,0.7); text-decoration:none; color:inherit; display:flex; align-items:flex-start; gap:1.2rem; overflow:hidden; transition:all 0.35s ease; cursor:none; }
+  .extra-card:hover { border-color:rgba(184,146,42,0.3); background:rgba(28,18,10,0.9); transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+  .extra-icon { font-size:1.5rem; flex-shrink:0; }
+  .extra-label { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:0.4em; color:var(--gold); opacity:0.55; text-transform:uppercase; display:block; margin-bottom:0.3rem; }
+  .extra-name { font-size:1.05rem; color:var(--fog); }
+  .extra-desc { font-size:0.85rem; color:var(--fog-dim); opacity:0.65; margin-top:0.3rem; line-height:1.5; }
+
+  /* ─── FOOTER ─── */
+  .footer { border-top:1px solid rgba(184,146,42,0.1); padding:3rem 2rem; text-align:center; }
+  .footer-title { font-family:'Cinzel Decorative',serif; font-size:0.9rem; color:var(--gold-dim); letter-spacing:0.08em; margin-bottom:0.8rem; }
+  .footer-meta { font-family:'Cinzel',serif; font-size:0.55rem; letter-spacing:0.35em; color:var(--fog-dim); opacity:0.3; text-transform:uppercase; }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity:0; transform:translateY(25px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media(max-width:600px){
+    .hero-title{font-size:clamp(1.5rem,9vw,3rem)}
+    .chapters-grid{grid-template-columns:1fr}
+    .extras-grid{grid-template-columns:1fr}
+    .hero-cta{flex-direction:column;align-items:center}
+    .cursor,.cursor-ring{display:none}
+    body{cursor:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-lines"></div>
+  <div class="crown-wrap">
+    <svg class="crown-svg" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 70 L10 45 L30 20 L60 50 L90 20 L110 45 L110 70 Z" fill="none" stroke="#b8922a" stroke-width="1.5" stroke-linejoin="round"/>
+      <circle cx="30" cy="18" r="3" fill="#7a0012" stroke="#b8922a" stroke-width="1"/>
+      <circle cx="60" cy="8" r="4" fill="#7a0012" stroke="#b8922a" stroke-width="1"/>
+      <circle cx="90" cy="18" r="3" fill="#7a0012" stroke="#b8922a" stroke-width="1"/>
+      <rect x="50" y="52" width="8" height="10" fill="#7a0012" opacity="0.8"/>
+      <line x1="10" y1="55" x2="110" y2="55" stroke="#b8922a" stroke-width="0.5" opacity="0.4"/>
+      <line x1="54" y1="62" x2="54" y2="74" stroke="#7a0012" stroke-width="1.5" opacity="0.7"/>
+      <circle cx="54" cy="75" r="2" fill="#7a0012" opacity="0.8"/>
+    </svg>
+  </div>
+  <p class="hero-eyebrow">Veranthos · Dunia Fantasi Gelap</p>
+  <h1 class="hero-title">Mahkota dari<br><span class="blood-word">Darah</span> yang Salah</h1>
+  <p class="hero-sub">Sebuah novel fantasi tentang darah yang tidak dipilih,<br>mahkota yang tidak diminta, dan kerajaan yang tidak bisa dipercaya.</p>
+  <div class="divider">
+    <div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#" id="btn-mulai" class="btn btn-primary">Mulai Baca →</a>
+    <a href="#chapters" class="btn btn-secondary">Daftar Chapter</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span><div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- LORE -->
+<div class="lore-strip">
+  <div class="blood-drip">
+    <div class="drip"></div><div class="drip"></div><div class="drip"></div>
+    <div class="drip"></div><div class="drip"></div>
+  </div>
+  <div class="lore-inner reveal">
+    <p class="lore-quote">"Kau bukan yang pertama mewarisi darah kami.<br>Tapi mungkin kau yang <em>terakhir</em>."</p>
+    <span class="lore-attr">— Mahkota dari Darah yang Salah</span>
+  </div>
+</div>
+
+<!-- CHAPTERS -->
+<section class="section-chapters" id="chapters">
+  <div class="section-heading reveal">
+    <span class="section-label">Navigasi Cerita</span>
+    <h2 class="section-title">Daftar Chapter</h2>
+  </div>
+  <div class="status-bar reveal">
+    <div class="status-dot"></div>
+    <span class="status-text">Live dari GitHub</span>
+    <span class="status-count" id="total-count">Memuat...</span>
+  </div>
+  <div id="chapters-container">
+    <div class="loading-state">
+      <div class="loading-crown">♛</div>
+      <p class="loading-text">Mengambil daftar chapter...</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXTRAS -->
+<section class="section-extras">
+  <div class="section-heading reveal">
+    <span class="section-label">Referensi Dunia</span>
+    <h2 class="section-title">Arsip Veranthos</h2>
+  </div>
+  <div class="extras-grid reveal">
+    <a href="world_bible.html" class="extra-card">
+      <span class="extra-icon">🗺</span>
+      <div><span class="extra-label">Lore</span><span class="extra-name">World Bible</span><p class="extra-desc">Sejarah, geografi, dan tatanan dunia Veranthos</p></div>
+    </a>
+    <a href="character_sheets.html" class="extra-card">
+      <span class="extra-icon">⚔</span>
+      <div><span class="extra-label">Karakter</span><span class="extra-name">Character Sheets</span><p class="extra-desc">Profil lengkap setiap tokoh dalam cerita</p></div>
+    </a>
+    <a href="power_system_bible.html" class="extra-card">
+      <span class="extra-icon">🩸</span>
+      <div><span class="extra-label">Sistem Kekuatan</span><span class="extra-name">Power System Bible</span><p class="extra-desc">Mekanisme darah, sihir, dan kekuatan di dunia ini</p></div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="divider" style="margin:0 auto 2rem;max-width:200px;">
+    <div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div>
+  </div>
+  <p class="footer-title">Mahkota dari Darah yang Salah</p>
+  <p class="footer-meta">Veranthos · Karya Gabut Novel · Dalam Pengembangan</p>
+</footer>
+
+<script>
+// ════════════════════════════════════════
+// CONFIG — sesuaikan kalau ada perubahan
+// ════════════════════════════════════════
+const GITHUB_USER   = 'shxzgxx-blip';
+const GITHUB_REPO   = 'Novel-Pemalas';
+const GITHUB_BRANCH = 'main';
+
+// Pattern nama file: novel-bab1-chp1.html
+const CHAPTER_REGEX = /^novel-bab(\d+)-chp(\d+)\.html$/i;
+
+// Base URL GitHub Pages
+const PAGES_BASE = `https://${GITHUB_USER}.github.io/${GITHUB_REPO}`;
+
+// ════════════════════════════════════════
+// CURSOR
+// ════════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0, my=0, rx=0, ry=0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx+'px'; cursor.style.top = my+'px';
+});
+(function animateRing(){
+  rx += (mx-rx)*0.14; ry += (my-ry)*0.14;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animateRing);
+})();
+
+function attachCursorHover(){
+  document.querySelectorAll('a, button').forEach(el => {
+    if(el._ch) return; el._ch = true;
+    el.addEventListener('mouseenter', ()=>{
+      cursor.style.transform='translate(-50%,-50%) scale(1.8)';
+      ring.style.width='44px'; ring.style.height='44px';
+      ring.style.borderColor='rgba(122,0,18,0.6)';
+    });
+    el.addEventListener('mouseleave', ()=>{
+      cursor.style.transform='translate(-50%,-50%) scale(1)';
+      ring.style.width='28px'; ring.style.height='28px';
+      ring.style.borderColor='rgba(212,168,67,0.4)';
+    });
+  });
+}
+
+// ════════════════════════════════════════
+// SCROLL REVEAL
+// ════════════════════════════════════════
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ════════════════════════════════════════
+// ROMAN NUMERALS
+// ════════════════════════════════════════
+function toRoman(n){
+  const v=[1000,900,500,400,100,90,50,40,10,9,5,4,1];
+  const s=['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+  let r=''; v.forEach((val,i)=>{ while(n>=val){r+=s[i];n-=val;} }); return r;
+}
+
+// ════════════════════════════════════════
+// FETCH CHAPTERS — GitHub API
+// ════════════════════════════════════════
+async function fetchChapters(){
+  const apiURL = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/git/trees/${GITHUB_BRANCH}?recursive=1`;
+
+  try {
+    const res = await fetch(apiURL);
+
+    if(!res.ok){
+      if(res.status===404) throw new Error(`Repo <strong>${GITHUB_USER}/${GITHUB_REPO}</strong> tidak ditemukan. Pastikan repo sudah dibuat dan bersifat <em>public</em>.`);
+      if(res.status===403) throw new Error('Rate limit GitHub API tercapai. Tunggu beberapa menit lalu refresh.');
+      throw new Error(`GitHub API error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    const files = data.tree || [];
+
+    // Parse semua chapter files
+    const chapters = [];
+    files.forEach(item => {
+      if(item.type !== 'blob') return;
+      const filename = item.path.split('/').pop();
+      const match = filename.match(CHAPTER_REGEX);
+      if(match){
+        chapters.push({
+          bab: parseInt(match[1]),
+          chp: parseInt(match[2]),
+          filename,
+          path: item.path,
+          url: `${PAGES_BASE}/${item.path}`
+        });
+      }
+    });
+
+    if(chapters.length === 0){ showEmpty(); return; }
+
+    // Sort bab ASC, chp ASC
+    chapters.sort((a,b) => a.bab!==b.bab ? a.bab-b.bab : a.chp-b.chp);
+
+    // Tombol Mulai Baca → chapter pertama
+    document.getElementById('btn-mulai').href = chapters[0].url;
+
+    // Counter
+    const babCount = new Set(chapters.map(c=>c.bab)).size;
+    document.getElementById('total-count').textContent =
+      `${chapters.length} Chapter · ${babCount} Bab`;
+
+    renderChapters(chapters);
+
+  } catch(err){
+    showError(err.message || String(err));
+  }
+}
+
+// ════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════
+function renderChapters(chapters){
+  const container = document.getElementById('chapters-container');
+  container.innerHTML = '';
+
+  // Group per bab
+  const groups = {};
+  chapters.forEach(c=>{ if(!groups[c.bab]) groups[c.bab]=[]; groups[c.bab].push(c); });
+
+  const latest = chapters[chapters.length-1];
+
+  Object.keys(groups).sort((a,b)=>+a-+b).forEach(bab=>{
+    const chs = groups[bab];
+    const group = document.createElement('div');
+    group.className = 'bab-group reveal';
+    group.innerHTML = `
+      <div class="bab-header">
+        <span class="bab-label">Bab ${toRoman(+bab)}</span>
+        <div class="bab-line"></div>
+        <span class="bab-count">${chs.length} Chapter</span>
+      </div>
+      <div class="chapters-grid" id="grid-bab-${bab}"></div>
+    `;
+    container.appendChild(group);
+
+    const grid = group.querySelector(`#grid-bab-${bab}`);
+    chs.forEach((ch, i)=>{
+      const isLatest = ch.bab===latest.bab && ch.chp===latest.chp;
+      const card = document.createElement('a');
+      card.href = ch.url;
+      card.className = 'chapter-card' + (isLatest ? ' is-latest' : '');
+      card.style.transitionDelay = (i*0.05)+'s';
+      card.innerHTML = `
+        ${isLatest ? `<span class="badge-latest"><span class="badge-dot"></span>Terbaru</span>` : ''}
+        <span class="card-num">Bab ${toRoman(+bab)} · Ch ${toRoman(ch.chp)}</span>
+        <h3 class="card-title">Chapter ${ch.chp}</h3>
+        <span class="card-arrow">→</span>
+      `;
+      grid.appendChild(card);
+    });
+
+    revealObs.observe(group);
+  });
+
+  attachCursorHover();
+}
+
+function showEmpty(){
+  document.getElementById('chapters-container').innerHTML = `
+    <div class="error-state">
+      <div class="error-icon">📜</div>
+      <p class="error-title">Belum Ada Chapter</p>
+      <p class="error-msg">Belum ada file dengan format <code style="color:var(--gold);font-size:0.85rem">novel-bab1-chp1.html</code> yang ditemukan di repo ini.</p>
+    </div>`;
+  document.getElementById('total-count').textContent = '0 Chapter';
+}
+
+function showError(msg){
+  document.getElementById('chapters-container').innerHTML = `
+    <div class="error-state">
+      <div class="error-icon">⚠</div>
+      <p class="error-title">Gagal Memuat Chapter</p>
+      <p class="error-msg">${msg}</p>
+    </div>`;
+  document.getElementById('total-count').textContent = 'Error';
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+fetchChapters();
+attachCursorHover();
+</script>
+</body>
+</html>
