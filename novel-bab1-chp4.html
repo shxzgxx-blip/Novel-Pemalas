@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahkota dari Darah yang Salah — Chapter 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blood: #7a0012;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --ash: #100c09;
+    --fog: #e2d8cc;
+    --shadow: #2a1a10;
+    --silver: #c8c4d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ash);
+    color: var(--fog);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.18rem;
+    line-height: 2;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, #1e0a04 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 5rem 2rem;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 40%, #1f0d06 0%, var(--ash) 75%);
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to bottom, transparent, var(--ash));
+    pointer-events: none;
+  }
+
+  .cover-rune {
+    font-size: 0.75rem;
+    letter-spacing: 0.7em;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 2.5rem;
+    font-family: 'Cinzel Decorative', serif;
+    animation: rise 1.8s ease both;
+  }
+
+  .cover-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 5.5vw, 4rem);
+    color: var(--gold-light);
+    text-align: center;
+    line-height: 1.25;
+    text-shadow: 0 0 60px rgba(180,140,40,0.25), 0 4px 16px rgba(0,0,0,0.9);
+    animation: rise 2.2s ease both;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-title span {
+    display: block;
+    color: var(--blood);
+    font-size: 0.55em;
+    letter-spacing: 0.15em;
+    margin-top: 0.4em;
+    opacity: 0.85;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  .cover-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 2.5rem 0;
+    animation: rise 2.6s ease both;
+  }
+
+  .cdl { height: 1px; width: 70px; background: linear-gradient(to right, transparent, var(--gold)); }
+  .cdl.r { background: linear-gradient(to left, transparent, var(--gold)); }
+  .cover-divider-icon { color: var(--gold); font-size: 1.1rem; opacity: 0.7; }
+
+  .cover-chapter {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #907050;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    animation: rise 3s ease both;
+  }
+
+  .content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 6rem 2rem 10rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ch-header {
+    text-align: center;
+    margin-bottom: 4.5rem;
+  }
+
+  .ch-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.6em;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--fog);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .ch-title em { color: var(--silver); font-style: normal; }
+
+  p {
+    margin-bottom: 1.7rem;
+    font-weight: 300;
+    color: #d8cfc0;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 4.8rem;
+    float: left;
+    line-height: 0.72;
+    padding-right: 0.1em;
+    padding-top: 0.08em;
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(212,168,67,0.35);
+  }
+
+  .dialogue { color: #e5d8b8; font-style: italic; }
+
+  .thought-block {
+    color: #7a6550;
+    font-style: italic;
+    padding-left: 1.8rem;
+    border-left: 2px solid #3a2010;
+    margin: 1.5rem 0;
+    line-height: 1.85;
+  }
+
+  .name-villain {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--blood);
+  }
+
+  .name-place {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .name-alicia {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--silver);
+    opacity: 0.9;
+  }
+
+  .scene-break {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.3;
+    font-size: 1.2rem;
+    margin: 3rem 0;
+    letter-spacing: 1.2rem;
+  }
+
+  .section-marker {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.5em;
+    color: var(--blood);
+    text-align: center;
+    display: block;
+    margin: 4rem 0 2.5rem;
+    opacity: 0.65;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--fog);
+    text-align: center;
+    margin: 3.5rem 0;
+    padding: 1.8rem 2.5rem;
+    border-top: 1px solid rgba(122,0,18,0.35);
+    border-bottom: 1px solid rgba(122,0,18,0.35);
+    background: linear-gradient(to right, transparent, rgba(122,0,18,0.06), transparent);
+    line-height: 1.8;
+  }
+
+  /* Silver pull-quote untuk momen Alicia */
+  .pull-quote-silver {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--fog);
+    text-align: center;
+    margin: 3.5rem 0;
+    padding: 1.8rem 2.5rem;
+    border-top: 1px solid rgba(180,176,200,0.2);
+    border-bottom: 1px solid rgba(180,176,200,0.2);
+    background: linear-gradient(to right, transparent, rgba(180,176,200,0.04), transparent);
+    line-height: 1.8;
+  }
+
+  .end-mark {
+    text-align: center;
+    margin-top: 6rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #2a1a10;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--ash); }
+  ::-webkit-scrollbar-thumb { background: #3a2010; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <p class="cover-rune">Veranthos Chronicles</p>
+  <h1 class="cover-title">
+    Mahkota dari Darah yang Salah
+    <span>a fantasy novel · chapter four</span>
+  </h1>
+  <div class="cover-divider">
+    <div class="cdl"></div>
+    <span class="cover-divider-icon">✦</span>
+    <div class="cdl r"></div>
+  </div>
+  <p class="cover-chapter">Nama Baru</p>
+</div>
+
+<div class="content">
+
+  <div class="ch-header">
+    <p class="ch-label">Chapter IV</p>
+    <h2 class="ch-title"><em>Nama</em> Baru</h2>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">I · Masalah Praktis</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p class="drop-cap">Hal pertama yang Surya sadari setelah malam di Chapter 3 bukan tentang identitas atau eksistensialisme atau pertanyaan-pertanyaan besar yang mungkin seharusnya ada di kepalanya.</p>
+
+  <p>Yang pertama dia sadari adalah bahwa seragam SMA-nya tidak lagi fit.</p>
+
+  <p>Bahu terlalu longgar. Pinggang terlalu besar. Dan bagian kerah yang kemarin pas sekarang terasa seperti milik orang yang berbeda — karena memang iya.</p>
+
+  <p>Surya duduk di tepi kasur selama beberapa menit, memandangi pakaian yang sekarang tergantung aneh di tubuhnya, dan merasakan sesuatu yang dia tidak antisipasi: bukan kesedihan, bukan marah. Lebih seperti... kerepotan yang sangat konkret di tengah situasi yang harusnya besar dan filosofis.</p>
+
+  <p class="thought-block">Gue tidak punya baju lain.<br><br>
+  Semua yang gue bawa dari bumi adalah yang gue pakai saat itu. Dan yang gue pakai saat itu sekarang terlalu besar di bagian yang salah.<br><br>
+  Ini masalah yang sangat kecil dibanding semua yang lain. Tapi ini masalah yang paling nyata pagi ini.</p>
+
+  <p>Ketokan di pintu. Pelan, presisi — bukan Bagas yang ketokan lalu langsung masuk, bukan Dira yang ketokan sambil sudah bicara dari balik pintu. Ketukan yang menunggu.</p>
+
+  <p><span class="dialogue">"Masuk,"</span> kata Surya.</p>
+
+  <p>Vael membuka pintu. Di tangannya ada lipatan kain yang rapi — pakaian, berwarna gelap, dengan detail yang lebih halus dari seragam pelayan tapi tidak semewah jubah istana. Di tangan satunya, handuk kecil dan sesuatu yang berbentuk seperti sikat.</p>
+
+  <p>Dia menatap Surya sebentar — satu detik, dua — dengan ekspresi yang tidak berubah. Lalu masuk dan meletakkan semuanya di atas meja rias dengan gerakan yang efisien.</p>
+
+  <p><span class="dialogue">"Sudah disiapkan,"</span> katanya. Pendek. Faktual.</p>
+
+  <p>Surya menatap tumpukan pakaian itu.</p>
+
+  <p><span class="dialogue">"Sejak kapan?"</span></p>
+
+  <p>Vael tidak langsung menjawab. Ada jeda kecil yang lebih panjang dari yang dibutuhkan untuk memilih kata. <span class="dialogue">"Sudah ada."</span></p>
+
+  <p>Bukan jawaban. Tapi Surya mencatat itu — dan mencatat cara Vael tidak menatapnya ketika mengucapkan kalimat itu.</p>
+
+  <p class="thought-block">Sudah disiapkan sebelum gue bangun. Mungkin sebelum gue tidur semalam.<br><br>
+  Artinya Rasombra tahu persis apa yang akan terjadi. Ukurannya, jenisnya, semua detail praktis yang harusnya tidak bisa dia tahu kecuali kalau ini memang sudah direncanakan jauh sebelumnya.<br><br>
+  Bukan impuls. Bukan keputusan malam itu saja.<br><br>
+  Sudah lama.</p>
+
+  <p>Surya berdiri dan mengambil pakaian itu dari meja. Kainnya lebih halus dari yang dia ekspektasikan — bukan kasar seperti seragam kerja, tapi tidak juga seperti pakaian mewah yang dia bayangkan untuk tamu istana vampire. Sesuatu di tengah. Fungsional tapi diperhatikan.</p>
+
+  <p>Dia menatap Vael. <span class="dialogue">"Kamu tunggu di luar?"</span></p>
+
+  <p>Vael mengangguk dan keluar tanpa kata tambahan. Pintu menutup.</p>
+
+  <p>Surya berganti pakaian sendirian di kamar yang sunyi itu, dengan cahaya pagi <em>Asorath</em> masuk dari balik tirai tipis, dan untuk beberapa menit dia tidak memikirkan apapun — hanya gerakan mekanis mengganti satu lapis kain dengan lapis yang lain.</p>
+
+  <p>Pakaian baru fit dengan benar. Tentu saja fit dengan benar.</p>
+
+  <p>Dia berdiri di depan cermin — cermin yang sama dari pagi kemarin, yang memantulkan wajah yang sama tapi bukan — dan sekarang ada satu hal baru yang harus dia hadapi secara penuh untuk pertama kalinya sejak kemarin.</p>
+
+  <p>Rambutnya.</p>
+
+  <p>Semalam terlalu banyak hal yang harus diproses sehingga dia tidak benar-benar berhenti di sini. Tapi sekarang, dengan pakaian yang fit dan pikiran yang sedikit lebih teratur, dia menatap rambut yang jatuh ke bahunya — bukan hitam berantakan yang selama 18 tahun dia kenal.</p>
+
+  <p>Silver. Hampir putih di ujungnya, sedikit lebih gelap di akarnya. Seperti salju yang pernah dia lihat sekali dalam foto.</p>
+
+  <p>Seperti rambut Rasombra.</p>
+
+  <p>Surya menutup matanya selama 3 detik.</p>
+
+  <p>Membukanya lagi.</p>
+
+  <p>Rambut itu masih ada.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">II · Vael & Nama</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Vael masih di luar ketika Surya membuka pintu. Berdiri dengan postur yang lurus dan tangan di depan — posisi yang sudah terlatih tapi tidak terasa dipaksakan, lebih seperti cara seseorang berdiri ketika tidak sedang memikirkan cara berdiri.</p>
+
+  <p>Matanya turun ke pakaian baru Surya, naik ke rambut silvernya, lalu ke wajahnya. Ekspresi Vael tidak berubah. Tapi ada sesuatu yang sangat kecil yang bergeser di matanya — sesuatu yang Surya sekarang mulai bisa bedakan dari "netral" dan "netral yang dipertahankan".</p>
+
+  <p>Ini yang kedua.</p>
+
+  <p><span class="dialogue">"Kamu terlihat—"</span> Vael berhenti. Memilih ulang. <span class="dialogue">"Pakaiannya cocok."</span></p>
+
+  <p><span class="dialogue">"Iya,"</span> kata Surya. <span class="dialogue">"Cocok sekali."</span> Nada itu tidak menyembunyikan apa yang dia maksud, dan Vael cukup pintar untuk mendengarnya.</p>
+
+  <p>Mereka berjalan ke arah ruang makan — Vael di sisi, setengah langkah di belakang seperti posisi yang sudah jadi kebiasaan. Di lorong yang panjang itu, dengan cahaya kristal di dinding yang mulai terasa lebih familiar dari yang Surya suka, dia memutuskan untuk bertanya.</p>
+
+  <p><span class="dialogue">"Dia minta kamu panggil gue apa?"</span></p>
+
+  <p>Vael tidak langsung menjawab. Tapi kali ini jeda-nya bukan karena memilih kata — lebih seperti seseorang yang sedang mempertimbangkan seberapa besar konsekuensi dari menjawab jujur.</p>
+
+  <p><span class="dialogue">"Alicia,"</span> kata Vael akhirnya. Pelan. Seperti nama yang baru pertama kali diucapkan keras.</p>
+
+  <p>Hening di lorong itu selama beberapa langkah.</p>
+
+  <p>Alicia mencerna kata itu. Alicia. Dua suku kata, tiga huruf vokal, ending yang lunak. Nama yang tidak pernah ada sebelumnya — bukan nama yang diwarisi, bukan nama yang pernah dipanggil di lorong istana lain. Diciptakan. Untuk dia. Atau untuk bentuk yang Rasombra buat dari dia.</p>
+
+  <p class="thought-block">Alicia.<br><br>
+  Itu bukan nama gue.<br><br>
+  Tapi gue juga tidak bisa jalan di istana ini sebagai Surya — laki-laki 18 tahun dari Jakarta yang sekarang tidak ada di tubuh laki-laki 18 tahun dari Jakarta lagi.<br><br>
+  Nama itu perlu. Bukan untuk gue. Untuk navigasi.<br><br>
+  Alicia di luar. Surya di dalam. Gue bisa jaga itu.</p>
+
+  <p><span class="dialogue">"Oke,"</span> kata Alicia.</p>
+
+  <p>Vael menatap ke depan. <span class="dialogue">"Hanya itu?"</span></p>
+
+  <p><span class="dialogue">"Apa yang kamu harapkan?"</span></p>
+
+  <p><span class="dialogue">"Tidak tahu,"</span> kata Vael. Dan untuk pertama kalinya sejak mereka berinteraksi, jawaban itu terdengar benar-benar jujur — bukan jawaban yang dipilih, tapi jawaban yang sebenarnya.</p>
+
+  <p>Alicia menatap Vael dari sudut matanya saat mereka berjalan. Perempuan yang usianya kelihatan seusia dirinya, dengan rambut asimetris coklat dan ekspresi yang selalu dijaga, memakai seragam maid yang sepertinya bukan sepenuhnya menggambarkan posisinya di sini. Yang menyebut nama "Alicia" dengan nada seseorang yang baru pertama kali mengucapkan sesuatu yang sudah lama mengganjal.</p>
+
+  <p><span class="dialogue">"Vael."</span></p>
+
+  <p><span class="dialogue">"Ya."</span></p>
+
+  <p><span class="dialogue">"Kamu tidak suka ini."</span> Bukan pertanyaan.</p>
+
+  <p>Vael berhenti selangkah — hampir tidak kelihatan, tapi ada — lalu melanjutkan berjalan dengan kecepatan yang sama. <span class="dialogue">"Bukan urusan saya untuk suka atau tidak suka."</span></p>
+
+  <p><span class="dialogue">"Tapi kamu tidak suka."</span></p>
+
+  <p>Tidak ada jawaban. Yang juga jawaban.</p>
+
+  <p>Alicia mencatatnya dan tidak mengejar lebih jauh. Ada waktunya untuk itu nanti — dan Vael adalah kartu yang perlu dia pegang dulu sebelum dimainkan.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">III · Bagas & Dira Bertemu Alicia</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Bagas sudah di ruang makan ketika Alicia tiba. Duduk dengan postur seseorang yang sudah duduk di sana cukup lama dan tidak bisa anteng — siku di meja, jari mengetuk ritme yang tidak beraturan, ekspresi yang sudah memutuskan untuk tidak memutuskan apapun dulu sebelum melihat perkembangan.</p>
+
+  <p>Ketika Alicia masuk, Bagas mengangkat mata. Dan berhenti mengetuk.</p>
+
+  <p>Rambutnya. Bagas menatap rambut silvernya selama 2 detik yang terasa lebih panjang dari itu. Lalu rahangnya sedikit mengencang — gerakan kecil yang Alicia kenal artinya: Bagas sedang menelan sesuatu yang tidak mau dia keluarkan di tempat umum.</p>
+
+  <p><span class="dialogue">"Pagi,"</span> kata Alicia, duduk di kursi biasanya.</p>
+
+  <p><span class="dialogue">"Pagi,"</span> kata Bagas. Pelan. Masih menatap rambut itu.</p>
+
+  <p><span class="dialogue">"Rambut,"</span> kata Alicia sebelum Bagas bertanya.</p>
+
+  <p><span class="dialogue">"Iya, gue lihat."</span></p>
+
+  <p><span class="dialogue">"Sama seperti Rasombra."</span></p>
+
+  <p><span class="dialogue">"Iya, gue lihat itu juga."</span> Nada Bagas datar tapi ada sesuatu di bawahnya yang terasa seperti menahan sesuatu yang cukup berat. <span class="dialogue">"Maksudnya apa?"</span></p>
+
+  <p><span class="dialogue">"Belum tahu pasti."</span></p>
+
+  <p>Dira masuk beberapa menit kemudian — dari arah perpustakaan, bukan dari kamarnya, yang artinya dia sudah di sana sejak pagi buta. Novel di tangannya sudah diganti dengan buku tipis yang tulisannya Alicia tidak bisa baca. Dia duduk, menaruh bukunya, dan menatap rambut Alicia dengan cara yang sama seperti Dira menatap teks yang menarik — mengumpulkan informasi sebelum menyimpulkan.</p>
+
+  <p><span class="dialogue">"Silver,"</span> kata Dira.</p>
+
+  <p><span class="dialogue">"Silver,"</span> konfirmasi Alicia.</p>
+
+  <p><span class="dialogue">"Seperti Rasombra."</span></p>
+
+  <p><span class="dialogue">"Seperti Rasombra."</span></p>
+
+  <p>Dira mengangguk pelan, seperti seseorang yang baru saja mengkonfirmasi hipotesis. Bagas menatap adiknya dengan ekspresi tidak percaya. <span class="dialogue">"Dir, itu semua yang mau kamu bilang?"</span></p>
+
+  <p><span class="dialogue">"Ada yang perlu ditambahkan?"</span></p>
+
+  <p><span class="dialogue">"Kakak kita rambutnya jadi silver karena dikutuk vampire 800 tahun dan kamu cuma—"</span></p>
+
+  <p><span class="dialogue">"Bagas."</span> Alicia menghentikannya. <span class="dialogue">"Ada satu hal lagi."</span></p>
+
+  <p>Dua pasang mata menatapnya.</p>
+
+  <p>Alicia meletakkan tangannya di atas meja. Pelan. <span class="dialogue">"Di istana ini, di depan orang-orang sini — gue punya nama baru. Alicia."</span></p>
+
+  <p>Hening.</p>
+
+  <p>Bagas membuka mulut. Menutupnya. Membuka lagi. <span class="dialogue">"...Alicia."</span></p>
+
+  <p><span class="dialogue">"Iya."</span></p>
+
+  <p><span class="dialogue">"Kak minta dipanggil Alicia."</span></p>
+
+  <p><span class="dialogue">"Di depan orang sini, iya. Di antara kita bertiga — tidak perlu."</span></p>
+
+  <p>Bagas menatap mejanya. Ada sesuatu yang bergerak di wajahnya — bukan marah kali ini, sesuatu yang lebih dalam dan lebih susah untuk didefinisikan. <span class="dialogue">"Kak tidak apa-apa sama ini?"</span></p>
+
+  <p><span class="dialogue">"Tidak,"</span> kata Alicia jujur. <span class="dialogue">"Tapi ini yang ada sekarang."</span></p>
+
+  <p>Bagas mengangguk — sekali, berat — dan tidak berkata apa-apa lagi.</p>
+
+  <p>Dira yang bicara: <span class="dialogue">"Nama itu dari mana?"</span></p>
+
+  <p><span class="dialogue">"Rasombra yang kasih."</span></p>
+
+  <p><span class="dialogue">"Pernah ada sebelumnya?"</span></p>
+
+  <p><span class="dialogue">"Tidak."</span></p>
+
+  <p>Dira menatap bukunya sebentar, seperti memproses sesuatu. Lalu: <span class="dialogue">"Artinya nama itu diciptakan untuk kak. Bukan diambil dari mana-mana."</span></p>
+
+  <p><span class="dialogue">"Iya."</span></p>
+
+  <p><span class="dialogue">"Itu lebih creepy dari kalau nama itu diambil dari seseorang yang sudah ada."</span></p>
+
+  <p>Bagas menatap Dira. <span class="dialogue">"Gimana bisa lebih creepy?"</span></p>
+
+  <p><span class="dialogue">"Karena kalau diambil dari seseorang yang ada, itu bisa jadi kebetulan atau kenangan. Tapi kalau diciptakan khusus—"</span> Dira berhenti sebentar. <span class="dialogue">"Itu artinya sudah dipikirkan. Sudah dibayangkan. Sudah ada dalam kepalanya sebelum kak ada di sini."</span></p>
+
+  <p>Keheningan di meja sarapan itu terasa lebih berat dari kemarin.</p>
+
+  <p>Alicia menatap adik bungsunya yang 16 tahun, yang barusan mengucapkan dengan sangat bersih hal yang dia sendiri sudah pikirkan tapi belum mau ucapkan keras.</p>
+
+  <p><span class="dialogue">"Iya,"</span> kata Alicia. <span class="dialogue">"Persis begitu."</span></p>
+
+  <div class="scene-break">· · ·</div>
+
+  <p>Setelah sarapan, sebelum berpencar, ada momen yang tidak direncanakan.</p>
+
+  <p>Bagas berdiri duluan, mengambil jaketnya dari sandaran kursi. Lalu berhenti. Menatap Alicia dengan cara yang tidak biasa untuknya — bukan ekspresi yang siap bereaksi, bukan ekspresi yang sedang menghitung. Cuma menatap.</p>
+
+  <p><span class="dialogue">"Kak,"</span> katanya pelan. <span class="dialogue">"Di antara kita bertiga — kak tetap Kak Surya. Bukan... yang itu."</span></p>
+
+  <p>Kalimat itu sederhana. Tapi ada sesuatu di dalamnya yang membuat Alicia perlu sebentar sebelum bisa menjawab.</p>
+
+  <p><span class="dialogue">"Iya,"</span> katanya.</p>
+
+  <p>Bagas mengangguk dan pergi ke aula latihan tanpa menambahkan apapun. Dira mengikuti beberapa langkah kemudian ke arah perpustakaan, dengan bukunya yang sudah dibuka lagi bahkan sebelum keluar pintu.</p>
+
+  <p>Alicia duduk sendirian di ruang makan yang mulai dibersihkan pelayan.</p>
+
+  <p>Kak Surya. Di antara kita bertiga.</p>
+
+  <p class="thought-block">Itu cukup.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">IV · Pelajaran Pertama</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p><span class="name-villain">Rasombra</span> datang sore hari seperti yang dijanjikan.</p>
+
+  <p>Bukan ke ruang makan, bukan ke taman — ke sebuah ruang yang belum pernah Alicia masuki sebelumnya, yang Vael antarkan dia ke sana dengan langkah yang terasa sedikit lebih berat dari biasanya. Ruangannya lebih kecil dari ruang-ruang lain di istana, dengan rak-rak yang penuh bukan dengan buku tapi dengan sesuatu yang terlihat seperti benda — objek kecil, kristal, kotak tertutup, hal-hal yang tidak punya nama yang Alicia ketahui.</p>
+
+  <p>Di tengahnya, dua kursi berhadapan. Rasombra sudah duduk di salah satunya.</p>
+
+  <p>Vael menutup pintu dari luar.</p>
+
+  <p>Alicia duduk di kursi yang tersisa. Di antara mereka, meja kecil dengan tidak ada apapun di atasnya.</p>
+
+  <p>Rasombra menatapnya — dengan cara yang sudah familiar dalam 3 hari ini, tapi hari ini ada sesuatu yang berbeda. Lebih... penuh. Seperti seseorang yang akhirnya bisa melihat sesuatu yang sudah lama cuma ada dalam bayangannya.</p>
+
+  <p>Mata merahnya bergerak ke rambut silver Alicia, lalu ke bawah, lalu kembali ke matanya. Dan dia tersenyum — kecil, bukan puas, lebih seperti sesuatu yang lebih dalam dari puas. Sesuatu yang lebih tenang.</p>
+
+  <p>Alicia merasakan ketidaknyamanan itu dan memilih untuk tidak menunjukkannya.</p>
+
+  <p><span class="dialogue">"Alicia,"</span> kata Rasombra.</p>
+
+  <p>Nama itu diucapkan bukan seperti memanggil orang asing. Bukan seperti nama yang baru dibuat kemarin. Tapi seperti nama yang sudah ada lama di suatu tempat dan baru sekarang bisa dikeluarkan — dengan cara yang membuat bulu kuduk Alicia berdiri sangat pelan.</p>
+
+  <p>Alicia tidak merespons dengan nama itu. Tapi juga tidak mengoreksi. <span class="dialogue">"Kamu bilang mau menjelaskan sesuatu."</span></p>
+
+  <p>Rasombra menyandarkan dirinya ke kursi dengan cara santai yang sudah jadi signature-nya. <span class="dialogue">"Aku bilang aku akan memberikan informasi. Sebagai gantinya kamu bicara dengan aku."</span></p>
+
+  <p><span class="dialogue">"Gue di sini."</span></p>
+
+  <p><span class="dialogue">"Kamu di sini."</span> Rasombra mengulang kalimat itu dengan nada yang sedikit berbeda — bukan mengejek, tapi seperti mengkonfirmasi sesuatu untuk dirinya sendiri. <span class="dialogue">"Baik. Kamu mau tahu apa dulu?"</span></p>
+
+  <p>Alicia memikirkan ini. Banyak yang ingin dia tahu — tapi urutan pertanyaan menentukan informasi apa yang dapat, dan informasi apa yang tidak sengaja tertutup oleh pertanyaan yang salah.</p>
+
+  <p><span class="dialogue">"Apa yang gue rasakan kemarin malam,"</span> kata Alicia akhirnya. <span class="dialogue">"Setelah gue tidur. Itu apa."</span></p>
+
+  <p>Rasombra mengangguk kecil — seperti seseorang yang mendengar pertanyaan yang diantisipasinya. <span class="dialogue">"Perubahan yang aku lakukan bukan hanya di permukaan."</span></p>
+
+  <p><span class="dialogue">"Gue tahu itu."</span></p>
+
+  <p><span class="dialogue">"Kamu tahu sebagian."</span> Koreksi itu ringan tapi tepat. <span class="dialogue">"Tubuh yang baru bukan cuma bentuk yang beda. Di Veranthos, tubuh adalah wadah dari sesuatu yang lebih dalam — kapasitas, jalur, potensi. Tubuh yang lama membawa satu konfigurasi. Tubuh yang baru membawa konfigurasi lain."</span></p>
+
+  <p>Alicia mendengarkan.</p>
+
+  <p><span class="dialogue">"Manusia dari duniamu datang tanpa apapun,"</span> lanjut Rasombra. <span class="dialogue">"Itu yang aku katakan kemarin — kalian kosong dalam artian Veranthos. Tidak ada jalur yang terbuka, tidak ada kapasitas yang bisa dibaca."</span></p>
+
+  <p><span class="dialogue">"Tapi setelah perubahan ini,"</span> kata Alicia, dan ini bukan pertanyaan.</p>
+
+  <p><span class="dialogue">"Setelah perubahan ini,"</span> konfirmasi Rasombra, <span class="dialogue">"ada sesuatu yang terbuka. Kecil, belum bisa digunakan, belum punya bentuk. Tapi ada."</span></p>
+
+  <p>Hening sebentar di ruang kecil itu.</p>
+
+  <p class="thought-block">Ada sesuatu yang terbuka.<br><br>
+  Jadi perubahan ini bukan cuma mengubah bentuk — tapi juga membuka sesuatu yang sebelumnya tidak ada. Kapasitas yang sebelumnya tertutup karena tubuh yang lama tidak punya konfigurasinya.<br><br>
+  Dan Rasombra yang membuka itu.<br><br>
+  Artinya dia tidak cuma memindahkan gue ke sangkar yang berbeda. Dia juga memberi gue sesuatu yang tidak gue punya sebelumnya.<br><br>
+  Tangan kosong. Itu yang dia bilang kemarin. "Kamu tidak akan mau keluar dengan tangan kosong."<br><br>
+  Ini bagian dari itu.</p>
+
+  <p><span class="dialogue">"Dan kamu yang membuka itu,"</span> kata Alicia pelan. <span class="dialogue">"Artinya kamu juga bisa menutupnya."</span></p>
+
+  <p>Rasombra menatapnya dengan cara yang terasa seperti revisi kecil — sesuatu di ekspektasinya yang bergeser. <span class="dialogue">"Kamu cepat."</span></p>
+
+  <p><span class="dialogue">"Jawab dulu."</span></p>
+
+  <p>Sudut bibir Rasombra naik sedikit. <span class="dialogue">"Secara teoritis, iya. Secara praktis — itu akan membutuhkan lebih dari yang kamu bayangkan. Dan aku tidak tertarik melakukannya."</span></p>
+
+  <p><span class="dialogue">"Kenapa tidak?"</span></p>
+
+  <p><span class="dialogue">"Karena aku ingin lihat ke mana ini pergi."</span> Sederhana. Jujur. Dan itu sendiri adalah hal yang lebih menakutkan dari kalau dia bohong. <span class="dialogue">"Sesuatu yang sudah terbuka lebih menarik dari sesuatu yang tertutup, Alicia."</span></p>
+
+  <p>Nama itu lagi. Dengan nada yang sama.</p>
+
+  <p>Alicia menahan reaksinya dan menggantinya dengan pertanyaan berikutnya. <span class="dialogue">"Sesuatu yang terbuka itu — bisa dipelajari? Dikembangkan?"</span></p>
+
+  <p><span class="dialogue">"Dengan waktu dan cara yang tepat."</span></p>
+
+  <p><span class="dialogue">"Kamu akan mengajari?"</span></p>
+
+  <p>Rasombra menatapnya lama sebelum menjawab. Dan cara dia menatap itu — bukan evaluasi, bukan kalkulasi — lebih seperti seseorang yang sedang menikmati pertanyaan lebih dari yang mau dia akui.</p>
+
+  <p><span class="dialogue">"Sebagian,"</span> katanya akhirnya. <span class="dialogue">"Sisanya harus kamu temukan sendiri."</span></p>
+
+  <p><span class="dialogue">"Kenapa hanya sebagian?"</span></p>
+
+  <p><span class="dialogue">"Karena sesuatu yang seluruhnya diajarkan tidak pernah benar-benar dipahami."</span></p>
+
+  <p>Kalimat itu terdengar seperti filosofi. Tapi Alicia mendengar sesuatu lain di baliknya — bahwa Rasombra sengaja menyisakan bagian yang tidak diajarkan, dan bukan karena ingin Alicia belajar mandiri. Tapi karena celah dalam pengetahuan adalah celah dalam kekuatan. Dan Rasombra tidak akan pernah membiarkan siapapun — bahkan orang yang dia buat sendiri — memiliki peta yang lengkap.</p>
+
+  <p class="thought-block">Dia akan kasih informasi. Tapi tidak semua informasi.<br><br>
+  Dan gue tidak akan tahu mana yang hilang karena gue tidak tahu apa yang seharusnya ada.<br><br>
+  Itu masalahnya. Gue tidak tahu apa yang gue tidak tahu.<br><br>
+  Berarti sumber informasi kedua itu penting. Vael. Perpustakaan. Orang-orang lain di istana ini yang mungkin mau bicara.<br><br>
+  Gue perlu lebih dari 1 sumber. Dan gue tidak bisa kelihatan sedang mencari lebih dari 1 sumber.</p>
+
+  <p>Mereka bicara hampir 2 jam lagi setelah itu — Rasombra menjelaskan, dalam cara yang tidak linier dan tidak sistematis, tentang dasar-dasar Aura: apa yang membuatnya berbeda dari kekuatan lain, mengapa manusia dari luar Veranthos secara teoritis bisa mengaksesnya, mengapa hampir tidak pernah terjadi dalam praktik.</p>
+
+  <p>Setiap penjelasan membuka 3 pertanyaan baru.</p>
+
+  <p>Dan Alicia mencatat — bukan dengan pena, tapi dengan cara yang sudah dia latih sejak kecil: menyimpan, mengurutkan, menandai mana yang terasa tidak lengkap.</p>
+
+  <p>Lalu topik berganti. Rasombra melakukannya dengan cara yang sudah Alicia mulai kenali — tidak ada transisi yang diumumkan, hanya nada yang bergeser sedikit dan arah percakapan yang tiba-tiba berbeda.</p>
+
+  <p><span class="dialogue">"Ada hal lain yang perlu kamu ketahui,"</span> kata Rasombra. <span class="dialogue">"Tentang posisi kamu di sini."</span></p>
+
+  <p>Alicia menunggu.</p>
+
+  <p><span class="dialogue">"Kamu bukan tamu,"</span> lanjut Rasombra. Faktual, tanpa penekanan yang berlebihan. <span class="dialogue">"Kamu adalah putri dari Kekaisaran <em>Veleth</em>. Ada konsekuensi praktis dari itu yang perlu kamu pahami sebelum orang lain yang menjelaskannya — dengan versi mereka sendiri."</span></p>
+
+  <p class="thought-block">Putri dari Kekaisaran Veleth.<br><br>
+  Diucapkan seperti fakta yang sudah lama ada. Seperti jabatan yang tinggal diisi, bukan sesuatu yang baru diciptakan 2 hari lalu bersamaan dengan tubuh ini.<br><br>
+  Dia sudah memikirkan ini jauh sebelum gue tiba. Posisi ini sudah ada dalam rencananya.<br><br>
+  Dengarkan dulu. Catat semua.</p>
+
+  <p>Rasombra berdiri dan berjalan ke rak di sisi ruangan — mengambil sesuatu yang tipis, seperti buku kecil atau dokumen terjilid, lalu meletakkannya di meja di antara mereka. Tulisannya dalam bahasa Veranthos yang belum bisa Alicia baca.</p>
+
+  <p><span class="dialogue">"Mulai besok, ada beberapa hal yang akan menjadi bagian dari harimu,"</span> kata Rasombra, kembali duduk. <span class="dialogue">"Pertama — etiket istana. Cara berdiri, cara bicara, cara masuk dan keluar ruangan ketika ada orang lain. Ini terdengar kecil. Tapi di <em>Asorath</em>, cara kamu bergerak adalah bahasa. Orang-orang di sini membaca itu sebelum mendengar kata pertama yang kamu ucapkan."</span></p>
+
+  <p>Alicia mengangguk pelan. Mencatat.</p>
+
+  <p><span class="dialogue">"Kedua — sejarah kekaisaran. Kamu tidak perlu hafal semua. Tapi kamu perlu tahu cukup untuk tidak terlihat seperti orang asing di rumah sendiri. Vael yang akan membantu untuk ini."</span></p>
+
+  <p><span class="dialogue">"Vael yang mengajar gue?"</span></p>
+
+  <p><span class="dialogue">"Vael yang menemanimu,"</span> koreksi Rasombra. <span class="dialogue">"Ada bedanya."</span></p>
+
+  <p><span class="dialogue">"Ketiga?"</span> tanya Alicia — karena jelas ada ketiga.</p>
+
+  <p>Rasombra menatapnya dengan sesuatu yang hampir terasa seperti apresiasi. <span class="dialogue">"Audiensi. Tidak segera — kamu perlu waktu dulu. Tapi ada orang-orang di istana ini yang akan ingin bertemu putri baru dari Kaisar Ratu. Beberapa dari mereka genuinely ingin tahu siapa kamu. Sebagian lainnya ingin mengukur seberapa berbahaya kamu."</span></p>
+
+  <p><span class="dialogue">"Dan gue harus siap untuk keduanya."</span></p>
+
+  <p><span class="dialogue">"Kamu sudah cukup pintar untuk itu."</span> Nada itu bukan pujian — lebih seperti observasi yang diucapkan keras. <span class="dialogue">"Yang perlu diasah adalah cara kamu menunjukkan seberapa pintar tanpa membuat orang yang salah merasa terancam."</span></p>
+
+  <p class="thought-block">Etiket. Sejarah. Audiensi.<br><br>
+  Semua itu terdengar seperti sekolah dengan konsekuensi yang lebih tinggi dari nilai ujian.<br><br>
+  Tapi juga — semua itu adalah akses. Ke ruangan yang tidak bisa gue masuki sebagai tamu. Ke orang-orang yang tidak akan bicara ke orang biasa. Ke informasi yang tidak ada di perpustakaan manapun karena tidak pernah dituliskan.<br><br>
+  Posisi putri kekaisaran bukan cuma beban. Kalau dimainkan dengan benar, itu peta.<br><br>
+  Gue perlu belajar membacanya.</p>
+
+  <p>Hening sebentar. Lalu Rasombra menambahkan sesuatu dengan nada yang sedikit berbeda — lebih pelan, lebih langsung, tanpa kualitas teatrikal yang biasanya ada di cara bicaranya.</p>
+
+  <p><span class="dialogue">"Ada satu hal lagi."</span></p>
+
+  <p>Alicia menunggu.</p>
+
+  <p><span class="dialogue">"Perubahan yang aku lakukan membuka kapasitas — tapi membawa implikasi lain juga. Tubuh yang baru ini bukan sepenuhnya manusia lagi. Ada sesuatu di dalamnya yang lebih dekat ke apa yang aku punya."</span> Rasombra menatapnya langsung. <span class="dialogue">"Artinya ada kebutuhan yang juga berubah."</span></p>
+
+  <p><span class="dialogue">"Kebutuhan apa?"</span></p>
+
+  <p><span class="dialogue">"Darah."</span></p>
+
+  <p>Kata itu jatuh di ruangan itu dengan berat yang tidak proporsional dengan jumlah suku katanya.</p>
+
+  <p>Alicia tidak bergerak.</p>
+
+  <p><span class="dialogue">"Tidak banyak,"</span> lanjut Rasombra, dan nada itu tidak terdengar meremehkan — terdengar seperti seseorang yang sedang menyampaikan informasi medis yang tidak menyenangkan dengan cara yang paling tidak dramatis yang bisa dia temukan. <span class="dialogue">"Tidak sesering yang kamu bayangkan. Tapi tubuh yang baru ini punya kebutuhan yang tubuh lamamu tidak punya. Kalau diabaikan terlalu lama — ada konsekuensinya."</span></p>
+
+  <p><span class="dialogue">"Konsekuensi apa?"</span></p>
+
+  <p>Rasombra mempertimbangkan sebentar. <span class="dialogue">"Pertama tidak nyaman. Kemudian tidak terkontrol. Kemudian — sesuatu yang lebih buruk dari tidak terkontrol."</span></p>
+
+  <p>Alicia menatapnya. Lama. Pikirannya sedang menjalankan sesuatu yang tidak bisa diselesaikan dalam waktu percakapan ini — implikasi, kemungkinan, hal-hal yang perlu dia verifikasi dari sumber lain sebelum bisa dipercaya sepenuhnya.</p>
+
+  <p>Tapi di permukaan, dia mengangguk.</p>
+
+  <p><span class="dialogue">"Oke,"</span> kata Alicia.</p>
+
+  <p>Rasombra menatapnya dengan cara yang tidak bisa dibaca. <span class="dialogue">"Oke?"</span></p>
+
+  <p><span class="dialogue">"Gue dengar."</span></p>
+
+  <p><span class="dialogue">"Kamu dengar tapi tidak setuju."</span></p>
+
+  <p>Alicia tidak menjawab. Karena itu benar — dan karena menyangkal itu tidak ada gunanya di depan seseorang yang sudah bisa membaca 3 langkah ke depan.</p>
+
+  <p>Yang tidak dia ucapkan: tubuh ini mungkin punya kebutuhan baru. Tapi Surya yang di dalam tubuh ini punya keputusan sendiri. Dan keputusan itu belum ada — bukan karena tidak mendengar, bukan karena tidak mengerti, tapi karena ego yang tumbuh 18 tahun tidak bisa diubah dalam 1 percakapan sore hari, tidak peduli seberapa valid argumen lawannya.</p>
+
+  <p>Rasombra menatapnya selama beberapa detik lagi. Lalu, untuk pertama kalinya hari ini, dia tertawa kecil — bukan mengejek, bukan gembira, lebih seperti seseorang yang menemukan sesuatu yang persis seperti yang diantisipasinya dan masih merasa menarik meskipun sudah diantisipasi.</p>
+
+  <p><span class="dialogue">"Baik,"</span> katanya, berdiri. <span class="dialogue">"Kamu akan ingat percakapan ini nanti."</span></p>
+
+  <p>Bukan ancaman. Lebih seperti catatan kalender.</p>
+
+  <p>Ketika Rasombra akhirnya berdiri — dengan cara ringannya yang sudah familiar — dan mengangguk sekali sebagai penutup percakapan, ada sesuatu yang dia tambahkan di pintu.</p>
+
+  <p><span class="dialogue">"Kamu mengajukan pertanyaan yang tepat,"</span> katanya, dengan punggungnya sudah sebagian menghadap ke luar. <span class="dialogue">"Tapi kamu belum mengajukan pertanyaan yang paling penting."</span></p>
+
+  <p>Alicia menatapnya. <span class="dialogue">"Apa itu?"</span></p>
+
+  <p>Rasombra menoleh sedikit — setengah profil, mata merah yang bersinar samar di cahaya ruangan. Senyum yang kecil. <span class="dialogue">"Kalau kamu sudah tahu pertanyaannya, kamu sudah lebih jauh dari sekarang."</span></p>
+
+  <p>Dan dia pergi.</p>
+
+  <p>Meninggalkan Alicia sendirian di ruang kecil itu dengan rak-rak berisi benda yang tidak punya nama, dan satu kalimat yang tidak punya jawaban.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">V · Malam — Sesuatu Bergerak</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Malam itu, Alicia duduk di lantai kamarnya.</p>
+
+  <p>Bukan di kasur, bukan di kursi — di lantai, dengan punggung bersandar ke sisi kasur dan lutut sedikit ditekuk, dalam posisi yang tidak ada namanya tapi terasa seperti posisi yang tepat untuk memikirkan sesuatu yang berat.</p>
+
+  <p>Di luar, <em>Asorath</em> sudah masuk dalam ritme malamnya. Suara-suara yang berbeda dari siang — lebih sepi tapi tidak sunyi, dengan sesuatu yang bergerak di kejauhan yang dia tidak bisa identifikasi tapi sudah mulai terasa seperti bagian dari latar.</p>
+
+  <p>Rambut silvernya jatuh ke bahu. Pakaian baru yang fit dengan benar. Nama baru yang dia pakai di depan orang-orang tapi tidak di dalam kepalanya sendiri.</p>
+
+  <p>Titik awal baru.</p>
+
+  <p class="thought-block">Bagas latihan hari ini. Dira decode bahasa di perpustakaan. Keduanya bergerak maju.<br><br>
+  Gue dapat sebagian informasi tentang Aura. Bukan semua — Rasombra sengaja sisakan yang tidak dia kasih. Tapi lebih dari kemarin.<br><br>
+  Nama Alicia adalah leverage yang belum gue tahu cara pakainya. Rambut silver ini adalah sinyal visual yang akan dibaca orang-orang istana sebelum mereka dengar nama gue. Posisi sebagai "sesuatu yang Rasombra buat" membuka akses yang tidak ada kalau gue cuma tamu biasa.<br><br>
+  Gue tidak pilih ini. Tapi gue ada di sini.<br><br>
+  Dan dari titik ini — dari nama ini, dari rambut ini, dari tubuh yang belum terasa familiar ini — gue mulai berjalan.</p>
+
+  <p>Alicia menutup matanya.</p>
+
+  <p>Nafas masuk. Keluar. Ritme yang sama yang selalu dia gunakan ketika perlu menenangkan sesuatu yang tidak bisa ditenangkan dengan kecepatan.</p>
+
+  <p>Dan kemudian — di suatu titik antara sadar dan hampir tidur, di saat pertahanan turun sedikit karena tubuh mulai lelah — dia merasakannya.</p>
+
+  <p>Sesuatu yang bergerak.</p>
+
+  <p>Bukan dari luar. Dari dalam. Sangat jauh di dalam — lebih dalam dari di mana dia biasa merasakan dirinya sendiri, di suatu tempat yang tidak punya nama anatomis yang dia ketahui. Bukan panas. Bukan dingin. Lebih seperti... getaran yang sangat kecil, seperti senar yang dipetik satu kali dan resonansinya baru terdengar jauh setelah petikannya.</p>
+
+  <p>Dia membuka matanya.</p>
+
+  <p>Kamarnya sama. Tirai yang sama. Kristal di dinding yang sama. Tidak ada yang berubah dari luar.</p>
+
+  <p>Tapi sesuatu di dalam sudah bergerak, dan sekarang diam lagi, dan Alicia duduk di lantai kamarnya dengan punggung lurus dan tidak yakin apakah dia harus takut atau tidak — karena dia tidak punya cukup informasi untuk memutuskan itu.</p>
+
+  <p>Yang dia tahu: itu nyata. Bukan imajinasi, bukan efek lelah. Sesuatu yang tadi pagi Rasombra sebut "ada, kecil, belum bisa digunakan, belum punya bentuk."</p>
+
+  <p>Baru saja bergerak untuk pertama kalinya.</p>
+
+  <div class="pull-quote-silver">
+    Alicia adalah nama yang belum terasa seperti miliknya.<br>
+    Rambut silver itu belum terasa seperti rambutnya.<br>
+    Tubuh ini belum terasa seperti tubuhnya.<br>
+    <span style="font-size:0.88em; color:#7a6550; font-style:italic;">
+      Tapi sesuatu yang baru saja bergerak dari dalam —<br>
+      itu terasa seperti miliknya.<br><br>
+      Dan Alicia tidak tahu apakah itu kabar baik<br>
+      atau awal dari masalah yang jauh lebih besar<br>
+      dari yang sudah ada.
+    </span>
+  </div>
+
+  <div class="end-mark">— Bersambung ke Chapter V : Akar yang Tidak Ditanam —</div>
+
+</div>
+</body>
+</html>

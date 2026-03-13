@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahkota dari Darah yang Salah — Chapter 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blood: #7a0012;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --ash: #100c09;
+    --fog: #e2d8cc;
+    --shadow: #2a1a10;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ash);
+    color: var(--fog);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.18rem;
+    line-height: 2;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, #1e0a04 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 5rem 2rem;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 40%, #1f0d06 0%, var(--ash) 75%);
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to bottom, transparent, var(--ash));
+    pointer-events: none;
+  }
+
+  .cover-rune {
+    font-size: 0.75rem;
+    letter-spacing: 0.7em;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 2.5rem;
+    font-family: 'Cinzel Decorative', serif;
+    animation: rise 1.8s ease both;
+  }
+
+  .cover-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 5.5vw, 4rem);
+    color: var(--gold-light);
+    text-align: center;
+    line-height: 1.25;
+    text-shadow: 0 0 60px rgba(180,140,40,0.25), 0 4px 16px rgba(0,0,0,0.9);
+    animation: rise 2.2s ease both;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-title span {
+    display: block;
+    color: var(--blood);
+    font-size: 0.55em;
+    letter-spacing: 0.15em;
+    margin-top: 0.4em;
+    opacity: 0.85;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  .cover-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 2.5rem 0;
+    animation: rise 2.6s ease both;
+  }
+
+  .cdl { height: 1px; width: 70px; background: linear-gradient(to right, transparent, var(--gold)); }
+  .cdl.r { background: linear-gradient(to left, transparent, var(--gold)); }
+  .cover-divider-icon { color: var(--gold); font-size: 1.1rem; opacity: 0.7; }
+
+  .cover-chapter {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #907050;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    animation: rise 3s ease both;
+  }
+
+  .content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 6rem 2rem 10rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ch-header {
+    text-align: center;
+    margin-bottom: 4.5rem;
+  }
+
+  .ch-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.6em;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 1rem;
+  }
+
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--fog);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .ch-title em { color: var(--blood); font-style: normal; }
+
+  p {
+    margin-bottom: 1.7rem;
+    font-weight: 300;
+    color: #d8cfc0;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 4.8rem;
+    float: left;
+    line-height: 0.72;
+    padding-right: 0.1em;
+    padding-top: 0.08em;
+    color: var(--gold-light);
+    text-shadow: 0 0 30px rgba(212,168,67,0.35);
+  }
+
+  .dialogue { color: #e5d8b8; font-style: italic; }
+  .thought { color: #7a6550; font-style: italic; }
+
+  .thought-block {
+    color: #7a6550;
+    font-style: italic;
+    padding-left: 1.8rem;
+    border-left: 2px solid #3a2010;
+    margin: 1.5rem 0;
+    line-height: 1.85;
+  }
+
+  .name-villain {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--blood);
+  }
+
+  .name-place {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .scene-break {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.3;
+    font-size: 1.2rem;
+    margin: 3rem 0;
+    letter-spacing: 1.2rem;
+  }
+
+  .section-marker {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.5em;
+    color: var(--blood);
+    text-align: center;
+    display: block;
+    margin: 4rem 0 2.5rem;
+    opacity: 0.65;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--fog);
+    text-align: center;
+    margin: 3.5rem 0;
+    padding: 1.8rem 2.5rem;
+    border-top: 1px solid rgba(122,0,18,0.35);
+    border-bottom: 1px solid rgba(122,0,18,0.35);
+    background: linear-gradient(to right, transparent, rgba(122,0,18,0.06), transparent);
+    line-height: 1.8;
+  }
+
+  .warm-aside {
+    font-style: italic;
+    color: #a09070;
+    font-size: 0.95rem;
+    margin: -0.5rem 0 1.7rem;
+    padding-left: 0.5rem;
+  }
+
+  .time-stamp {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    opacity: 0.45;
+    display: block;
+    margin-bottom: 2rem;
+  }
+
+  .world-note {
+    background: rgba(184, 146, 42, 0.05);
+    border-left: 2px solid rgba(184, 146, 42, 0.3);
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+    color: #b09060;
+    font-style: italic;
+    line-height: 1.8;
+  }
+
+  .end-mark {
+    text-align: center;
+    margin-top: 6rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #2a1a10;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    opacity: 0.4;
+  }
+
+  /* Kutukan visual — khusus chapter ini */
+  .curse-block {
+    text-align: center;
+    margin: 3.5rem 0;
+    padding: 2.5rem;
+    background: radial-gradient(ellipse at 50% 50%, rgba(122,0,18,0.08) 0%, transparent 70%);
+    border-top: 1px solid rgba(122,0,18,0.2);
+    border-bottom: 1px solid rgba(122,0,18,0.2);
+  }
+
+  .curse-block p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: #a06050;
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 0;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--ash); }
+  ::-webkit-scrollbar-thumb { background: #3a2010; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <p class="cover-rune">Veranthos Chronicles</p>
+  <h1 class="cover-title">
+    Mahkota dari Darah yang Salah
+    <span>a fantasy novel · chapter two</span>
+  </h1>
+  <div class="cover-divider">
+    <div class="cdl"></div>
+    <span class="cover-divider-icon">✦</span>
+    <div class="cdl r"></div>
+  </div>
+  <p class="cover-chapter">Perjanjian di Antara Tulang</p>
+</div>
+
+<div class="content">
+
+  <div class="ch-header">
+    <p class="ch-label">Chapter II</p>
+    <h2 class="ch-title">Perjanjian di Antara <em>Tulang</em></h2>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">I · Pagi Pertama</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p class="drop-cap">Surya bangun sebelum matahari — atau apapun yang di sini berperan sebagai matahari.</p>
+
+  <p>Langit di luar jendela masih ungu tua ketika dia membuka mata, dan butuh 3 detik sebelum otaknya selesai memproses bahwa kasur ini bukan kasurnya, kamar ini bukan kamarnya, dan bau udara yang terlalu dingin dan terlalu bersih ini bukan bau kost di Jakarta.</p>
+
+  <p>3 detik. Dia izinkan dirinya 3 detik itu.</p>
+
+  <p>Setelah itu dia bangun.</p>
+
+  <p>Kamar itu masih sama seperti semalam — tirai tipis bergerak tanpa angin, karpet abu-mawar, cermin bundar dengan bingkai ukiran bunga. Tapi di cahaya pagi yang masuk dari jendela tinggi, semuanya terlihat lebih nyata dan lebih salah pada saat yang sama. Terlalu halus. Terlalu dipilih dengan cermat. Terlalu cocok untuk seseorang yang belum pernah Rasombra temui sebelum kemarin malam.</p>
+
+  <p class="thought-block">Dia menyiapkan ini sebelum gue tiba. Artinya dia tahu tentang gue sebelum gue tiba.<br><br>
+  Pertanyaannya bukan dari mana dia tahu. Pertanyaannya: seberapa banyak yang dia tahu.<br><br>
+  Dan apa yang dia <em>tidak</em> tahu.</p>
+
+  <p>Surya berdiri di depan cermin. Wajahnya sendiri — lecet di dagu dari jatuh kemarin sudah mengering jadi kerak tipis, rambut berantakan, seragam SMA yang sekarang terasa seperti kostum dari planet yang salah.</p>
+
+  <p>Dia butuh baju baru. Dia butuh informasi. Dia butuh peta istana ini — minimal di kepalanya sendiri.</p>
+
+  <p>Dia butuh banyak hal. Dan satu-satunya cara mendapatkannya adalah dengan mulai bergerak.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">II · Bagas & Dira</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Bagas sudah berdiri di lorong ketika Surya keluar — bersandar di dinding dengan tangan disilang, dengan ekspresi seseorang yang sudah bangun lama tapi tidak tahu harus ngapain.</p>
+
+  <p><span class="dialogue">"Kak tidur?"</span></p>
+
+  <p><span class="dialogue">"Iya."</span></p>
+
+  <p><span class="dialogue">"Gue nggak bisa."</span> Bagas mengatakan itu dengan nada flat, bukan mengeluh. Sekedar fakta. <span class="dialogue">"Kasurnya bagus banget tapi gue tiduran 5 jam dengan mata terbuka."</span></p>
+
+  <p>Surya mengangguk. Wajar. <span class="dialogue">"Dira?"</span></p>
+
+  <p><span class="dialogue">"Udah di kamarnya dari tadi. Gue denger dia bolak-balik."</span></p>
+
+  <p>Mereka pergi ke kamar Dira bersama. Dira membuka pintu sebelum sempat diketuk — dia sudah berpakaian rapi, rambut diikat, dan di tangannya ada novel pinjaman perpustakaan yang sekarang kelihatan sedikit penyok di sudutnya tapi utuh.</p>
+
+  <p><span class="dialogue">"Gue udah coba baca tapi nggak masuk,"</span> katanya. Ini adalah pengakuan yang cukup besar dari Dira. <span class="dialogue">"Gue juga udah coba tidur. Sama hasilnya."</span></p>
+
+  <p>Mereka berdiri di lorong, bertiga, dalam senyap yang bukan tidak nyaman tapi penuh dengan hal-hal yang belum tahu harus diucapkan dari mana.</p>
+
+  <p>Bagas yang akhirnya bicara. <span class="dialogue">"Jadi... sekarang ngapain?"</span></p>
+
+  <p>Surya menatap lorong yang panjang di hadapan mereka — batu hitam, kristal-kristal merah yang menyala lemah di dinding, ujungnya terlalu jauh untuk kelihatan jelas dari sini.</p>
+
+  <p><span class="dialogue">"Kita makan dulu,"</span> katanya. <span class="dialogue">"Sambil gue coba cari tahu gimana sistem tempat ini."</span></p>
+
+  <p><span class="dialogue">"Dan kalau nggak ada yang mau kasih tahu?"</span> tanya Dira.</p>
+
+  <p><span class="dialogue">"Orang bicara lebih dari yang mereka pikir,"</span> kata Surya. <span class="dialogue">"Gue cukup perhatiin aja."</span></p>
+
+  <p>Dira menatapnya sebentar dengan cara yang selalu membuat Surya sedikit tidak nyaman — seperti adiknya itu sedang membaca sesuatu yang Surya sendiri belum selesai menulis.</p>
+
+  <p>Tapi Dira hanya mengangguk, dan mereka berjalan.</p>
+
+  <p>Pelayan yang kemarin membawa mereka sudah menunggu di ujung lorong — tinggi, diam, telinga sedikit lebih panjang, ekspresinya datar. Dia mengantar mereka ke ruang makan pagi tanpa ditanya, dan Surya mencatat bahwa ini artinya mereka memang sudah dipantau sejak bangun.</p>
+
+  <p class="thought-block">Tentu saja.</p>
+
+  <p>Sarapan berlangsung singkat. Bagas makan banyak dengan cara seseorang yang memutuskan bahwa tubuh tetap harus diberi bahan bakar terlepas dari situasinya. Dira makan sedikit tapi konsisten, sambil sesekali menatap detail arsitektur ruangan dengan cara analisanya yang khas. Surya makan dengan porsi normal dan menggunakan seluruh waktu itu untuk mengamati — pelayan yang bergerak, jalur masuk-keluarnya, siapa yang kelihatan punya otoritas dan siapa yang hanya mengikuti perintah.</p>
+
+  <p>Di penghujung sarapan, Surya bicara ke adik-adiknya dengan suara yang cukup rendah untuk tidak terdengar oleh pelayan terdekat:</p>
+
+  <p><span class="dialogue">"Kalian hari ini jangan pergi jauh. Eksplorasi boleh, tapi tetap di sayap timur. Jangan tanya tentang keluar istana dulu."</span></p>
+
+  <p><span class="dialogue">"Kenapa?"</span> tanya Bagas.</p>
+
+  <p><span class="dialogue">"Karena kalau kita kelihatan terlalu ingin keluar terlalu cepat, mereka akan mulai membatasi kita lebih dari sekarang."</span></p>
+
+  <p>Bagas tidak langsung menjawab. Dira yang bicara lebih dulu:</p>
+
+  <p><span class="dialogue">"Jadi kita pura-pura nyaman dulu."</span></p>
+
+  <p><span class="dialogue">"Kita tidak perlu pura-pura apapun,"</span> kata Surya. <span class="dialogue">"Kita cukup tidak terburu-buru."</span></p>
+
+  <div class="scene-break">· · ·</div>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">III · Tur yang Tidak Diminta</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p><span class="name-villain">Rasombra</span> muncul setelah sarapan — bukan tiba-tiba, tapi dengan cara yang terasa terlalu tepat waktunya untuk kebetulan. Dia berjalan masuk ke ruang makan dari arah yang berbeda dari pelayan, dengan jubah hitam yang bergerak sendiri dan mahkota tulang yang tampak sama naturalnya di kepalanya seperti rambut.</p>
+
+  <p><span class="dialogue">"Tidur nyenyak?"</span> tanyanya, dengan nada seseorang yang tahu jawabannya sudah pasti tidak tapi tetap bertanya.</p>
+
+  <p><span class="dialogue">"Kasurnya bagus,"</span> kata Surya, yang adalah jawaban yang benar secara teknis.</p>
+
+  <p>Rasombra tersenyum — sedikit, ke arah yang tidak jelas. <span class="dialogue">"Aku akan tunjukkan istana ini. Kalian punya banyak pertanyaan yang belum diucapkan, dan aku tidak suka tamu yang tersesat."</span></p>
+
+  <p>Bagas membuka mulut. Surya menyentuh lengannya sekali, ringan — dan Bagas menutup mulut.</p>
+
+  <p><span class="dialogue">"Terima kasih,"</span> kata Surya.</p>
+
+  <p>Tur itu berlangsung 2 jam. Rasombra memandu sendiri — tidak ada pelayan yang ikut, hanya mereka berempat di lorong-lorong yang lebar dan tinggi dengan langit-langit yang terlalu jauh ke atas untuk kelihatan jelas. Dia menjelaskan setiap ruang dengan cara seseorang yang sudah hafal setiap batu di tempat ini tapi masih menemukan cara untuk membuatnya terdengar menarik.</p>
+
+  <p>Perpustakaan di sayap barat — 3 lantai, rak-rak dari kayu hitam, koleksi yang menurut Rasombra sudah dikumpulkan sejak sebelum Ardenmor berdiri. Dira berhenti di depan pintu perpustakaan dan hampir tidak melanjutkan jalan.</p>
+
+  <p><span class="dialogue">"Boleh masuk?"</span> tanyanya — bukan ke Rasombra, tapi ke Surya, karena Dira sudah belajar membaca siapa yang memegang keputusan di ruangan ini.</p>
+
+  <p>Rasombra yang menjawab: <span class="dialogue">"Kapanpun."</span></p>
+
+  <p>Dira akhirnya ikut melanjutkan tur, tapi matanya terus kembali ke arah perpustakaan sampai belokan berikutnya.</p>
+
+  <p>Aula latihan di sayap utara — lantai batu, senjata-senjata yang tergantung di dinding dengan cara yang terlalu teratur untuk sekadar dekorasi. Bagas berdiri di tengah aula itu dan menatap sekelilingnya dengan ekspresi yang untuk pertama kalinya sejak kemarin malam kelihatan seperti sesuatu selain khawatir.</p>
+
+  <p><span class="dialogue">"Ini dipakai?"</span> tanyanya.</p>
+
+  <p><span class="dialogue">"Prajurit-prajuritku,"</span> kata Rasombra. <span class="dialogue">"Dan siapapun yang tinggal di sini."</span></p>
+
+  <p>Bagas menatap Rasombra. <span class="dialogue">"Gue boleh?"</span></p>
+
+  <p>Ada jeda kecil — Rasombra melirik Surya sebentar sebelum menjawab, dengan cara yang tidak kelihatan seperti meminta izin tapi lebih seperti mengukur sesuatu. <span class="dialogue">"Kalau ada yang mau mengawasi."</span></p>
+
+  <p><span class="dialogue">"Gue bisa jaga diri,"</span> kata Bagas, yang ekspresinya sekarang sudah kembali ke defaultnya yang konfrontatif.</p>
+
+  <p><span class="dialogue">"Aku tidak meragukan itu,"</span> kata Rasombra. <span class="dialogue">"Tapi tetap butuh pengawas. Aturan berlaku untuk semua orang."</span></p>
+
+  <p>Bagas mendengus tapi tidak protes lebih lanjut. Surya mencatat bahwa ini adalah cara Rasombra beroperasi — bukan melarang langsung, tapi memberi dengan syarat yang terasa wajar sampai kamu berhenti dan berpikir tentang apa yang sebenarnya baru saja terjadi.</p>
+
+  <p class="thought-block">Dia tidak bilang tidak. Dia bilang boleh, tapi ada kondisi. Kondisi yang dia yang tentukan, kapanpun dia mau bisa dicabut.<br><br>
+  Semua "iya" di sini punya batas yang dia yang pegang.</p>
+
+  <p>Tur berakhir di taman dalam — halaman terbuka di tengah istana yang langit-langitnya adalah langit Veranthos langsung, dengan pohon-pohon hitam mengkilap yang akarnya berdenyut cahaya biru berdampingan dengan kolam berisi cairan yang tidak jelas apakah air atau bukan. Di pinggiran taman, beberapa sosok bergerak — bukan pelayan, tapi orang-orang dengan posisi yang berbeda, ekspresi yang lebih terbuka, yang mengangguk ke arah Rasombra dengan cara yang terasa lebih seperti rekan daripada bawahan.</p>
+
+  <p>Salah satunya adalah Vael.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">IV · Vael</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Vael berdiri di dekat pohon paling besar, dengan buku tipis di tangannya yang kelihatannya tidak sedang dibaca. Ketika Rasombra mendekat dengan mereka bertiga, Vael menutup bukunya dan menatap mereka — bukan tidak ramah, tapi dengan cara seseorang yang sudah memutuskan pendapatnya dan tidak terburu-buru mengubahnya.</p>
+
+  <p><span class="dialogue">"Vael,"</span> kata Rasombra dengan nada yang tidak bisa dibaca sebagai pengenalan atau perintah, <span class="dialogue">"ini tamu kita."</span></p>
+
+  <p><span class="dialogue">"Aku tahu,"</span> kata Vael. <span class="dialogue">"Semua orang di istana ini tahu."</span></p>
+
+  <p>Nada itu netral tapi ada sesuatu di bawahnya yang tidak. Surya tidak bisa langsung mendefinisikannya — bukan permusuhan, bukan penerimaan. Lebih seperti kekhawatiran yang sudah diputuskan untuk tidak ditunjukkan.</p>
+
+  <p>Bagas yang menyapa duluan — <span class="dialogue">"Hei"</span> — dengan cara lugasnya yang tidak kenal sopan santun protokol.</p>
+
+  <p>Vael menatapnya sebentar. <span class="dialogue">"Hei."</span> Lalu matanya beralih ke Surya, dan berhenti di sana sedikit lebih lama dari yang normal. <span class="dialogue">"Kamu yang bicara di meja makan kemarin."</span></p>
+
+  <p><span class="dialogue">"Iya,"</span> kata Surya.</p>
+
+  <p><span class="dialogue">"Berani."</span> Kata itu tidak terdengar seperti pujian. Juga tidak terdengar seperti kritik. <span class="dialogue">"Atau tidak tahu betapa beraninya itu."</span></p>
+
+  <p><span class="dialogue">"Keduanya bisa benar sekaligus,"</span> kata Surya.</p>
+
+  <p>Sesuatu di ekspresi Vael bergerak — kecil, hampir tidak kelihatan. Semacam revisi yang sama seperti yang kemarin Surya lihat di wajah Rasombra, tapi dengan rasa yang berbeda. Rasombra merevisi karena tertarik. Vael merevisi karena... khawatir lebih dalam.</p>
+
+  <p class="thought-block">Dia bukan musuh. Tapi dia juga bukan sekutu yang bisa gue ambil begitu saja.<br><br>
+  Ada sesuatu yang dia tahu tentang tempat ini yang membuatnya melihat gue dengan cara itu.<br><br>
+  Simpan. Kembali ke sini nanti.</p>
+
+  <p>Rasombra tidak ikut campur dalam pertukaran itu — dia berdiri sedikit di belakang dan membiarkannya berjalan, dengan ekspresi seseorang yang sedang menonton sesuatu yang menarik.</p>
+
+  <p>Itu sendiri adalah informasi.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">V · Apa yang Surya Inginkan</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Siang itu, setelah Bagas dan Dira pergi masing-masing ke tempat yang mereka temukan pagi ini — Bagas ke aula latihan, Dira ke perpustakaan — Surya duduk di taman dalam sendirian.</p>
+
+  <p>Dan untuk pertama kalinya sejak tiba di sini, dia izinkan dirinya jujur kepada diri sendiri.</p>
+
+  <p>Dia tidak tahu apa-apa.</p>
+
+  <p>Bukan dalam artian kurang informasi — dalam artian benar-benar, fundamental, tidak tahu apa-apa. Dunia ini punya aturan yang berbeda, sistem yang berbeda, bahkan cara orang-orangnya bergerak dan menatap dan bicara terasa seperti ada lapisan makna yang dia tidak punya kamus untuk menerjemahkannya.</p>
+
+  <p>Tadi di aula latihan, saat Bagas mencoba beberapa gerakan dengan salah satu prajurit yang mau mendemonstrasikan — Surya berdiri di pinggir dan merasakan sesuatu yang tidak biasa dia rasakan: tidak berguna. Bukan karena dia tidak bisa berkelahi. Tapi karena di sini, fisik seperti milik Bagas yang sudah terlatih bertahun-tahun pun terasa seperti membawa pisau ke tempat orang-orangnya membawa sesuatu yang tidak punya nama.</p>
+
+  <p>Prajurit yang berdiri di ujung aula itu — tubuhnya biasa, tidak lebih besar dari Bagas — tapi ada sesuatu di sekelilingnya yang membuat udara di dekatnya terasa berbeda. Berat. Seperti ruangan menyesuaikan dirinya, bukan sebaliknya.</p>
+
+  <p>Surya tidak tahu itu apa. Dia tidak punya kata untuk itu.</p>
+
+  <p>Dan ketidaktahuan itu lebih menakutkan dari apapun yang sudah terjadi kemarin.</p>
+
+  <p class="thought-block">Bagas punya fisik yang jauh lebih baik dari gue. Dira punya otak yang bergerak lebih cepat dari gue untuk hal-hal analitis.<br><br>
+  Gue? Gue yang paling pendek, paling ringan, paling tidak tahu apa-apa soal dunia ini.<br><br>
+  Satu-satunya yang gue punya adalah cara gue membaca orang dan situasi. Dan itu hanya berguna kalau gue punya cukup informasi untuk dibaca.<br><br>
+  Gue butuh informasi. Dari siapapun yang mau bicara. Tentang apapun yang bisa gue tanyakan tanpa kelihatan terlalu ingin tahu.</p>
+
+  <p>Dia duduk di sana sampai bayangan pohon-pohon hitam itu bergeser — dan baru sadar bahwa di Veranthos, bahkan bayangan bergerak dengan ritme yang sedikit berbeda dari yang dia kenal.</p>
+
+  <p>Detil kecil. Tapi Surya mencatatnya.</p>
+
+  <p>Karena saat ini, detail kecil adalah satu-satunya yang dia punya.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">VI · Percakapan Kedua</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Rasombra datang ke taman lagi sore hari — atau datang kembali, karena Surya tidak yakin dia pernah benar-benar pergi. Dia duduk di bangku batu di seberang kolam, dengan posisi yang terlalu santai untuk seseorang yang memerintah kekaisaran.</p>
+
+  <p><span class="dialogue">"Kamu memikirkan sesuatu,"</span> katanya. Bukan pertanyaan.</p>
+
+  <p><span class="dialogue">"Selalu,"</span> kata Surya.</p>
+
+  <p><span class="dialogue">"Tentang apa kali ini?"</span></p>
+
+  <p>Surya diam sebentar. Lalu memutuskan untuk jujur — bukan karena tidak punya pilihan lain, tapi karena di situasi di mana dia tidak tahu apa-apa, berpura-pura tahu lebih berbahaya dari mengakui tidak tahu.</p>
+
+  <p><span class="dialogue">"Tadi di aula latihan."</span> Surya menatap tangannya sendiri. <span class="dialogue">"Ada prajurit yang berdiri di ujung ruangan. Dia tidak ngapa-ngapain. Tapi sesuatu di sekitarnya terasa berbeda. Lebih berat. Seperti ruangan... sedikit membungkuk ke arahnya."</span></p>
+
+  <p>Rasombra menatapnya.</p>
+
+  <p><span class="dialogue">"Gue tidak tahu itu apa,"</span> lanjut Surya. <span class="dialogue">"Gue tidak punya kata untuk itu. Di dunia gue tidak ada yang seperti itu."</span></p>
+
+  <p><span class="dialogue">"Aura,"</span> kata Rasombra. Sederhana, seperti menyebut nama warna.</p>
+
+  <p><span class="dialogue">"Aura."</span> Surya mengulang kata itu. <span class="dialogue">"Semua orang di sini punya itu?"</span></p>
+
+  <p><span class="dialogue">"Tidak. Yang bisa melatihnya — punya. Yang tidak bisa atau tidak mau — tidak."</span> Rasombra memiringkan kepalanya sedikit. <span class="dialogue">"Kamu tidak merasakan apapun dari adikmu yang atlet?"</span></p>
+
+  <p><span class="dialogue">"Bagas?"</span> Surya berpikir. <span class="dialogue">"Tidak. Dia cuma... Bagas."</span></p>
+
+  <p><span class="dialogue">"Artinya dia belum mulai. Tapi potensinya ada."</span> Rasombra menatap kolam. <span class="dialogue">"Manusia dari duniamu menarik. Kalian datang tanpa apapun."</span></p>
+
+  <p>Kata-kata itu tidak terdengar seperti penghinaan. Tapi juga tidak seperti pujian. Lebih seperti observasi yang diucapkan keras.</p>
+
+  <p><span class="dialogue">"Bisa dipelajari?"</span> tanya Surya. <span class="dialogue">"Aura itu. Untuk manusia biasa."</span></p>
+
+  <p><span class="dialogue">"Dengan fondasi yang tepat, iya."</span></p>
+
+  <p><span class="dialogue">"Fondasi apa?"</span></p>
+
+  <p>Rasombra tersenyum tipis — bukan mengejek, tapi ada sesuatu yang terasa seperti seseorang yang baru saja menemukan bahwa percakapan ini lebih menarik dari yang diantisipasi. <span class="dialogue">"Banyak. Dan itu akan membutuhkan lebih dari 1 percakapan untuk dijelaskan."</span></p>
+
+  <p>Surya menatapnya. <span class="dialogue">"Kamu mau menjelaskan?"</span></p>
+
+  <p><span class="dialogue">"Aku mau menjelaskan banyak hal."</span> Rasombra berdiri, dengan gerakan yang terlalu ringan, dan berjalan mendekat — tidak cepat, tidak mengancam, tapi dengan cara yang membuat Surya tidak bergerak karena bergerak akan kelihatan seperti mundur. Dia berhenti pada jarak yang tidak nyaman tapi tidak bisa diprotes. <span class="dialogue">"Tapi dengan syarat."</span></p>
+
+  <p><span class="dialogue">"Apa?"</span></p>
+
+  <p><span class="dialogue">"Waktu. Aku ingin kamu ada di sini — bicara dengan aku, kapanpun aku ingin bicara."</span> Senyumnya tidak berubah. <span class="dialogue">"Dan sebagai gantinya, adikmu yang atlet akan mendapat trainer yang layak. Adikmu yang pembaca akan mendapat akses ke bagian perpustakaan yang tidak untuk tamu biasa."</span></p>
+
+  <p>Surya mencerna itu.</p>
+
+  <p>Itu terdengar sederhana. Terlalu sederhana — terutama dari seseorang yang bisa memaksakan apapun yang dia mau tanpa perlu menawarkan apapun.</p>
+
+  <p class="thought-block">Kenapa dia menawarkan? Kenapa tidak memaksa saja?<br><br>
+  Gue tidak tahu. Dan gue tidak suka tidak tahu.<br><br>
+  Tapi Bagas butuh itu. Dira butuh itu. Dan gue butuh informasi tentang dunia ini lebih dari gue butuh merasa aman dari perjanjian yang belum gue mengerti.<br><br>
+  Ambil dulu. Pahami nanti.</p>
+
+  <p><span class="dialogue">"Deal,"</span> kata Surya.</p>
+
+  <p>Rasombra tidak merespons dengan apapun yang bisa dibaca sebagai kemenangan. Hanya mengangguk 1 kali — dengan cara yang terasa lebih seperti konfirmasi dari sesuatu yang sudah dia putuskan jauh sebelum percakapan ini dimulai.</p>
+
+  <div class="pull-quote">
+    Perjanjian paling berbahaya adalah yang terasa masuk akal.<br>
+    <span style="font-size:0.88em; color:#7a6550; font-style:italic;">
+      Dan Surya cukup sadar untuk tahu itu.<br>
+      Tapi tidak cukup tahu tentang dunia ini untuk menolaknya.
+    </span>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">VII · Yang Terlihat & Yang Tidak</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Malamnya, Surya menemukan Dira di perpustakaan — sudah di sana sejak sore, dengan 3 buku terbuka di mejanya dan 1 lagi di tangannya, matanya bergerak dengan kecepatan yang tidak wajar untuk teks dalam bahasa yang baru pertama kali dilihatnya.</p>
+
+  <p><span class="dialogue">"Kamu bisa baca bahasa ini?"</span> tanya Surya.</p>
+
+  <p><span class="dialogue">"Belum."</span> Dira tidak mengangkat mata. <span class="dialogue">"Tapi polanya mulai kelihatan. Ada 1 buku di sini yang kayaknya kamus atau panduan tata bahasa — kalau gue bisa decode itu dulu, sisanya lebih mudah."</span></p>
+
+  <p>Surya duduk di kursi seberangnya. Menatap adiknya yang sedang mendecode bahasa asing dari dunia lain dengan cara yang sama seperti Dira mendecode soal ulangan yang susah — pelan, sistematis, tidak panik.</p>
+
+  <p><span class="dialogue">"Dira."</span></p>
+
+  <p><span class="dialogue">"Hm."</span></p>
+
+  <p><span class="dialogue">"Kamu baik-baik aja?"</span></p>
+
+  <p>Dira akhirnya mengangkat mata. Menatap Surya dengan ekspresi yang tenang tapi tidak kosong. <span class="dialogue">"Gue takut,"</span> katanya. Tanpa dramatisasi, tanpa menutupi. Cuma kenyataan yang disampaikan dengan jelas. <span class="dialogue">"Tapi gue pikir panik tidak membantu. Jadi gue pilih yang bisa gue kerjakan sekarang."</span></p>
+
+  <p>Surya menatap adiknya.</p>
+
+  <p><span class="dialogue">"Kak?"</span></p>
+
+  <p><span class="dialogue">"Gue bangga sama kamu,"</span> kata Surya — dan ini bukan kalimat yang mudah keluar dari mulutnya karena dia tidak terbiasa mengucapkan hal-hal seperti ini secara langsung. Tapi malam ini terasa seperti malam yang perlu diucapkan. <span class="dialogue">"Sama kalian berdua."</span></p>
+
+  <p>Dira diam sebentar. Lalu kembali ke bukunya. Tapi ada sesuatu yang sedikit berubah di bahunya — sedikit lebih turun, sedikit lebih rileks.</p>
+
+  <p>Cukup.</p>
+
+  <div class="scene-break">· · ·</div>
+
+  <p>Bagas sudah di kamarnya ketika Surya lewat — pintu sedikit terbuka, dan dari dalam terdengar suara nafas yang teratur. Dia akhirnya bisa tidur. Entah karena kelelahan fisik dari aula latihan sore tadi, entah karena dia memang tipe yang bisa menyimpan kekhawatirannya dengan lebih bersih dari yang dia tunjukkan.</p>
+
+  <p>Surya berdiri sebentar di depan pintu yang setengah terbuka itu.</p>
+
+  <p class="thought-block">Besok Bagas mulai latihan dengan trainer yang layak. Besok Dira punya akses lebih dalam ke perpustakaan.<br><br>
+  Itu sesuatu. Gue tidak tahu seberapa besar sesuatu itu — gue bahkan tidak tahu seberapa penting hal-hal itu di dunia ini. Tapi itu lebih baik dari hari ini.<br><br>
+  Gue juga baru belajar kata baru: Aura. Dan itu satu-satunya informasi konkret yang gue dapat hari ini tentang bagaimana dunia ini bekerja.<br><br>
+  Satu kata. Dari 1 hari.<br><br>
+  Rasanya terlalu sedikit. Tapi itu yang ada.</p>
+
+  <p>Surya menutup pintu kamar Bagas pelan dan berjalan kembali ke kamarnya sendiri.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">VIII · Malam Sebelum Perubahan</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Kamarnya masih sama. Tirai tipis, karpet abu-mawar, kasur yang terlalu nyaman untuk tempat yang salah.</p>
+
+  <p>Surya duduk di tepi kasur dan membuka telapak tangannya — melihat garisnya, lecet lama yang sudah sembuh, kuku yang perlu dipotong. Tangan yang sama. Tubuh yang sama. Orang yang sama yang tadi pagi bangun di sini dengan rencana yang sudah mulai terbentuk.</p>
+
+  <p>Hari ini tidak buruk, dalam artian yang sangat relatif untuk situasi ini. Bagas punya tempat untuk bergerak. Dira punya akses ke pengetahuan. Dan Surya sudah membuka pintu ke informasi yang dibutuhkan — dengan harga yang belum sepenuhnya jelas tapi yang terasa bisa dikelola.</p>
+
+  <p>Dia berbaring.</p>
+
+  <p>Mata menatap langit-langit yang penuh ukiran simbol — sama seperti kemarin, tapi malam ini Surya sudah lebih lama di sini, dan beberapa pola mulai sedikit lebih familiar. Bukan terbaca. Tapi tidak asing total.</p>
+
+  <p>Dia menutup mata.</p>
+
+  <p>Dan tidur datang lebih cepat dari yang dia antisipasi — terlalu cepat, sebenarnya, seperti ada yang menarik ke bawah dari dalam dirinya sendiri, bukan dengan paksa tapi dengan cara yang tidak bisa ditolak juga.</p>
+
+  <p>Seperti seseorang yang memang sudah menunggu dia menutup mata.</p>
+
+  <div class="curse-block">
+    <p>Di suatu tempat di istana yang sama, dalam ruang yang tidak ada di peta yang bisa dibaca oleh tamu, <span class="name-villain">Rasombra</span> berdiri di depan sesuatu yang bukan cermin tapi berperilaku seperti cermin.</p>
+    <p>Di permukaannya, siluet Surya yang tidur.</p>
+    <p>Rasombra mengulurkan 1 jari — menyentuh permukaan itu dengan cara yang sangat hati-hati, sangat presisi, seperti seseorang yang menanam sesuatu di tanah yang tepat di musim yang tepat.</p>
+    <p>Bukan tanda kekerasan. Bukan hukuman yang panas dan terburu-buru.</p>
+    <p>Sesuatu yang lebih dingin dari itu. Lebih permanen.</p>
+    <p><em>Kamu mulai melihat jalan keluar,</em> pikir Rasombra — dan senyumnya kecil, bukan marah, lebih seperti seseorang yang tahu bahwa ini akan menarik. <em>Baik. Tapi jalan keluar itu tidak ada tanpa membawa bagian dari sini bersamamu.</em></p>
+    <p>Dan dengan satu sentuhan yang tidak terdengar dan tidak terasa —</p>
+    <p>sesuatu berubah.</p>
+  </div>
+
+  <p>Surya tidur nyenyak sepanjang malam untuk pertama kalinya di <em>Asorath</em>.</p>
+
+  <p>Terlalu nyenyak.</p>
+
+  <p>Dan ketika fajar pertama menyentuh langit ungu tua di luar jendela, dan cahaya merah lembut dari kristal di dinding mulai memudar digantikan sinar pagi — Surya membuka mata.</p>
+
+  <p>Berbaring diam selama beberapa detik.</p>
+
+  <p>Sesuatu tidak sama.</p>
+
+  <p>Bukan rasa sakit. Bukan ketidaknyamanan. Lebih seperti... gravitasi yang bergeser sangat sedikit, seperti pusat keseimbangannya pindah ke tempat yang berbeda tanpa meminta izin.</p>
+
+  <p>Surya mengangkat tangan.</p>
+
+  <p>Melihat telapaknya.</p>
+
+  <p>Dan berhenti.</p>
+
+  <p>Jari-jarinya lebih panjang. Pergelangan tangannya lebih kecil. Kuku-kukunya tumbuh sedikit — atau bukan tumbuh, tapi bentuknya berubah, lebih melengkung, lebih tipis.</p>
+
+  <p>Surya duduk tegak dengan gerakan yang cepat dan langsung menghadap cermin bundar di sudut kamar.</p>
+
+  <p>Dan cermin itu memantulkan seseorang yang dia kenali — semua detailnya, setiap ekspresinya, cara matanya bergerak — tapi dalam tubuh yang bukan miliknya kemarin malam.</p>
+
+  <div class="pull-quote">
+    Surya menatap bayangannya di cermin.<br>
+    <span style="font-size:0.88em; color:#7a6550; font-style:italic;">
+      Wajah yang sama. Mata yang sama. Pikiran yang sama.<br>
+      Tapi bukan tubuh yang sama.<br><br>
+      Dan di suatu tempat di dalam bagian paling dingin dari otaknya —<br>
+      mesin itu tidak berhenti. Tidak panik. Tidak runtuh.<br><br>
+      Ia hanya berputar, mencari sudut baru,<br>
+      dan mulai menghitung ulang dari awal.
+    </span>
+  </div>
+
+  <div class="end-mark">— Bersambung ke Chapter III : Apa yang Dilihat Cermin —</div>
+
+</div>
+</body>
+</html>

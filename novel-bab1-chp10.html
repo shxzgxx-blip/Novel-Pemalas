@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mahkota dari Darah yang Salah — Chapter 10</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blood: #7a0012;
+    --blood-light: #c02030;
+    --gold: #b8922a;
+    --gold-light: #d4a843;
+    --ash: #0e0b08;
+    --fog: #e2d8cc;
+    --shadow: #2a1a10;
+    --silver: #c8c4d0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--ash);
+    color: var(--fog);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.18rem;
+    line-height: 2;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 40% at 30% 90%, rgba(74,0,10,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 50% at 70% 5%, rgba(20,8,4,0.85) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 5rem 2rem;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 35%, #1a0808 0%, var(--ash) 72%);
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 220px;
+    background: linear-gradient(to bottom, transparent, var(--ash));
+    pointer-events: none;
+  }
+
+  .cover-rune {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.75em;
+    color: var(--gold);
+    opacity: 0.4;
+    margin-bottom: 2.5rem;
+    animation: rise 1.8s ease both;
+  }
+
+  .cover-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.8rem, 5.5vw, 4rem);
+    color: var(--gold-light);
+    text-align: center;
+    line-height: 1.25;
+    text-shadow: 0 0 80px rgba(140,100,20,0.3), 0 4px 20px rgba(0,0,0,0.95);
+    animation: rise 2.2s ease both;
+    letter-spacing: 0.04em;
+  }
+
+  .cover-title span {
+    display: block;
+    color: #907050;
+    font-size: 0.52em;
+    letter-spacing: 0.18em;
+    margin-top: 0.5em;
+    opacity: 0.8;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+
+  .cover-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    margin: 2.8rem 0;
+    animation: rise 2.6s ease both;
+  }
+
+  .cdl { height: 1px; width: 80px; background: linear-gradient(to right, transparent, var(--gold)); }
+  .cdl.r { background: linear-gradient(to left, transparent, var(--gold)); }
+  .cover-icon { color: var(--gold); font-size: 1rem; opacity: 0.6; }
+
+  .cover-chapter {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: #907050;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    animation: rise 3s ease both;
+  }
+
+  .content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 6rem 2rem 10rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ch-header {
+    text-align: center;
+    margin-bottom: 4.5rem;
+  }
+
+  .ch-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.65em;
+    color: var(--gold);
+    opacity: 0.55;
+    margin-bottom: 1rem;
+  }
+
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    color: var(--fog);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .ch-title em { color: var(--gold); font-style: normal; }
+
+  p {
+    margin-bottom: 1.75rem;
+    font-weight: 300;
+    color: #d8cfc0;
+  }
+
+  .drop-cap::first-letter {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 4.8rem;
+    float: left;
+    line-height: 0.72;
+    padding-right: 0.13em;
+    padding-top: 0.08em;
+    color: var(--gold-light);
+    text-shadow: 0 0 40px rgba(212,168,67,0.4);
+  }
+
+  .dialogue { color: #e5d8b8; font-style: italic; }
+
+  .thought-block {
+    color: #7a6550;
+    font-style: italic;
+    padding-left: 1.8rem;
+    border-left: 2px solid #3a2010;
+    margin: 1.6rem 0;
+    line-height: 1.9;
+  }
+
+  .thought-chaos {
+    color: #8a5540;
+    font-style: italic;
+    padding-left: 1.8rem;
+    border-left: 2px solid #5a1a08;
+    margin: 1.6rem 0;
+    line-height: 1.9;
+    background: rgba(90,26,8,0.06);
+  }
+
+  .body-signal {
+    color: #8a3030;
+    font-style: italic;
+    padding-left: 1.8rem;
+    border-left: 2px solid #7a0012;
+    margin: 1.6rem 0;
+    line-height: 1.9;
+    background: rgba(100,0,15,0.05);
+  }
+
+  .vael-block {
+    color: #9a8870;
+    font-style: italic;
+    padding: 1.3rem 1.8rem;
+    border-left: 2px solid #6a5030;
+    margin: 2rem 0;
+    line-height: 2;
+    background: rgba(40,25,10,0.3);
+  }
+
+  .farewell-block {
+    color: #c0b090;
+    font-style: italic;
+    padding: 1.5rem 2rem;
+    border-left: 3px solid #8a7040;
+    border-right: 1px solid rgba(138,112,64,0.2);
+    margin: 2.5rem 0;
+    line-height: 2.1;
+    background: linear-gradient(to right, rgba(80,60,20,0.1), transparent);
+  }
+
+  .name-villain {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--blood-light);
+  }
+
+  .name-alicia {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--silver);
+  }
+
+  .name-place {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .section-marker {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-align: center;
+    display: block;
+    margin: 4.5rem 0 2.5rem;
+    opacity: 0.55;
+  }
+
+  .scene-break {
+    text-align: center;
+    color: var(--gold);
+    opacity: 0.18;
+    font-size: 1.2rem;
+    margin: 3rem 0;
+    letter-spacing: 1.4rem;
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.12rem;
+    color: var(--fog);
+    text-align: center;
+    margin: 4rem 0;
+    padding: 2rem 2.5rem;
+    border-top: 1px solid rgba(184,146,42,0.3);
+    border-bottom: 1px solid rgba(184,146,42,0.3);
+    background: linear-gradient(to right, transparent, rgba(184,146,42,0.05), transparent);
+    line-height: 1.85;
+  }
+
+  /* Penutup bab — lebih berat */
+  .chapter-end {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: #a09070;
+    text-align: center;
+    margin: 4rem 0 2rem;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(184,146,42,0.2);
+    background: linear-gradient(to bottom, rgba(20,14,6,0.6), rgba(14,11,8,0.8));
+    line-height: 2.2;
+  }
+
+  .bab-end {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid #3a2a10;
+  }
+
+  .bab-end-label {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.6em;
+    color: var(--gold);
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .bab-end-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--fog);
+    opacity: 0.7;
+  }
+
+  .end-mark {
+    text-align: center;
+    margin-top: 3rem;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.52rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    opacity: 0.35;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--ash); }
+  ::-webkit-scrollbar-thumb { background: #4a3010; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <p class="cover-rune">Veranthos Chronicles · Bab Satu · Penutup</p>
+  <h1 class="cover-title">
+    Mahkota dari Darah yang Salah
+    <span>a fantasy novel · chapter ten</span>
+  </h1>
+  <div class="cover-divider">
+    <div class="cdl"></div>
+    <span class="cover-icon">✦</span>
+    <div class="cdl r"></div>
+  </div>
+  <p class="cover-chapter">Satu Bulan</p>
+</div>
+
+<div class="content">
+
+  <div class="ch-header">
+    <p class="ch-label">Chapter X · Penutup Bab Satu</p>
+    <h2 class="ch-title">Satu <em>Bulan</em></h2>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">I · Istana yang Berubah Wajah</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p class="drop-cap">Satu bulan sebelum pesta, <span class="name-place">Asorath</span> berganti ritme.</p>
+
+  <p>Bukan satu momen — satu pagi Alicia bangun dan koridor yang dilewati setiap hari sudah berbeda. Dekorasi yang mulai dipasang: kain-kain berat berwarna gelap dan emas di sepanjang dinding, lilin-lilin baru di setiap ceruk, karangan bunga dari tanaman yang tidak tumbuh di musim lain yang rupanya bisa didatangkan kalau istananya cukup besar dan penghuninya cukup tua untuk punya cara mendatangkan apapun yang diinginkan.</p>
+
+  <p>Pelayan yang jalannya lebih cepat. Pejabat yang percakapannya selalu berujung ke malam yang sama. Lord Edvar yang tiba-tiba punya jadwal rapat dua kali lebih padat dari biasanya dan melewati koridor dengan cara seseorang yang membawa daftar yang tidak pernah habis.</p>
+
+  <p>Dan <span class="name-villain">Rasombra</span> — yang sudah berusia lebih dari delapan ratus tahun dan sudah melewati ratusan pesta musim dingin sebelumnya — yang anehnya justru terlihat sedikit lebih hidup dari biasanya. Cara berjalannya yang sudah selalu ada gravitas-nya kini punya sesuatu yang lain di bawahnya. Sesuatu yang terasa seperti antisipasi.</p>
+
+  <p>Alicia menyaksikan semua ini dari balik topeng merahnya dan merasakan sesuatu yang tidak ada di jadwal manapun — sesuatu yang tidak bisa dikategorikan sebagai kesiapan atau ketakutan, tapi duduk di antara keduanya dengan sangat tidak nyaman.</p>
+
+  <p class="thought-block">Countdown yang selama ini ada di kepala sebagai angka sekarang punya wajah.<br><br>
+  Punya koridor yang dihias. Punya tanggal yang semua orang sebut dengan cara yang berbeda dari cara gue menyebutnya dalam diam.<br><br>
+  Empat bulan lebih gue hitung mundur ke malam ini.<br><br>
+  Dan sekarang malam itu sudah cukup dekat untuk bisa dirasakan di udara — dan rasanya berbeda dari yang gue bayangkan selama menghitung.<br><br>
+  Lebih nyata. Lebih berat. Lebih tidak bisa diputar ulang kalau sesuatu berjalan salah.</p>
+
+  <p>Vael berjalan setengah langkah di belakangnya seperti biasa. Tapi ada sesuatu yang berbeda di cara Vael menatap dekorasi-dekorasi baru itu — bukan dengan antusias atau indiferens, tapi dengan cara yang sudah pernah melihat semua ini sebelumnya dan sedang menimbang sesuatu yang lebih dalam dari sekedar dekorasi.</p>
+
+  <p>Alicia mencatat itu. Menyimpannya untuk nanti.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">II · Vael, Tengah Malam</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Tiga minggu sebelum pesta. Tengah malam — bukan waktu yang wajar untuk apapun kecuali tidur atau kekhawatiran, dan Alicia sudah tidak bisa memutuskan mana yang sedang dilakukannya ketika bayangan kaki muncul di bawah pintu kamarnya.</p>
+
+  <p>Diam di sana selama hampir dua menit.</p>
+
+  <p>Alicia membuka pintu sebelum ketukan datang.</p>
+
+  <p>Vael berdiri di ambang — bukan dalam posisi pengawal, bukan dalam posisi yang punya kategori resmi. Hanya berdiri, dengan cara seseorang yang sudah membuat keputusan besar dan sekarang berdiri di konsekuensi pertamanya.</p>
+
+  <p><span class="dialogue">"Yang Mulia. Maaf atas waktu yang tidak layak."</span></p>
+
+  <p><span class="dialogue">"Masuk."</span></p>
+
+  <p>Vael masuk. Duduk di kursi yang sudah jadi kursinya — yang tidak pernah resmi tapi sudah punya bentuk dari kebiasaan. Dan untuk pertama kalinya dalam lebih dari empat bulan, diam sebentar dengan cara seseorang yang sedang mencari di mana harus memulai sesuatu yang tidak pernah dilatih cara mengatakannya.</p>
+
+  <p>Alicia menunggu. Tidak terburu-buru.</p>
+
+  <p><span class="dialogue">"Ada yang ingin saya sampaikan,"</span> kata Vael akhirnya, <span class="dialogue">"sebelum pesta. Sebelum semuanya menjadi terlalu ramai untuk ada ruang bicara seperti ini."</span></p>
+
+  <p><span class="dialogue">"Gue dengarkan."</span></p>
+
+  <p>Dan Vael bicara.</p>
+
+  <p>Bukan semuanya — Alicia sudah tahu dari awal bahwa tidak akan semuanya, dan tidak meminta semuanya. Tapi yang dikatakan malam itu cukup untuk mengubah cara Alicia memahami empat bulan terakhir dengan cara yang tidak bisa dibalik.</p>
+
+  <div class="vael-block">
+    Vael bukan hanya pengawal yang ditempatkan.<br><br>
+    Jauh sebelum Alicia ada — jauh sebelum ada putri kekaisaran atau darah dari luar lingkaran atau apapun yang mengubah struktur istana ini — Vael sudah di sini. Dengan cara yang tidak sepenuhnya sukarela dan tidak sepenuhnya terpaksa, tapi di antara keduanya dengan sejarah yang terlalu panjang untuk diringkas dalam satu percakapan tengah malam.<br><br>
+    Yang Vael takutkan bukan Rasombra — bukan secara langsung. Yang Vael takutkan adalah pola. Pola yang sudah Vael lihat berkali-kali dalam ratusan tahun di istana ini: orang-orang yang datang dengan identitas mereka sendiri, dan pelan-pelan, tanpa satu momen tunggal yang bisa ditunjuk, berhenti menjadi diri mereka sendiri.<br><br>
+    Bukan karena dipaksa. Karena perlahan-lahan tidak ada lagi jarak antara peran yang dimainkan dan orang yang memainkannya.<br><br>
+    Dan Alicia — dengan scythe yang warnanya darah, dengan bahasa Veranthos yang masuk ke mimpi, dengan nama yang sudah tidak terasa seperti nama operasional — sudah berjalan lebih jauh ke dalam pola itu dari yang Vael harapkan.
+  </div>
+
+  <p>Alicia duduk diam sesudah Vael selesai bicara. Ruangan yang hanya ada cahaya satu lilin di sudut, dengan angin malam yang masuk dari jendela yang tidak sepenuhnya tertutup.</p>
+
+  <p><span class="dialogue">"Kamu pikir gue sudah kehilangan diri gue?"</span></p>
+
+  <p>Vael menatapnya — langsung, cara yang jarang. <span class="dialogue">"Saya pikir Yang Mulia sedang dalam proses kehilangan jarak dengan diri itu. Dan pesta malam itu akan menjadi titik di mana jarak itu semakin sulit untuk dipertahankan."</span></p>
+
+  <p>Hening yang panjang.</p>
+
+  <p><span class="dialogue">"Kenapa kamu bilang ini sekarang?"</span></p>
+
+  <p>Vael berdiri. Merapikan bajunya — gerakan yang sudah Alicia hafal artinya: menutup sesuatu yang terbuka terlalu jauh. <span class="dialogue">"Karena setelah pesta, saya tidak tahu apakah akan ada waktu lagi untuk mengatakannya. Dan karena — "</span> Pause. <span class="dialogue">"Karena saya ingin Yang Mulia ingat bahwa ada sesuatu yang perlu dijaga. Di balik semua ini."</span></p>
+
+  <p>Alicia menatap Vael selama beberapa detik. Di bawah cahaya lilin yang satu itu, dengan cara bicara yang baru pertama kali seperti ini — ada sesuatu yang berbeda di wajah Vael. Sesuatu yang lebih manusiawi dari pengawal, lebih kompleks dari pelayan, lebih tua dari usianya yang tidak bisa ditebak.</p>
+
+  <p><span class="dialogue">"Gue ingat,"</span> kata Alicia akhirnya. Pelan. <span class="dialogue">"Gue masih ingat."</span></p>
+
+  <p>Vael mengangguk sekali. Lalu pergi — menutup pintu dengan sangat pelan, seperti orang yang tidak ingin membangunkan sesuatu.</p>
+
+  <p class="thought-block">Vael takut gue hilang di dalam semua ini.<br><br>
+  Dan yang paling sulit untuk dijawab — bahkan untuk diri sendiri — adalah: apakah ketakutan itu salah?<br><br>
+  Alicia yang menjawab Serath dalam Veranthos sebelum sempat berpikir.<br>
+  Alicia yang scythe-nya berwarna darah dan terasa seperti bagian dari tangan.<br>
+  Alicia yang teh paginya tidak pernah hanya teh dan sudah berhenti memproses itu.<br><br>
+  Surya masih di sini.<br><br>
+  Gue yakin itu.<br><br>
+  Tapi gue tidak bisa memastikan di mana batasnya lagi.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">III · Malam Terakhir Bertiga</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Dua hari sebelum pesta.</p>
+
+  <p>Alicia meminta Bagas dan Dira datang ke kamarnya malam itu — bukan dengan kata-kata besar, hanya pesan lewat Vael: <em>malam ini, kalau bisa.</em> Cara yang sudah mereka tahu artinya ada sesuatu yang perlu dibicarakan yang tidak cukup dibicarakan di meja makan.</p>
+
+  <p>Mereka duduk bertiga. Meja yang tiga sentimeter ke kiri. Asbak kecil dari Vael yang sudah jadi fixture tetap. Peta Ardeth yang tidak dibentangkan malam ini — sudah tidak perlu, sudah dihafal semua yang perlu dihafal.</p>
+
+  <p>Alicia bicara.</p>
+
+  <p>Tidak semuanya — tidak pernah semuanya, dan mereka berdua sudah tahu itu dan tidak pernah meminta semuanya. Tapi lebih dari sebelumnya. Cukup untuk keduanya tahu dengan jelas: ini bukan petualangan yang Alicia kemas sebagai petualangan. Ini jalan keluar yang dikemas sebagai petualangan supaya ada cukup alasan untuk pergi tanpa menimbulkan pertanyaan yang salah dari orang yang salah.</p>
+
+  <p>Dan kalau suatu hari — kalau di satu titik sesuatu berubah di dalam tembok ini — mereka tidak kembali dulu. Mereka tunggu kabar. Mereka bangun kehidupan di Ardeth. Mereka tidak mengorbankan keselamatan mereka untuk menjemput kakak yang mungkin tidak bisa dijemput dengan cara yang sederhana.</p>
+
+  <p>Bagas mendengarkan dengan cara seseorang yang sudah menduga tapi tetap perlu mendengarnya diucapkan — rahangnya sedikit mengeras di bagian tertentu, tapi tidak ada yang diinterupsi. Dira mencatat sebentar lalu meletakkan pensilnya di tengah meja dengan gerakan yang sangat final — karena ada momen yang lebih penting dari catatan, dan Dira tahu kapan momen itu.</p>
+
+  <p>Ketika Alicia selesai, diam selama beberapa detik yang terasa lebih panjang dari hitungannya.</p>
+
+  <p>Bagas yang pertama bicara. <span class="dialogue">"Kak tidak bisa ikut sama sekali."</span></p>
+
+  <p>Bukan pertanyaan. Konfirmasi yang diminta untuk diucapkan supaya ada.</p>
+
+  <p><span class="dialogue">"Tidak sekarang."</span></p>
+
+  <p><span class="dialogue">"Tapi nanti—"</span></p>
+
+  <p><span class="dialogue">"Nanti gue tidak tahu."</span> Jujur. Lebih jujur dari yang biasanya keluar. <span class="dialogue">"Yang gue tahu adalah kalian harus pergi dulu. Sisanya gue yang urus dari sini."</span></p>
+
+  <p>Bagas menatap mejanya. Sesuatu bergerak di rahangnya — sesuatu yang ingin jadi argumen tapi tidak menemukan celah yang benar untuk keluar, karena semua yang dikatakan kakaknya malam ini tidak bisa diperdebatkan dengan logika, hanya dengan perasaan yang tidak punya cukup kata.</p>
+
+  <p>Dira angkat bicara — pelan, dengan cara yang sudah sangat Dira: <span class="dialogue">"Kalau kak kirim sinyal, gue yang susun rencana masuk kembali. Bagas yang eksekusi."</span></p>
+
+  <p>Diucapkan seperti rencana logistik. Seperti jadwal. Seperti sesuatu yang sudah disiapkan sejak lama — yang kemungkinan memang sudah.</p>
+
+  <p>Alicia menatap adik-adiknya bergantian — Bagas yang 17 tahun dengan rahang yang mengeras karena tidak bisa marah kepada kakaknya atas sesuatu yang dilakukan untuk mereka. Dira yang 16 tahun yang sudah menyusun rencana ekstraksi sebelum diminta.</p>
+
+  <div class="farewell-block">
+    Ada yang ingin Alicia katakan yang tidak keluar.<br><br>
+    Bahwa ini bukan keputusan yang mudah — tapi mudah atau tidak tidak pernah jadi pertimbangannya, hanya perlu atau tidak.<br>
+    Bahwa empat bulan lebih menyaksikan mereka tumbuh di dunia yang bukan milik siapapun dari mereka adalah sesuatu yang tidak ada padanannya dan tidak akan pernah ada.<br>
+    Bahwa Bagas yang cara berjalannya berubah setelah enam minggu latihan dan Dira yang meletakkan pensilnya malam ini adalah dua gambar yang akan Alicia bawa lebih jauh dari apapun yang bisa dibawa dari dunia ini.<br><br>
+    Semua itu tidak keluar.<br><br>
+    Yang keluar hanya: <span class="dialogue">"Jaga satu sama lain."</span><br><br>
+    Dan keduanya tahu bahwa itu sudah mencakup semuanya.
+  </div>
+
+  <p>Mereka tidak langsung bubar sesudah itu — duduk bertiga di kamar yang sudah jadi tempat paling jujur yang mereka punya di dunia ini, selama hampir satu jam lagi, berbicara tentang hal-hal yang lebih kecil. Tentang rute. Tentang apa yang Dira temukan tentang musim di sepanjang jalur Merin. Tentang Gorev yang ternyata minggu lalu memberikan Bagas satu pujian penuh kalimat yang bukan hanya satu kata — peristiwa yang Bagas ceritakan dengan cara seseorang yang masih belum sepenuhnya memprosesnya.</p>
+
+  <p>Percakapan yang terasa seperti percakapan biasa. Yang tidak biasa.</p>
+
+  <p>Bagas yang terakhir berdiri untuk pergi — berhenti di pintu, tanpa menoleh, dengan cara yang sudah jadi bahasa mereka untuk kalimat yang paling jujur:</p>
+
+  <p><span class="dialogue">"Kak — kalau sesuatu terjadi di dalam sini. Gue minta izin untuk tidak taat instruksi."</span></p>
+
+  <p>Alicia menatap punggungnya.</p>
+
+  <p><span class="dialogue">"Gue dengar kamu."</span></p>
+
+  <p>Yang bukan iya dan bukan tidak — dan Bagas tahu persis apa artinya, dan menerima itu, dan pergi.</p>
+
+  <p>Dira pergi lebih sunyi — berdiri, mengangguk sekali dengan cara yang menyampaikan banyak hal dalam satu gerakan kecil, dan keluar.</p>
+
+  <p>Pintu menutup.</p>
+
+  <p>Dan <span class="name-alicia">Alicia</span> duduk sendirian di kamar yang sekarang terasa lebih besar dari sebelumnya — dengan meja yang tiga sentimeter ke kiri dan asbak kecil yang tidak perlu penjelasan dan peta yang sudah dihafal — dan membiarkan kesunyian itu ada selama yang dibutuhkan.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">IV · Malam Sebelum</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Malam sebelum pesta. Kamar Alicia, jendela terbuka, angin yang sudah lebih dingin dari sebulan lalu.</p>
+
+  <p>Scythe di tangan — tapi bukan latihan malam ini. Hanya dipegang. Duduk di tepi kasur dengan senjata yang gagang panjangnya bersandar di bahu, bilah yang menyala pelan dalam warna merah gelap dan hitam di cahaya lilin. Cara seseorang yang duduk bersama sesuatu yang sudah jadi bagian dari dirinya dan malam ini ingin merasakannya dengan tenang sebelum besok semuanya menjadi terlalu ramai untuk tenang.</p>
+
+  <p>Tidak ada strategi malam ini. Tidak ada kalkulasi.</p>
+
+  <p>Hanya ini: kamar yang sepi, scythe yang dingin di tangan, dan sesuatu yang naik ke permukaan dan tidak mau turun — sesuatu yang Alicia biasanya tidak izinkan terlalu lama berada di permukaan karena setiap kali ada di sana ada yang sakit di tempat yang tidak punya nama yang bagus.</p>
+
+  <p>Setelah pesta besok, Bagas dan Dira akan mulai bergerak.</p>
+
+  <p>Bukan langsung malam itu — ada beberapa hari lagi, ada hal-hal yang perlu diselesaikan, ada cara pergi yang tidak menimbulkan pertanyaan yang salah dari orang yang salah. Tapi momentum itu sudah dimulai besok. Dan begitu dimulai, tidak ada yang menghentikannya sampai mereka di luar tembok dan di jalan menuju <span class="name-place">Ardeth</span>.</p>
+
+  <p>Tanpa dia.</p>
+
+  <p class="body-signal">Kamar ini besok lusa masih sama.<br><br>
+  Meja yang sama tiga sentimeter ke kiri.<br>
+  Asbak yang sama dari Vael.<br>
+  Teh pagi yang sama yang tidak pernah hanya teh.<br><br>
+  Tapi tidak ada lagi langkah Bagas di koridor pagi hari yang terdengar dari balik pintu — langkah yang sudah Alicia hafal nadanya, cara sepatunya menyentuh batu dengan energi seseorang yang selalu bergerak menuju sesuatu.<br><br>
+  Tidak ada lagi pensil Dira di margin buku yang salah. Tidak ada lagi proposal yang tersembunyi di lipatan baju. Tidak ada lagi seseorang yang meletakkan roti di sisi piring Alicia tanpa diminta karena Dira sudah hafal bahwa kalau tidak diletakkan duluan, tidak akan diambil.<br><br>
+  Gue yang memilih ini.<br><br>
+  Gue tahu itu.<br><br>
+  Tapi "gue yang memilih" tidak membuat ruangannya terasa lebih penuh.</p>
+
+  <p>Alicia meletakkan scythe. Berbaring di kasur. Menatap langit-langit dengan simbol Veranthos yang sudah hafal setiap letaknya.</p>
+
+  <p>Membiarkan sesuatu yang sakit itu ada — selama beberapa menit, tidak lebih. Cukup untuk diakui. Tidak cukup lama untuk jadi sesuatu yang menghalangi apa yang harus dilakukan besok.</p>
+
+  <p>Lalu menarik napas panjang.</p>
+
+  <p>Besok ada pesta. Dan <span class="name-alicia">Alicia</span> punya peran yang harus dimainkan.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">V · Pagi Hari Pesta</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Pagi. Teh yang tidak pernah hanya teh — tapi pagi ini Alicia meminumnya dengan cara yang berbeda, dengan cara seseorang yang sedang memberi perhatian penuh pada sesuatu yang biasanya sudah jadi otomatis, karena mungkin ini terakhir kalinya sesuatu yang biasa terasa seperti biasa sebelum semuanya bergerak.</p>
+
+  <p>Vael datang dengan gaun.</p>
+
+  <p>Bukan gaun yang biasa dipakai — bukan ivory yang sudah jadi seragam empat bulan lebih ini. Yang dibawa pagi ini berbeda: lebih berat, lebih megah, dengan korset yang strukturnya lebih kompleks dan kain yang warnanya di antara ivory dan champagne dengan benang emas tipis yang baru kelihatan kalau cahaya mengenainya dari sudut yang tepat. Gaun yang dibuat untuk malam ini. Gaun yang pertama kali Alicia lihat dan tahu bahwa ini bukan pakaian untuk belajar etiket — ini pakaian untuk menjadi sesuatu di depan semua orang yang belum pernah melihat <em>Alicia</em> sebelumnya.</p>
+
+  <p>Proses berpakaian berlangsung dalam keheningan yang punya kualitasnya sendiri — Vael yang bekerja dengan cara profesional yang sudah sangat hafal, Alicia yang berdiri di depan cermin besar dan menyaksikan seseorang yang pelan-pelan terbentuk dari layer demi layer.</p>
+
+  <p>Korset dikencangkan. Gaun jatuh dengan cara yang seharusnya. Sarung tangan panjang dipakai terakhir — satu jari per satu jari, cara yang sudah jadi ritual.</p>
+
+  <p>Vael mengambil topeng merah dari meja.</p>
+
+  <p>Menahannya sebentar sebelum memberikannya — setengah detik, mungkin kurang. Lalu menyerahkannya.</p>
+
+  <p>Alicia memakainya sendiri. Kaitan di sisi, satu per satu. Dan di cermin — seseorang yang tidak persis orang yang masuk ke istana ini lebih dari empat bulan lalu dengan topeng yang terasa asing dan nama yang terasa seperti kostum.</p>
+
+  <p>Seseorang yang sudah tumbuh menjadi ruang yang dibentuk untuknya. Yang scythe-nya sudah berwarna darah. Yang bahasa Veranthos masuk ke mimpinya. Yang adik-adiknya sudah punya rute dan angka dan delapan belas sampai dua puluh tiga hari menuju tempat yang aman.</p>
+
+  <p>Bukan kemenangan. Bukan kesiapan penuh.</p>
+
+  <p>Tapi cukup.</p>
+
+  <p>Vael memeriksa satu kali dari atas ke bawah — cara profesional yang mengkonfirmasi semua sudah pada tempatnya — dan kemudian berbalik ke belakang untuk mengambil sesuatu.</p>
+
+  <p>Dan di sinilah masalahnya dimulai.</p>
+
+  <div class="scene-break">· · ·</div>
+
+  <p><span class="dialogue">"Sebentar, Yang Mulia."</span></p>
+
+  <p>Vael memeriksa bagian belakang gaun — resleting panjang yang tersembunyi di bawah lapisan kain, yang seharusnya sudah terkunci dari tadi tapi rupanya belum sepenuhnya naik sampai ujung.</p>
+
+  <p>Jari-jari Vael mencoba menariknya. Tidak bergerak.</p>
+
+  <p>Mencoba lagi. Masih tidak bergerak.</p>
+
+  <p><span class="dialogue">"Yang Mulia, mohon tahan napas sebentar."</span></p>
+
+  <p><span class="dialogue">"Kenapa—"</span></p>
+
+  <p><span class="dialogue">"Sebentar saja."</span></p>
+
+  <p>Alicia menahan napas. Vael menarik resleting dengan usaha yang — untuk Vael yang selalu sangat terkontrol — cukup mengejutkan intensitasnya.</p>
+
+  <p>Tidak bergerak.</p>
+
+  <p>Hening selama tiga detik penuh di kamar yang seharusnya sudah siap untuk malam paling penting dalam empat bulan terakhir.</p>
+
+  <p>Vael menarik lagi. Lebih keras. Resleting itu naik dua sentimeter lalu berhenti lagi dengan cara yang sangat tidak kooperatif untuk sebuah benda yang tidak punya pendapat.</p>
+
+  <p class="thought-chaos">Ini tidak terjadi.<br><br>
+  Ini tidak terjadi pagi hari pesta musim dingin kekaisaran vampire tertua di Veranthos.<br><br>
+  Gue sudah mempersiapkan rencana empat bulan lebih dan yang menghentikan gue adalah RESLETING.<br><br>
+  RESLETING.</p>
+
+  <p><span class="dialogue">"Vael."</span></p>
+
+  <p><span class="dialogue">"Sebentar lagi, Yang Mulia."</span></p>
+
+  <p><span class="dialogue">"Kenapa tidak—"</span></p>
+
+  <p><span class="dialogue">"Kemungkinan karena—"</span> Vael berhenti sebentar, dengan cara menghentikan kalimat yang sangat tidak biasa untuk Vael. <span class="dialogue">"— ukurannya sedikit berbeda dari fitting terakhir."</span></p>
+
+  <p>Diam.</p>
+
+  <p><span class="dialogue">"Maksudnya."</span></p>
+
+  <p>Vael menatap titik di udara dengan sangat profesional. <span class="dialogue">"Pinggang Yang Mulia tampaknya sedikit... berkembang sejak fitting dua minggu lalu."</span></p>
+
+  <p>Diam yang lebih panjang.</p>
+
+  <p><span class="dialogue">"Vael."</span></p>
+
+  <p><span class="dialogue">"Yang Mulia."</span></p>
+
+  <p><span class="dialogue">"Kamu baru bilang gue gemuk."</span></p>
+
+  <p><span class="dialogue">"Saya tidak—"</span></p>
+
+  <p><span class="dialogue">"Kamu bilang pinggang gue <em>berkembang.</em>"</span></p>
+
+  <p>Vael membuka mulutnya. Menutupnya. Membukanya lagi dengan cara seseorang yang sangat menyesal telah mengucapkan kalimat tadi tapi tidak punya cara untuk menariknya kembali.</p>
+
+  <p><span class="dialogue">"Dengan hormat — itu bukan—"</span></p>
+
+  <p><span class="dialogue">"Hei, aku makan kue begitu karena stress juga kali!"</span></p>
+
+  <p>Kalimat itu keluar dengan nada yang sangat tidak putri kekaisaran — sedikit tinggi, sedikit defensif, dengan cara yang sangat Surya dari Jakarta yang tiba-tiba muncul ke permukaan di balik semua yang sudah dibangun empat bulan lebih.</p>
+
+  <p>Vael menatap cermin. Alicia menatap cermin. Keduanya melihat refleksi masing-masing — putri kekaisaran dalam gaun megah dengan topeng merah dan resleting yang macet di tengah, dan pengawal yang baru saja secara tidak sengaja mengomentari ukuran pinggang tuan mereka dua jam sebelum pesta terbesar tahun ini.</p>
+
+  <p><span class="dialogue">"Kudapan di perpustakaan,"</span> kata Vael dengan nada yang sangat netral, <span class="dialogue">"memang tersedia cukup banyak di bulan terakhir ini."</span></p>
+
+  <p><span class="dialogue">"Itu bukan—"</span> Alicia berhenti. <span class="dialogue">"Itu tidak ada hubungannya."</span></p>
+
+  <p><span class="dialogue">"Tentu saja tidak."</span></p>
+
+  <p><span class="dialogue">"Serath minta gue duduk selama empat jam per sesi. Orang wajar makan kue kalau duduk empat jam."</span></p>
+
+  <p><span class="dialogue">"Sangat wajar."</span></p>
+
+  <p><span class="dialogue">"Jangan pakai nada itu."</span></p>
+
+  <p><span class="dialogue">"Nada apa, Yang Mulia."</span></p>
+
+  <p><span class="dialogue">"Nada <em>itu.</em>"</span></p>
+
+  <p>Vael menarik resleting sekali lagi — dengan kombinasi teknik tertentu yang jelas bukan pertama kalinya menghadapi situasi gaun tidak kooperatif — dan kali ini naik. Sampai ujung. Dengan suara kecil yang memuaskan.</p>
+
+  <p>Keduanya berdiri diam sebentar di depan cermin.</p>
+
+  <p><span class="dialogue">"Sudah,"</span> kata Vael.</p>
+
+  <p><span class="dialogue">"Sudah,"</span> kata Alicia.</p>
+
+  <p>Jeda dua detik.</p>
+
+  <p><span class="dialogue">"Kue-kue itu tidak akan ada lagi mulai besok,"</span> kata Alicia. <span class="dialogue">"Bukan karena apa-apa. Memang sudah tidak perlu."</span></p>
+
+  <p><span class="dialogue">"Tentu, Yang Mulia."</span></p>
+
+  <p><span class="dialogue">"Jangan komentari itu."</span></p>
+
+  <p><span class="dialogue">"Saya tidak mengomentari apapun."</span></p>
+
+  <p>Alicia menatap refleksinya sekali lagi — topeng merah, gaun yang sekarang terpasang dengan benar, sarung tangan yang rapi. Seseorang yang siap untuk malam yang akan mengubah banyak hal.</p>
+
+  <p>Yang juga baru saja berdebat dengan pengawalnya soal kue perpustakaan dua jam sebelum pesta kekaisaran.</p>
+
+  <p class="thought-block">Gue siap.<br><br>
+  Gue rasa.<br><br>
+  Resleting-nya sudah naik. Itu sudah cukup untuk sekarang.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">VI · Langkah Pertama</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Pintu kamar dibuka.</p>
+
+  <p>Koridor <span class="name-place">Asorath</span> yang sudah dihias — kain-kain emas, lilin yang lebih banyak dari biasanya, cahaya yang hangat dan berat dan berbau seperti sesuatu yang tidak ada nama harumnya tapi terasa seperti sesuatu yang sudah ada sejak lama.</p>
+
+  <p>Di ujung koridor, sudah ada prosesi kecil yang menunggu — pejabat, pengawal seremonial, semua yang ada di briefing Lord Edvar yang Alicia sudah hafal urutan dan posisinya.</p>
+
+  <p>Semua menoleh ketika pintu terbuka.</p>
+
+  <p>Dan untuk sepersekian detik — sebelum postur yang benar, sebelum langkah yang benar, sebelum semua yang sudah dilatih empat bulan mengambil alih — <span class="name-alicia">Alicia</span> berdiri di ambang pintu kamarnya dan merasakan berat dari semua yang ada malam ini: Bagas dan Dira yang dua hari lagi mulai bergerak. Vael yang malam itu bicara tentang pola dan jarak. <span class="name-villain">Rasombra</span> yang di ujung sana sudah menunggu dengan cara berdiri yang selalu tiga langkah di depan.</p>
+
+  <p>Dan di balik semua itu — sesuatu yang lebih kecil dan lebih keras untuk diabaikan: kamar yang besok lusa masih sama tapi tidak akan sama.</p>
+
+  <p>Satu detik. Tidak lebih.</p>
+
+  <p>Lalu langkah pertama keluar dari ambang pintu — dengan postur yang benar, dengan cara yang benar, dengan topeng merah yang menutupi mata dan hanya menyisakan mulut yang tidak menampilkan apapun kecuali garis yang sangat tenang.</p>
+
+  <p><span class="name-alicia">Alicia</span> berjalan ke arah pesta.</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <span class="section-marker">VII · Batu Pertama</span>
+  <!-- ══════════════════════════════════════ -->
+
+  <p>Ruang pesta <span class="name-place">Asorath</span> berbeda dari semua ruangan yang sudah Alicia pelajari selama empat bulan — bukan karena lebih besar, meski lebih besar, tapi karena ruangan ini punya udara yang berbeda. Udara yang penuh dengan orang-orang yang semua datang dengan agenda masing-masing, yang senyumnya tidak selalu cocok dengan matanya, yang percakapannya di permukaan adalah basa-basi dan di bawah permukaan adalah negosiasi.</p>
+
+  <p>Tempat yang sangat Alicia kenal strukturnya — karena Vael sudah menjelaskan setiap nama dan posisi dan kepentingan. Karena Alicia sudah empat bulan lebih belajar membaca ruangan sebelum masuk ke dalamnya.</p>
+
+  <p>Dan karena ini, untuk semua tujuan resminya, malam debut <span class="name-alicia">Alicia</span> sebagai putri kekaisaran.</p>
+
+  <p>Semua mata menoleh ketika namanya diumumkan.</p>
+
+  <p>Alicia berdiri di ambang ruang pesta selama tiga detik — tiga detik yang digunakan bukan untuk menikmati perhatian tapi untuk melakukan sesuatu yang sudah dilatih dari hari pertama: membaca ruangan. Siapa yang menatap dengan penasaran murni. Siapa yang menatap dengan kalkulasi. Siapa yang menatap dan kemudian segera menatap ke arah lain untuk melihat reaksi orang lain sebelum memutuskan reaksinya sendiri.</p>
+
+  <p>Dan siapa yang tidak menatap sama sekali — tapi telinganya sedikit bergeser ke arah pengumuman.</p>
+
+  <p>Yang terakhir itu yang menarik.</p>
+
+  <p>Alicia turun ke ruangan dengan langkah yang sudah menjadi caranya — tidak terburu-buru, tidak dramatis, dengan cara seseorang yang tidak perlu membuktikan kehadirannya karena kehadirannya sudah ada. <span class="name-villain">Rasombra</span> ada di sisi lain ruangan, berbicara dengan seseorang yang pakaiannya menyampaikan kekayaan dengan cara orang yang sudah kaya cukup lama untuk tidak perlu berteriak tentangnya — dan menoleh ke Alicia dengan cara yang sudah Alicia hafal: tahu, mengukur, sedikit terhibur.</p>
+
+  <p>Alicia mengangguk kecil ke arah itu.</p>
+
+  <p>Lalu berbalik ke arah yang lain.</p>
+
+  <p>Malam ini ada tiga orang di ruangan ini yang sudah Alicia tandai dari briefing Vael sebagai kemungkinan — tiga orang yang posisinya, jaringannya, atau kepentingannya bisa jadi sesuatu yang berguna. Bukan untuk malam ini. Tidak ada yang diselesaikan dalam satu malam. Tapi batu pertama tidak perlu berat — hanya perlu ada.</p>
+
+  <p>Yang pertama: seorang perempuan paruh baya dari provinsi timur dengan cara berdiri seseorang yang terbiasa mengambil keputusan sendiri. Pedagang besar, menurut Vael — jaringan yang mencakup tiga provinsi dan, yang lebih penting, rute yang melewati jalur yang sama dengan jalur menuju <span class="name-place">Ardeth</span>.</p>
+
+  <p>Alicia mendekatinya dengan cara yang tidak terlihat seperti mendekati. Hanya bergerak ke arah yang sama, berhenti di sisi yang sama dari meja minuman, dan membiarkan percakapan terjadi dengan cara percakapan di ruang seperti ini terjadi — seolah kebetulan, seolah basa-basi, seolah tidak ada yang direncanakan.</p>
+
+  <p><span class="dialogue">"Perjalanan jauh untuk malam ini,"</span> kata Alicia — dalam Veranthos yang sudah tidak punya aksen yang perlu dikoreksi Serath.</p>
+
+  <p>Perempuan itu menoleh. Ada sesuatu di matanya yang mengukur — cara pedagang berpengalaman menatap sesuatu yang baru muncul di pasar dan belum bisa dikategorikan. <span class="dialogue">"Dari timur, Yang Mulia. Tidak terlalu jauh untuk undangan seperti ini."</span></p>
+
+  <p><span class="dialogue">"Jalur timur aman musim ini?"</span></p>
+
+  <p>Pertanyaan yang terdengar seperti small talk. Yang bukan.</p>
+
+  <p>Perempuan itu sedikit bergeser cara berdirinnya — cara halus yang menyampaikan: pertanyaan ini lebih spesifik dari yang terlihat, dan saya tahu itu, dan saya belum memutuskan apa yang akan saya lakukan dengan itu. <span class="dialogue">"Cukup aman. Kalau tahu jalurnya."</span></p>
+
+  <p><span class="dialogue">"Tentu."</span> Alicia mengambil minumannya. <span class="dialogue">"Semoga malam ini menyenangkan."</span></p>
+
+  <p>Percakapan yang berlangsung dua menit. Yang terlihat seperti tidak ada isinya. Yang tidak.</p>
+
+  <p class="thought-block">Batu pertama.<br><br>
+  Tidak ada yang tahu apa yang baru terjadi di sisi meja minuman itu — kecuali mungkin Rasombra, yang selalu tiga langkah di depan dan sedang berbicara dengan orang lain tapi tidak pernah benar-benar hanya berbicara dengan satu orang.<br><br>
+  Tapi bahkan Rasombra tidak tahu tujuannya. Bukan untuk kekaisaran. Bukan untuk posisi.<br><br>
+  Untuk jalur yang sama dengan jalur menuju Ardeth. Untuk jaringan yang bisa menjangkau tanpa harus menjelaskan dari mana jaringan itu berasal. Untuk tangan yang tidak terlihat yang bisa ada kalau Bagas dan Dira membutuhkan sesuatu yang tidak bisa mereka minta langsung.<br><br>
+  Mereka tidak akan pernah tahu tangan ini milik siapa.<br><br>
+  Dira sekalipun — yang sudah membaca antara baris sejak hari pertama, yang proposal tujuh poinnya sudah jadi dua puluh tiga poin, yang malam dua hari lalu meletakkan pensilnya di meja dengan cara yang sangat final — tidak akan tahu.<br><br>
+  Itu yang membuatnya aman.<br><br>
+  Dan itu yang membuatnya perlu.</p>
+
+  <p>Yang kedua malam itu: seorang laki-laki tua dengan lencana guild yang posisinya di jaringan perdagangan Veranthos sudah Dira riset tiga minggu lalu dan hasilnya ada di catatan yang sudah dihafal Alicia sebelum tidur. Percakapan yang lebih pendek dari yang pertama — hanya satu kalimat yang diingat, satu nama yang disebutkan dengan cara yang menyampaikan: <em>saya tahu nama ini dan tahu artinya.</em></p>
+
+  <p>Cukup untuk malam ini. Pintu yang terbuka satu sentimeter — tidak lebih, tidak perlu lebih.</p>
+
+  <p>Yang ketiga tidak terjadi malam itu. Ada yang lebih penting untuk dijaga — cara Alicia berdiri di sisi <span class="name-villain">Rasombra</span> ketika waktunya tiba, cara dia menjadi <span class="name-alicia">Alicia</span> di depan semua orang yang belum pernah melihat <span class="name-alicia">Alicia</span>. Semua itu lebih dulu.</p>
+
+  <p>Organisasi itu tidak punya nama malam ini. Tidak punya struktur, tidak punya anggota resmi, tidak punya apapun yang bisa disebut sebagai organisasi kecuali niat dan dua percakapan di sisi meja minuman pesta kekaisaran.</p>
+
+  <p>Tapi semua yang besar dimulai dari yang tidak terlihat.</p>
+
+  <p>Dan <span class="name-alicia">Alicia</span> — yang sudah belajar dari orang terbaik tentang cara bergerak tanpa terlihat bergerak — sudah mulai.</p>
+
+  <div class="chapter-end">
+    Empat bulan lebih di dunia yang bukan miliknya —<br>
+    dan yang ditinggalkan di kamar itu:<br>
+    meja tiga sentimeter ke kiri,<br>
+    asbak kecil tanpa penjelasan,<br>
+    peta yang sudah tidak perlu dibentangkan.<br><br>
+    Dan yang dibawa ke ruang pesta itu:<br>
+    dua percakapan di sisi meja minuman,<br>
+    dua pintu yang terbuka satu sentimeter,<br>
+    dan sesuatu yang belum punya nama<br>
+    tapi sudah mulai bergerak.<br><br>
+    <span style="font-size:0.88em; color:#7a6540; font-style:italic;">
+      Bagas dan Dira tidak akan pernah tahu<br>
+      bahwa tangan yang menjaga mereka dari jauh<br>
+      adalah tangan yang sama<br>
+      yang pernah menyembuhkan luka di lengan kiri<br>
+      dengan suara yang pelan dan lembut<br>
+      seperti kakak perempuan yang melihat adiknya terjatuh.<br><br>
+      Villaines tidak selalu terlihat seperti villaines.<br>
+      Kadang terlihat seperti seseorang<br>
+      yang hanya ingin adik-adiknya pulang dengan selamat.
+    </span>
+  </div>
+
+  <div class="bab-end">
+    <span class="bab-end-label">Tamat · Bab Satu</span>
+    <p class="bab-end-title">Mahkota dari Darah yang Salah</p>
+  </div>
+
+  <div class="end-mark">— Bab Dua : Malam yang Memanen — segera —</div>
+
+</div>
+</body>
+</html>
